@@ -1,54 +1,3 @@
-function getD(fs,Dd){
-// var Dd = (new Date() - 0);
- var T1 = 2 * 7 * 24 * 60 * 60 * 1000;
- var C1 = 5.0;
- var S1 = Math.sin( Dd / T1 - fs);
-
- var T2 = 24 * 60* 60 * 1000;
- var C2 = 1.0;
- var S2 = Math.sin( Dd / T2);
-
-var S = (C1 * S1 + C2 * S2) / (C1 + C2);
- return (S + 1)/2;
-}
-
-
-function getC(fs,Dd){
- var r = getD(fs,Dd);
- var I = Math.round(5 * 256 * r);
- var F = I % 256;
- var P = (I - F)/256;
- var R = 0; var G = 0; var B =  0;
-// var aax = 168;
- var aax = 255;
- var iin = 0;
- var uup = Math.round(iin + (aax - iin)  * F / 255);
- var ddn = Math.round(iin + (aax - iin)  * (255 - F) / 255);
- switch (P){
-  case 0 : R = aax; G = uup; B = iin; break;
-  case 1 : R = ddn; G = aax; B = iin; break
-  case 2 : R = iin; G = aax; B = uup; break;
-  case 3 : R = iin; G = ddn; B = aax; break;
-  case 4 : R = uup; G = iin; B = aax; break;
-  case 5 : R = aax; G = iin; B = aax; break;
- }
-/*
- R = Math.round((255 - R) / 2 + R);
- G = Math.round((255 - G) / 2 + G);
- B = Math.round((255 - B) / 2 + B);
-*/
- var cc =  "rgb" + "(" + R + "," + G + "," + B + ")";
- return cc;
-}
-
-var STST = [2.33];
-var DDD = (new Date() - 0);
-function getStyle(){
- pipi = Math.acos(-1);
- var cc = getC(STST[0],DDD);
- document.getElementById("uni").style.backgroundColor=cc;
- return cc;
-}
 
 function new_d(){
  var v = new Object();
@@ -61,11 +10,9 @@ var Alphabet = new Array(); // + 13:55 08.12.2016
 var Dict = new Object();
 var WordsArray = new Array(); // + 12:05 08.12.2016 * 13:56 08.12.2016
 
-// <+ 11:47 09.01.2017
 function addToWordsArray(c){
  WordsArray[WordsArray.length] = c;
 }
-// >+ 11:47 09.01.2017
 
 var Lang = "";
 function L(lang){ // +12:11 09.01.2017
@@ -87,9 +34,7 @@ function add(ind){
   else{ cur[ic] = new Object(); cur=cur[ic];}
  }
  if((cur.count != undefined) && (cur.verify != undefined)){
-  var g = cur.count
   cur.count = 1 + eval(cur.count);
-  alert(g + "++ -> " + cur.count);
   d.state="def";d.count=cur.count;d.verify=cur.verify;
  }else {
   cur.count=1;cur.verify=0;d.state="add";d.count=cur.count;d.verify=cur.verify;
@@ -132,7 +77,6 @@ function D(Word){
  ind = Word.c;
  var d =new Object();
  d.name= ind;
-// Word.f = fix_count(Word.f);
  cur = Dict;
  for(var i =0; i < ind.length; i++){
   var ic = ind.substr(i,1);
@@ -140,15 +84,12 @@ function D(Word){
   else{ cur[ic] = new Object(); cur=cur[ic];}
  }
  if((cur.count != undefined) && (cur.verify != undefined)){
-  var g = cur.count
   cur.count = 0 + eval(cur.count) + eval(Word.f); // * 18:15 09.01.2017
-  alert(g + "++ -> " + cur.count);
   cur.verify = eval(cur.verify) + eval(Word.e); // * 18:15 09.01.2017
   d.state="def";d.count=cur.count;d.verify=cur.verify;}
  else {
   cur.count = Word.f; cur.verify = Word.e;
   addToWordsArray(Word.c); // ++ 11:46 09.01.2017
-//  WordsArray[WordsArray.length] = Word.c;// + 13:56 08.12.2016 // -- 11:46 09.01.2017
   d.state="add";d.count=cur.count;d.verify=cur.verify;
  }
  return d;
@@ -202,11 +143,9 @@ for(var i=0;i< f.length;i++){
 return v;
 }
 function getUni(f){
-//v=""; // -- 11:59 18.01.2017
 var v = ""; // ++ 11:59 18.01.2017
 for(var i=0;i< f.length;i++){
  var z = f.substr(i,1); // ++ 11:58 18.01.2017
-// var pos = cString.search(f.substr(i,1)); // -- 11:58 18.01.2017
  var pos = cString.search(z); // ++ 11:58 18.01.2017
  if(pos != -1) // ++ 11:58 18.01.2017
   v += lString.substr(pos,1);
@@ -285,23 +224,15 @@ function getInfo(w){
  if(st.state =='def'){
   if(MoreInfo){
    r += "<br>" + getUni("c6ik6d4yf"); // 19:24 25.11.2016
-//   r += "<br>" + st.count + " " + getUni("c1k")+" "+getUni("c6i4yf"); // -- 12:03 18.01.2017
-//   r += "<br>" + st.count + " " + getUni("c1k c6i4yf"); // -- 12:03 18.01.2017
    r += "<br>" + st.count + " " + InfoDesc[0]; // ++ 12:03 18.01.2017
   }
   if(st.verify != 0){
    if(MoreInfo){
-//     r += "<br>" + ((st.verify>0)?st.verify:(-st.verify)) + " " + getUni("c1k")+" " + getUni("kacq6i6d4yf"); // 19:25 25.11.2016 // -- 12:01 18.01.2017
-//     r += "<br>" + ((st.verify>0)?st.verify:(-st.verify)) + " " + getUni("c1k kacq6i6d4yf"); // ++ 12:01 18.01.2017 // -- 12:05 18.01.2017
      r += "<br>" + ((st.verify>0)?st.verify:(-st.verify)) + " " + InfoDesc[1]; // ++ 12:06 18.01.2017
    }
-//   r += "<br>";
    if(st.verify>0) r += "<br>" + getUni("5zi6j");
-//   else r += "<br>" + getUni("5zi6j") + " " + getUni("kl46d"); // -- 12:01 18.01.2017
-//   else r += "<br>" + getUni("5zi6j kl46d"); // ++ 12:01 18.01.2017 // -- 12:06 18.01.2017
    else r += "<br>" + InfoDesc[2]; // ++ 12:07 18.01.2017
   }else{
-//   r += "<br>" + " " + getUni("kacq6i6dey4yf"); // -- 12:07 18.01.2017
    r += "<br>" + " " + InfoDesc[3]; // ++ 12:07 18.01.2017
   }
     
@@ -309,7 +240,6 @@ function getInfo(w){
   r += "<div class=btn id=r";
   r += " onclick=\"check('" + w + "', '1'); processing('" + w + "');\"";
   r += ">"
-//  r += getUni("5zi6j"); // -- 12:08 18.01.2017
   r += InfoDesc[4]; // ++ 12:08 18.01.2017
   r += "</div>";
 
@@ -318,14 +248,11 @@ function getInfo(w){
   r += "<div class=btn id=f";
   r += " onclick=\"check('" + w + "', '-1'); processing('" + w + "');\"";
   r += ">"
-//  r += getUni("5zi6j") + " " + getUni("kl46d"); // -- 12:01 18.01.2017
-//  r += getUni("5zi6j kl46d"); // ++ 12:01 18.01.2017 // -- 12:08 18.01.2017
   r += InfoDesc[5]; // ++ 12:09 18.01.2017
   r += "</div>";
   r += "</td></tr></table>";
     
  }else{
-//  r += "<br>" + getUni("c6ik6dey4yf"); // -- 12:09 18.01.2017
   r += "<br>" + InfoDesc[6]; // ++ 12:09 18.01.2017
  }
 
@@ -563,10 +490,8 @@ function getDictionary(m){
    t += "','f':'";
    t += eval(d.count);
    t += "'});"
-//   t += "1'});"
   }else{
    if(i != 0) t += " ";
-//   t += WordsArray[i]; // + 13:58 08.12.2016 // -- 13:11 09.01.2017
    t += w;
   }
  }
