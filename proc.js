@@ -6,16 +6,16 @@ function new_d(){
  return v
 }
 
-var Alphabet = new Array(); // + 13:55 08.12.2016
+var Alphabet = new Array(); 
 var Dict = new Object();
-var WordsArray = new Array(); // + 12:05 08.12.2016 * 13:56 08.12.2016
+var WordsArray = new Array();
 
 function addToWordsArray(c){
  WordsArray[WordsArray.length] = c;
 }
 
 var Lang = "";
-function L(lang){ // +12:11 09.01.2017
+function L(lang){
 
 Lang = lang;
 } 
@@ -38,7 +38,7 @@ function add(ind){
   d.state="def";d.count=cur.count;d.verify=cur.verify;
  }else {
   cur.count=1;cur.verify=0;d.state="add";d.count=cur.count;d.verify=cur.verify;
-  WordsArray[WordsArray.length] = ind;// ++ 14:45 08.01.2017 
+  WordsArray[WordsArray.length] = ind;
  }
  return d;
 }
@@ -57,22 +57,6 @@ function check(ind, value){
  return d;
 }
 
-function fix_count(d){
-  var t = "" + d;
-  var e = 0;
-  var v = 0;
-  for(var i = t.length - 1; i >= 0; i-- ){
-    v = eval(t.substr(i, 1))
-    if( v == '1'){
-     e += eval(t.substr(i, 1));
-    }else{
-     e += eval(t.substring(0,i + 1));
-     break;
-    }
-  }
-  return e;
-}
-
 function D(Word){
  ind = Word.c;
  var d =new Object();
@@ -84,12 +68,12 @@ function D(Word){
   else{ cur[ic] = new Object(); cur=cur[ic];}
  }
  if((cur.count != undefined) && (cur.verify != undefined)){
-  cur.count = 0 + eval(cur.count) + eval(Word.f); // * 18:15 09.01.2017
-  cur.verify = eval(cur.verify) + eval(Word.e); // * 18:15 09.01.2017
+  cur.count = 0 + eval(cur.count) + eval(Word.f);
+  cur.verify = eval(cur.verify) + eval(Word.e);
   d.state="def";d.count=cur.count;d.verify=cur.verify;}
  else {
   cur.count = Word.f; cur.verify = Word.e;
-  addToWordsArray(Word.c); // ++ 11:46 09.01.2017
+  addToWordsArray(Word.c);
   d.state="add";d.count=cur.count;d.verify=cur.verify;
  }
  return d;
@@ -100,7 +84,7 @@ var lString="";
 var cString="";
 
 function genAlphabet(){
- uString=""; lString=""; cString=""; // + 14:01 08.12.2016
+ uString=""; lString=""; cString="";
  var f;
  for(var i = 0; i < Alphabet.length;i++){
   v="f = \"\\u" + Alphabet[i].l+ "\";";
@@ -143,13 +127,13 @@ for(var i=0;i< f.length;i++){
 return v;
 }
 function getUni(f){
-var v = ""; // ++ 11:59 18.01.2017
+var v = "";
 for(var i=0;i< f.length;i++){
- var z = f.substr(i,1); // ++ 11:58 18.01.2017
- var pos = cString.search(z); // ++ 11:58 18.01.2017
- if(pos != -1) // ++ 11:58 18.01.2017
+ var z = f.substr(i,1);
+ var pos = cString.search(z);
+ if(pos != -1)
   v += lString.substr(pos,1);
- else v += z; // ++ 11:59 18.01.2017
+ else v += z;
 }
 return v;
 }
@@ -226,24 +210,24 @@ function getInfo(w){
  r += "<span style=\"color: " + color + ";\">" + getUni(w) + "</span>";
  if(st.state =='def'){
   if(MoreInfo){
-   r += "<br>" + getUni("c6ik6d4yf"); // 19:24 25.11.2016
-   r += "<br>" + st.count + " " + InfoDesc[0]; // ++ 12:03 18.01.2017
+   r += "<br>" + getUni("c6ik6d4yf");
+   r += "<br>" + st.count + " " + InfoDesc[0];
   }
   if(st.verify != 0){
    if(MoreInfo){
-     r += "<br>" + ((st.verify>0)?st.verify:(-st.verify)) + " " + InfoDesc[1]; // ++ 12:06 18.01.2017
+     r += "<br>" + ((st.verify>0)?st.verify:(-st.verify)) + " " + InfoDesc[1];
    }
    if(st.verify>0) r += "<br>" + getUni("5zi6j");
-   else r += "<br>" + InfoDesc[2]; // ++ 12:07 18.01.2017
+   else r += "<br>" + InfoDesc[2];
   }else{
-   r += "<br>" + " " + InfoDesc[3]; // ++ 12:07 18.01.2017
+   r += "<br>" + " " + InfoDesc[3];
   }
     
   r += "<table><tr><td>";
   r += "<div class=btn id=r";
   r += " onclick=\"check('" + w + "', '1'); processing('" + w + "');\"";
   r += ">"
-  r += InfoDesc[4]; // ++ 12:08 18.01.2017
+  r += InfoDesc[4];
   r += "</div>";
 
   r += "</td><td>";
@@ -251,12 +235,12 @@ function getInfo(w){
   r += "<div class=btn id=f";
   r += " onclick=\"check('" + w + "', '-1'); processing('" + w + "');\"";
   r += ">"
-  r += InfoDesc[5]; // ++ 12:09 18.01.2017
+  r += InfoDesc[5];
   r += "</div>";
   r += "</td></tr></table>";
     
  }else{
-  r += "<br>" + InfoDesc[6]; // ++ 12:09 18.01.2017
+  r += "<br>" + InfoDesc[6];
  }
 
  return r;
@@ -313,7 +297,6 @@ function getSpanArray(s){
    else r += "<br>" + " " + getUni("kacq6i6dey4yf");
    }
   else r += "<br>" + getUni("c6ik6dey4yf");
-  alert(t);
   return r;
 }
 
@@ -338,52 +321,6 @@ function getSpanCheck(s, id){
   return r;
 }
 
-function getCheck(s){
- var t= getCode(s);
- var A = new Array();
- var c = 0;
- var r = t;
- r += "<br>";
- r+= "'" + s + "'";
- r += "<br>'";
-
-
- var pos = 0;
-while(t.length > 0){
- var a = t.search("_");
- if(a == -1){
-  A[c] = new Object();
-  A[c].b = pos;
-  A[c].e = pos + t.length;
-  A[c].w = t;
-  r += getSpanCheck(A[c]);
-  c++;
-  break;
- }else if(a != 0){
-  A[c] = new Object();
-  A[c].b = pos;
-  A[c].e = pos + a;
-  A[c].w = t.substr(0,a);
-  r += getSpanCheck(A[c]);
-  c++;
-  pos += a;
- }
- var l=s.substr(pos,1);
- if(l == " ") r += " ";
- else if(l == '\n') r += "<br>";
- else r+= l;
- a++; pos++;
- t = t.substr(a, t.length);
-}
- r += "'";
- t = "";
- for(var  i = 0 ; i < c; i ++){ 
-  r += getSpanArray(A[i]);
- }
-
-
- return r;
-}
 
 
 
@@ -447,26 +384,14 @@ while(t.length > 0){
 }
 
 
-function getArray(){
- var r = "";
- for(var  i = 0 ; i < Founded.count; i ++){ 
-  r += getSpanArray(Founded.Array[i]);
- }
-
- return r;
-}
-
-// 10:54 08.12.2016 ->
-function save(){ // + 12:11 08.12.2016
- var t = getDictionary('D'); // + 12:12 08.12.2016
+function save(){
+ var t = getDictionary('D');
  var obj = document.createElement('a');
  obj.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(t));
  obj.setAttribute('download', 'TT.dict');
  obj.click();
 }
-// <- 10:54 08.12.2016
 
-// ++ 13:06 09.01.2017 ->
 function removeDup(){
  for(var i = 0; i < WordsArray.length; i++){
   var w = WordsArray[i];
@@ -476,14 +401,12 @@ function removeDup(){
   }
  }
 }
-// <- ++ 13:07 09.01.2017
 
-// 12:09 08.12.2016 ->
 function getDictionary(m){
- removeDup(); // ++ 13:06 09.01.2017
+ removeDup();
  var t = "";
- t += "L('" + Lang + "');"; // ++ 13:15 09.01.2017
- t += getAlphabet(); // + 14:07 08.12.2016
+ t += "L('" + Lang + "');";
+ t += getAlphabet();
  for(var i = 0; i < WordsArray.length; i++){
   var w = WordsArray[i];
   if(w == "") continue;
@@ -504,9 +427,7 @@ function getDictionary(m){
  }
  return t;
 }
-// <- 12:09 08.12.2016
 
-// 13:49 08.12.2016 ->
 function S(s){
  Alphabet[Alphabet.length] = s;
 }
@@ -528,7 +449,6 @@ function getAlphabet(){
  t += "\n";
  return t; 
 }
-// <- 13:49 08.12.2016
 
 
 MMM = 455701;
@@ -576,7 +496,7 @@ function GetPage(dr){
 
 function NewDict(){
  Dict = new Object();
- WordsArray = new Array(); // + 12:05 08.12.2016 * 13:56 08.12.2016
+ WordsArray = new Array();
  alert("new!");
 
 }
