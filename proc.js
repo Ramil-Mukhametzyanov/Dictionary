@@ -87,7 +87,9 @@ function add(ind){
   else{ cur[ic] = new Object(); cur=cur[ic];}
  }
  if((cur.count != undefined) && (cur.verify != undefined)){
-  cur.count = eval(cur.count) + 1;
+  var g = cur.count
+  cur.count = 1 + eval(cur.count);
+  alert(g + "++ -> " + cur.count);
   d.state="def";d.count=cur.count;d.verify=cur.verify;
  }else {
   cur.count=1;cur.verify=0;d.state="add";d.count=cur.count;d.verify=cur.verify;
@@ -110,11 +112,27 @@ function check(ind, value){
  return d;
 }
 
+function fix_count(d){
+  var t = "" + d;
+  var e = 0;
+  var v = 0;
+  for(var i = t.length - 1; i >= 0; i-- ){
+    v = eval(t.substr(i, 1))
+    if( v == '1'){
+     e += eval(t.substr(i, 1));
+    }else{
+     e += eval(t.substring(0,i + 1));
+     break;
+    }
+  }
+  return e;
+}
 
 function D(Word){
  ind = Word.c;
  var d =new Object();
  d.name= ind;
+// Word.f = fix_count(Word.f);
  cur = Dict;
  for(var i =0; i < ind.length; i++){
   var ic = ind.substr(i,1);
@@ -122,7 +140,9 @@ function D(Word){
   else{ cur[ic] = new Object(); cur=cur[ic];}
  }
  if((cur.count != undefined) && (cur.verify != undefined)){
-  cur.count = eval(cur.count) + eval(Word.f); // * 18:15 09.01.2017
+  var g = cur.count
+  cur.count = 0 + eval(cur.count) + eval(Word.f); // * 18:15 09.01.2017
+  alert(g + "++ -> " + cur.count);
   cur.verify = eval(cur.verify) + eval(Word.e); // * 18:15 09.01.2017
   d.state="def";d.count=cur.count;d.verify=cur.verify;}
  else {
@@ -507,7 +527,7 @@ function save(){ // + 12:11 08.12.2016
  var t = getDictionary('D'); // + 12:12 08.12.2016
  var obj = document.createElement('a');
  obj.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(t));
- obj.setAttribute('download', 'dictionary.txt');
+ obj.setAttribute('download', 'TT.dict');
  obj.click();
 }
 // <- 10:54 08.12.2016
@@ -541,8 +561,9 @@ function getDictionary(m){
    t += "','e':'";
    t += d.verify;
    t += "','f':'";
-   t += d.count;
-   t += "1'});"
+   t += eval(d.count);
+   t += "'});"
+//   t += "1'});"
   }else{
    if(i != 0) t += " ";
 //   t += WordsArray[i]; // + 13:58 08.12.2016 // -- 13:11 09.01.2017
@@ -572,6 +593,7 @@ function getAlphabet(){
   t += "'});";
  }
  t += "genAlphabet();";
+ t += "\n";
  return t; 
 }
 // <- 13:49 08.12.2016
