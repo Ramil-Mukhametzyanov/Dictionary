@@ -200,7 +200,10 @@ while(t.length > 0){
  return r;
 }
 
-var MoreInfo = 0;
+var MoreInfo = 1;
+function Info(){
+ MoreInfo=(MoreInfo == 1)?0:1;
+}
 var InfoDesc = new Array();
 function getInfo(w){
  InfoDesc[0] = getUni("c1k c6i4yf");
@@ -300,13 +303,17 @@ function getSpanArray(s){
   }
   r += "<br><span style=\"color: " + color + ";\">" + getUni(s.w) + "</span>";
   if(st.state =='def'){
+  r += "<br>" + getUni("c6ik6d4yf");
+  r += "<br>" + st.count + " " + getUni("c1k")+" "+getUni("c6i4yf");
    if(st.verify != 0){
+    r += "<br>" + ((st.verify>0)?st.verify:(-st.verify)) + " " + getUni("c1k")+" " + getUni("kacq6i6d4yf");
     if(st.verify>0) r += "<br>" + getUni("5zi6j");
     else r += "<br>" + getUni("5zi6j") + " " + getUni("kl46d");
    }
    else r += "<br>" + " " + getUni("kacq6i6dey4yf");
    }
   else r += "<br>" + getUni("c6ik6dey4yf");
+  alert(t);
   return r;
 }
 
