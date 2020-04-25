@@ -1,0 +1,4 @@
+var configuration = {
+ "index_generation_length" : 10,
+ "auto_verification_count" : 10
+};

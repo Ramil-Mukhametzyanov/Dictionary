@@ -1,0 +1,26 @@
+  var properties = {
+ "product" : "Tartar Orchid",
+ "version" : "0.0.92",
+ "create" : "16/02/2014 16:07:55 +6 UTC",
+ "requirement" : "Netscape, Chrome, Opera, Microsoft Internet Explorer",
+ "license_to" : "Mukhametzyanova Rezeda Yagafarovna",
+ "date" : "16/02/2117 16:07:55 +6 UTC",
+ "duration" : "14 days",
+ "expiration" : "01/01/2117 16:07:55 +6 UTC",
+ "items": {
+  "typing word by keyboard" : "allow",
+  "typing word by mouse click" : "allow",
+  "check word" : "allow",
+  "add word to dictionary" : "allow",
+  "typing and check words of text" : "allow",
+  "add word of text to dictionary" : "allow",
+  "view statictic of word in the text" : "disable",
+  "view dictionary" : "allow",
+  "manual verification word in dictionary" : "allow",
+  "manual removig word out of dictionary" : "allow",
+  "manual edit word in dictionary" : "allow",
+  "saving changes of dictionary" : "allow",
+  "create user alphabet" : "disable",
+  "create user dictionary" : "disable"
+ }
+}

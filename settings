@@ -1,0 +1,258 @@
+var settings = {
+ "name" : "Tartar Orchid",
+ "style" : {
+  "background" : "#eef"
+ },
+ "keywords" : {
+  "menu" : {
+   "word" : {
+    "type" : "unicode",
+    "print" : "044104AF0437"
+   },
+   "word_title" : {
+    "type" : "latin",
+    "print" : "click to check a word"
+   },
+   "text" : {
+    "type" : "unicode",
+    "print" : "04420435043A04410442"
+   },
+   "text_title" : {
+    "type" : "latin",
+    "print" : "click to check a text"
+   },
+   "dictionary" : {
+    "type" : "unicode",
+    "print" : "044104AF0437043B0435043A"
+   },
+   "dictionary_title" : {
+    "type" : "latin",
+    "print" : "click to view the dictionary"
+   },
+   "orphography" : {
+    "type" : "unicode",
+    "print" : "043E04400444043E04330440043004440438044F"
+   },
+   "orphography_title" : {
+    "type" : "latin",
+    "print" : "click to analyse"
+   }
+  }, // menu
+  "word" : {
+   "type_title" : {
+    "type" : "latin",
+    "print" : "click to type this"
+   },
+   "write" : {
+    "type" : "latin",
+    "print" : "write word"
+   },
+   "check" : {
+    "type" : "latin",
+    "print" : "check the word"
+   },
+   "unknown" : {
+    "type" : "latin",
+    "print" : "word is unknown"
+   },
+   "known" : {
+    "type" : "latin",
+    "print" : "word is in dictionary"
+   },
+   "insert" : {
+    "type" : "latin",
+    "print" : "insert into dictionary"
+   },
+   "new" : {
+    "type" : "latin",
+    "print" : "new_word"
+   }
+  }, // word
+  "text" : {
+   "type" : {
+    "type" : "unicode",
+    "print" : "04420435043A0441043D044B0020044F0437044B0433044B04370020044F043A04380020043A044304350433044B04370020004300740072006C002D0056002004310435043B04D9043D"
+   },
+   "check" : {
+    "type" : "unicode",
+    "print" : "04420438043A04480435044004350440043304D9"
+   },
+   "check_title" : {
+    "type" : "unicode",
+    "print" : "043104300441044B0433044B04370020044104AF0437043B04D90440043D0435002004420438043A04480435044004350440043304D9"
+   },
+   "founded" : {
+    "type" : "unicode",
+    "print" : "044204300431044B043B04330430043D0020044104AF0437043B04D90440"
+   },
+   "empty" : {
+    "type" : "latin",
+    "print" : "the list is empty"
+   },
+   "insert_title" : {
+    "type" : "unicode",
+    "print" : "043104300441044B0433044B04370020044104AF0437043B0435043A043A04D90020043A04350440044204350440043304D9"
+   },
+   "word_count" : {
+    "type" : "latin",
+    "print" : "found"
+   },
+   "found_left" : {
+    "type" : "latin",
+    "print" : "different"
+   },
+   "found_right" : {
+    "type" : "latin",
+    "print" : "words"
+   },
+   "unknown" : {
+    "type" : "latin",
+    "print" : "unknown"
+   },
+   "inserted_left" : {
+    "type" : "unicode",
+    "print" : "044104AF0437"
+   },
+   "inserted_right" : {
+    "type" : "unicode",
+    "print" : "044104AF0437043B0435043A043A04D90020043A0435044004420435043B043304D9043D"
+   },
+   "edit_title" : {
+    "type" : "latin",
+    "print" : "click to edit"
+   }
+  }, // text
+  "dictionary" : {
+   "dictionary" : {
+    "type" : "unicode",
+    "print" : "042104AF0437043B0435043A"
+   },
+   "all_types" : {
+    "type" : "latin",
+    "print" : "All"
+   },
+   "all_types_title" : {
+    "type" : "latin",
+    "print" : "all words"
+   },
+   "verified" : {
+    "type" : "latin",
+    "print" : "Verified"
+   },
+   "verified_title" : {
+    "type" : "latin",
+    "print" : "verified words only"
+   },
+   "check" : {
+    "type" : "latin",
+    "print" : "Check"
+   },
+   "check_title" : {
+    "type" : "latin",
+    "print" : "words to check only"
+   },
+   "all_alphabet" : {
+    "type" : "latin",
+    "print" : "All"
+   },
+   "code_save" : {
+    "type" : "latin",
+    "print" : "Click to save"
+   },
+   "code_comment" : {
+    "type" : "latin",
+    "print" : "code here<br>click on textarea, press Ctrl-A, Ctrl-C<br>open file named 'dictionary.txt'<br>click there Ctrl-A, Ctrl-V, Ctrl-S<br>close file"
+   },
+   "remove" : {
+    "type" : "latin",
+    "print" : "remove from the dictionary"
+   },
+   "verify" : {
+    "type" : "latin",
+    "print" : "verify word in the dictionary"
+   }
+  }, // dictionary
+  "orphography" : {
+   "title" : {
+    "type" : "latin",
+    "print" : "There is lexical analysis."
+   },
+   "go" : {
+    "type" : "latin",
+    "print" : "Go"
+   }
+  } // orphography
+ }, // keywords
+ "word" : {
+  "row_length" : 10
+ },
+ "items": {
+  "count" : 16,
+  "list" : [
+   { // 1
+    "name" : "typing word by keyboard",
+    "include" : "enable"
+   },
+   { // 2
+    "name" : "typing word by mouse click",
+    "include" : "enable"
+   },
+   { // 3
+    "name" : "check word",
+    "include" : "enable"
+   },
+   { // 4
+    "name" : "add word to dictionary",
+    "include" : "enable"
+   } ,
+   { // 5
+    "name" : "typing and check words of text",
+    "include" : "enable"
+   },
+   { // 6
+    "name" : "add word of text to dictionary",
+    "include" : "enable"
+   },
+   { // 7
+    "name" : "view statictic of word in the text",
+    "include" : "disable"
+   },
+   { // 8
+    "name" : "view dictionary",
+    "include" : "enable"
+   },
+   { // 9
+    "name" : "manual verification word in dictionary",
+    "include" : "enable"
+   },
+   { // 10
+    "name" : "manual removing word out of dictionary",
+    "include" : "enable"
+   },
+   { // 11
+    "name" : "manual edit word in dictionary",
+    "include" : "enable"
+   },
+   { // 12
+    "name" : "saving changes of dictionary",
+    "include" : "enable"
+   },
+   { // 13
+    "name" : "create user alphabet",
+    "include" : "disable"
+   },
+   { // 14
+    "name" : "create user dictionary",
+    "include" : "disable"
+   },
+   { // 15
+    "name" : "orphographic analysis of the words of dictionary",
+    "include" : "disable"
+   },
+   { // 16
+    "name" : "automatic verification words in dictionary",
+    "include" : "enable"
+   }
+  ] // list
+ } // items
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Орфография татарского языка</title>
+  <script src=config type=text/javascript></script>
+  <script src=settings type=text/javascript></script>
+  <script src=lic type=text/javascript></script>
+  <script src="pin.js"></script>
+  <script src="./T_dictionary.txt" type=text/javascript></script>
+  <script type="text/javascript">set_all();</script>
+ </head>
+ <body>
+  <script id=lic type=text/javascript>
+  if(properties.requirement.search(navigator.appName) == -1) alert("The service need other application.\nNot garantied perfect work of service.");
+   var now =  new Date();
+   time_stamp = "";
+   time_stamp += "" + ((now.getDate() < 10)?"0":"") + now.getDate();
+   time_stamp += "/" + (((now.getMonth() + 1) < 10)?"0":"") + (now.getMonth() + 1);
+   time_stamp += "/" + (now.getYear() + ((navigator.appName == 'Microsoft Internet Explorer')?0:1900));
+   time_stamp += " " + ((now.getHours()<10)?"0":"") + now.getHours();
+   time_stamp += ":" + ((now.getMinutes()<10)?"0":"") + now.getMinutes();
+   time_stamp += ":" + ((now.getSeconds()<10)?"0":"") + now.getSeconds();
+//   alert(time_stamp);
+   e = '1';
+   a = eval(time_stamp.substr(6,4)); b = eval(properties.expiration.substr(6,4));
+   if( a > b){ alert("expired"); window.close(''); }
+   else if(a == b){
+    a = eval(time_stamp.substr(3,2)); b = eval(properties.expiration.substr(3,2));
+    if( a > b){ alert("expired"); window.close(''); }
+    else if(a == b){
+     a = eval(time_stamp.substr(0,2)); b = eval(properties.expiration.substr(0,2));
+     if( a > b){ alert("expired"); window.close(''); }
+     else e = '0';
+    }else e = '0';
+   }else e = '0';
+   obj = document.getElementById('lic');
+   if(obj) obj.parentNode.removeChild(obj);
+  </script>
+  <div id=text_prsy hidden style="font-size: 0px;"></div>
+  <div style="position: relative; left: 200px;">
+   <table><tbody><tr>
+    <td>
+     <div id=word_b></div>
+    </td>
+    <td>
+     <div id=tex_b></div>
+    </td>
+    <td>
+     <div id=dic_b></div>
+    </td>
+    <td>
+     <div id=lex_b></div>
+    </td>
+   </tr></tbody></table>
+  </div>
+  <div id=show>
+   <script type=text/javascript>
+    if(e == '0'){
+     alphabet_range();
+     var coding = new Array();
+     for(i = 0; i < N; i++){
+      coding[i] = word[i];
+      word[i] = print_word(coding[i], '');
+     }
+     var alphabetic_order = new Array();
+     var M = N;
+     for(i = 0; i < M; i++) alphabetic_order[i] = i;
+     asort();
+     compa();
+     var Pcount = 1;
+     var Parsers = new Array();
+     Parsers[0] = 0x002D;
+//     var folder = "D:\\";
+     var folder = "download";
+     var pre = "T_";
+    }
+   </script>
+   <script type=text/javascript>if(e == '0') tex();</script>
+  </div>
+  <script type=text/javascript>document.write(properties.product);</script> <script type=text/javascript>document.write(properties.version);</script> &copy;<br>
+  Мухаметзянов Рамиль Рашитович &copy; <br>
+  2016. Все права защищены. <br>
+  <script type=text/javascript>document.getElementsByTagName('body')[0].style.background = settings.style.background;</script>
+ </body>
+</html>
