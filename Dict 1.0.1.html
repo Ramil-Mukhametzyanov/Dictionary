@@ -17,7 +17,7 @@
 .box#uni {
  width: 800px;
  height: 500px;
- background: #FFFF00;
+ background: #EEEEAA;
 }
 
 .btn {
@@ -45,8 +45,6 @@
   if(w == 'new!'){ NewDict(); $("textarea")[0].value = ""; }
   f = getCode(w);
   $("div")[0].innerHTML = anaLyze(w);
-//  $("div")[1].innerHTML = getArray();
-//  $("div")[2].innerHTML = f;
 
   if(ch) setTimeout("tt()",100);
  }
@@ -63,21 +61,12 @@ $(document).ready(function(){
  $("textarea").blur(function(){
   $(this).css("background-color","#AAAA00");
   progress(10);
-  ch=0; // 20:47 25.11.2016 
+  ch=0;
  });
 
  $("#info").hide();
   
 
-/* 
- $("#progress")
- .css("height",Height + "px")
- .css("width",Width + "px")
- .css('border', 'solid 1px black');
- $("#progress")[0].innerHTML="<table cellspacing=0 cellpadding=0><tr><td id='left'></td><td id='right'></td></tr></table>";
- $("td#left").css("width","0px").css("height",Height + "px").css("background-color", "#EEAA00");
- $("td#right").css("width",Width + "px").css("height",Height + "px").css("background-color", "#FFFFFF");
-*/
  
 });
  Width = 500;
@@ -87,10 +76,7 @@ $(document).ready(function(){
   current_progress += step;
   if(current_progress>= 100) current_progress = 0;
   var w = Math.round(current_progress * Width / 100);
-//  $("td#left").css("width",w + "px").css("height", Height+"px").css("background-color", "rgb(256," + Math.round(127 * current_progress/100 + 128) + ",0)");
-//  $("td#left").css("width",w + "px").css("background-color", "rgb(255," + Math.round(127 * current_progress/100 + 128) + ",0)");
   $("td#left").css("width",w + "px").css("background-color", "rgb(255,255,0)");
-//  $("td#right").css("width",(Width-w) + "px").css("height", "10px").css("background-color", "#FFFFFF");
   $("td#right").css("width",(Width-w) + "px").css("background-color", "#FFFFFF");
  }
  
@@ -98,14 +84,6 @@ $(document).ready(function(){
   progress(0.1);
   setTimeout('get_progress()', 10);
  }
-// get_progress();
-// parentheses
-// hash symbol(#)
-// a click event is fired
-// jQuery Fading Methods
-// fades
-// given opacity
-// slide down, slide up
 </script>
 
 <table style="position: absolute;left: 100px; top: 40px;"><tr><td>
@@ -122,16 +100,25 @@ $(document).ready(function(){
 <div class=btn onclick="Info();">More/Less Info</div>
 <!--<div class=btn onclick="getArray();">New</div>-->
 <!--<div style="border:1px solid #007700; background: #00FFFF; width: 70px; height: 70px; text-align: center;" onclick="GetRand();"><br>Get</div>-->
-<div style="border:1px solid #007700; background: #0000FF; width: 70px; height: 70px; text-align: center;"">
+<div style="border:1px solid #007700; background: #0000FF; width: 70px; height: 50px; text-align: center;"">
  <div id=Pa><br>List 50</div>
  <table cellspacing=5px><tr>
-  <td><div style="font-size: 25px;" onclick="GetPage(-1);">&lt;</div></td>
-  <td><div style="font-size: 25px;" onclick="GetPage(1);">&gt;</div></td>
+  <td><div style="font-size: 45px;" onclick="GetPage(-1);">&lt;</div></td>
+  <td><div style="font-size: 45px;" onclick="GetPage(1);">&gt;</div></td>
+ </tr></table> 
+ +/- 10
+ <table cellspacing=5px><tr>
+  <td><div style="font-size: 45px;" onclick="GetPage(-10);">&lt;</div></td>
+  <td><div style="font-size: 45px;" onclick="GetPage(10);">&gt;</div></td>
+ </tr></table>
+ +/- 100
+ <table cellspacing=5px><tr>
+  <td><div style="font-size: 45px;" onclick="GetPage(-100);">&lt;</div></td>
+  <td><div style="font-size: 45px;" onclick="GetPage(100);">&gt;</div></td>
  </tr></table>
 </div>
 <script>
 document.getElementById('Pa').innerHTML = "<br>List " + PageSize;
-//getStyle();
 </script>
 
 </body>
