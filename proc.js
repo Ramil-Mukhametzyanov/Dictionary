@@ -91,6 +91,8 @@ function check(ind, value){
   if(d.verify < 0){
    addToDeletedWordsArray(ind);
    WordsArray[cur.pos] = "";
+  } else if(WordsArray[cur.pos] == ""){
+   WordsArray[cur.pos] = ind;
   }
  } else d.state="found";
  return d;
@@ -113,7 +115,8 @@ function D(Word){
   d.state="def";d.count=cur.count;d.verify=cur.verify;}
  else {
   cur.count = Word.f; cur.verify = Word.e;
-  cur.pos = addToWordsArray(Word.c);
+  if(Word.e >= 0) cur.pos = addToWordsArray(Word.c);
+  else addToDeletedWordsArray(Word.c)
   d.state="add";d.count=cur.count;d.verify=cur.verify;
  }
  return d;
