@@ -1,3 +1,4 @@
+// 12:28 26.04.2020 (12:03-) 1h+15m+15m+15m
 
 function new_d(){
  var v = new Object();
@@ -9,10 +10,32 @@ function new_d(){
 var Alphabet = new Array(); 
 var Dict = new Object();
 var WordsArray = new Array();
+var DeletedWordsArray = new Array();
 
 function addToWordsArray(c){
- WordsArray[WordsArray.length] = c;
+ var p = WordsArray.length;
+ WordsArray[p] = c;
+ return p;
 }
+
+function isInDeletedWordsArray(c){
+ var e = -1;
+ for(var i = 0; i < DeletedWordsArray.length; i++){
+  if(DeletedWordsArray[i] == c){
+   e = c;
+   break;
+  }
+ }
+ return e;
+}
+function addToDeletedWordsArray(c){
+ var p = isInDeletedWordsArray(c); 
+ if(isInDeletedWordsArray(c) != -1) return p;
+ var p = DeletedWordsArray.length;
+ DeletedWordsArray[p] = c;
+ return p;
+}
+
 
 var Lang = "";
 function L(lang){
@@ -35,10 +58,17 @@ function add(ind){
  }
  if((cur.count != undefined) && (cur.verify != undefined)){
   cur.count = 1 + eval(cur.count);
-  d.state="def";d.count=cur.count;d.verify=cur.verify;
+  d.state="def";
+  d.count=cur.count;
+  d.verify=cur.verify;
  }else {
-  cur.count=1;cur.verify=0;d.state="add";d.count=cur.count;d.verify=cur.verify;
-  WordsArray[WordsArray.length] = ind;
+  cur.count=1;
+  cur.verify=0;
+  d.state="add";
+  d.count=cur.count;
+  d.verify=cur.verify;
+  cur.pos = addToWordsArray(ind);
+//  WordsArray[WordsArray.length] = ind;
  }
  return d;
 }
@@ -52,8 +82,17 @@ function check(ind, value){
   if(cur[ic])cur=cur[ic];
   else{ d.state= "undef"; return d;}
  }
- if((cur.count != undefined) && (cur.verify != undefined)){ cur.verify = eval(cur.verify)+eval(value);d.state="def";d.count=cur.count;d.verify=cur.verify;}
- else d.state="found";
+ if((cur.count != undefined) && (cur.verify != undefined)){
+  cur.verify = eval(cur.verify)+eval(value);
+  d.state="def";
+  d.count=cur.count;
+  d.verify=cur.verify;
+  d.pos=cur.pos;
+  if(d.verify < 0){
+   addToDeletedWordsArray(ind);
+   WordsArray[cur.pos] = "";
+  }
+ } else d.state="found";
  return d;
 }
 
@@ -67,13 +106,14 @@ function D(Word){
   if(cur[ic])cur=cur[ic];
   else{ cur[ic] = new Object(); cur=cur[ic];}
  }
+ if(!cur) cur = new Object();
  if((cur.count != undefined) && (cur.verify != undefined)){
   cur.count = 0 + eval(cur.count) + eval(Word.f);
-  cur.verify = eval(cur.verify) + eval(Word.e);
+//  cur.verify = eval(cur.verify) + eval(Word.e);
   d.state="def";d.count=cur.count;d.verify=cur.verify;}
  else {
   cur.count = Word.f; cur.verify = Word.e;
-  addToWordsArray(Word.c);
+  cur.pos = addToWordsArray(Word.c);
   d.state="add";d.count=cur.count;d.verify=cur.verify;
  }
  return d;
@@ -184,7 +224,7 @@ while(t.length > 0){
  return r;
 }
 
-var MoreInfo = 1;
+var MoreInfo = 0;
 function Info(){
  MoreInfo=(MoreInfo == 1)?0:1;
 }
@@ -402,19 +442,25 @@ function removeDup(){
  }
 }
 
-function getDictionary(m){
- removeDup();
- var t = "";
- t += "L('" + Lang + "');";
- t += getAlphabet();
- for(var i = 0; i < WordsArray.length; i++){
-  var w = WordsArray[i];
+function checkDeleted(){
+ for(var i = 0; i < DeletedWordsArray.length; i++){
+  var w = DeletedWordsArray[i];
   if(w == "") continue;
+  var d = check(w, 0);
+  if(d.verify >= 0) DeletedWordsArray[i] = "";
+ }
+}
+
+function AddArray(WA,m){
+ var t = "";
+ for(var i = 0; i < WA.length; i++){
+  var w = WA[i];
+  if(w == "") continue;
+  var d = check(w, 0);
   if(m == 'D'){
    if(i != 0) t += "\n";
    t += "D({'c':'"
    t += w;
-   var d = check(w, 0);
    t += "','e':'";
    t += d.verify;
    t += "','f':'";
@@ -425,6 +471,17 @@ function getDictionary(m){
    t += w;
   }
  }
+ return t;
+}
+
+function getDictionary(m){
+ var t = "";
+ t += "L('" + Lang + "');";
+ t += getAlphabet();
+ removeDup();
+ t += AddArray(WordsArray,m);
+ checkDeleted()
+ t += AddArray(DeletedWordsArray,m);
  return t;
 }
 

@@ -17,7 +17,7 @@
 .box#uni {
  width: 800px;
  height: 500px;
- background: #FFFF00;
+ background: #EEEEAA;
 }
 
 .btn {
@@ -122,11 +122,21 @@ $(document).ready(function(){
 <div class=btn onclick="Info();">More/Less Info</div>
 <!--<div class=btn onclick="getArray();">New</div>-->
 <!--<div style="border:1px solid #007700; background: #00FFFF; width: 70px; height: 70px; text-align: center;" onclick="GetRand();"><br>Get</div>-->
-<div style="border:1px solid #007700; background: #0000FF; width: 70px; height: 70px; text-align: center;"">
+<div style="border:1px solid #007700; background: #0000FF; width: 70px; height: 50px; text-align: center;"">
  <div id=Pa><br>List 50</div>
  <table cellspacing=5px><tr>
-  <td><div style="font-size: 25px;" onclick="GetPage(-1);">&lt;</div></td>
-  <td><div style="font-size: 25px;" onclick="GetPage(1);">&gt;</div></td>
+  <td><div style="font-size: 45px;" onclick="GetPage(-1);">&lt;</div></td>
+  <td><div style="font-size: 45px;" onclick="GetPage(1);">&gt;</div></td>
+ </tr></table> 
+ +/- 10
+ <table cellspacing=5px><tr>
+  <td><div style="font-size: 45px;" onclick="GetPage(-10);">&lt;</div></td>
+  <td><div style="font-size: 45px;" onclick="GetPage(10);">&gt;</div></td>
+ </tr></table>
+ +/- 100
+ <table cellspacing=5px><tr>
+  <td><div style="font-size: 45px;" onclick="GetPage(-100);">&lt;</div></td>
+  <td><div style="font-size: 45px;" onclick="GetPage(100);">&gt;</div></td>
  </tr></table>
 </div>
 <script>
