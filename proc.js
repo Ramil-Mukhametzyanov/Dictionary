@@ -1,4 +1,4 @@
-// 15:10 26.04.2020
+// 18:54 26.04.2020 15m+15m
 
 function new_d(){
  var v = new Object();
@@ -252,7 +252,7 @@ function Info(){
  MoreInfo=(MoreInfo == 1)?0:1;
 }
 var InfoDesc = new Array();
-function getInfo(w){
+function getInfo(w, h){
  InfoDesc[0] = getUni("c1k c6i4yf");
  InfoDesc[1] = getUni("c1k kacq6i6d4yf");
  InfoDesc[2] = getUni("5zi6j kl46d");
@@ -262,8 +262,8 @@ function getInfo(w){
  InfoDesc[6] = getUni("c6ik6dey4yf");
  var st = check(w,0);
  var r = "";
- r += "<br>";
- if(!MoreInfo) r += "<br>";
+ r += "<div style='position: relative; width: 190px; text-align: right;' onclick='removeInfo();'>X</div>";
+// if(!MoreInfo) r += "<br>";
  r += "<div style=\"border: 1px solid green; width: 40px; \">" + Lang + "</div>";
  color = "#00FF00";
  if(st.state == "def"){
@@ -288,16 +288,20 @@ function getInfo(w){
     
   r += "<table><tr><td>";
   r += "<div class=btn id=r";
-  r += " onclick=\"check('" + w + "', '1'); processing('" + w + "');\"";
-  r += ">"
+  r += " onclick=\"check('" + w + "', '1'); processing('" + w + "'," + h + ");";
+  if(h) r += "removeInfo();";
+  else r += "GetRand();";
+  r += "\">"
   r += InfoDesc[4];
   r += "</div>";
 
   r += "</td><td>";
 
   r += "<div class=btn id=f";
-  r += " onclick=\"check('" + w + "', '-1'); processing('" + w + "');\"";
-  r += ">"
+  r += " onclick=\"check('" + w + "', '-1'); processing('" + w + "'," + h + ");";
+  if(h) r += "removeInfo();";
+  else r += "GetRand();";
+  r += "\">"
   r += InfoDesc[5];
   r += "</div>";
   r += "</td></tr></table>";
@@ -309,14 +313,19 @@ function getInfo(w){
  return r;
 }
 
-function processing(w){
+function removeInfo(){
+ $('div#info').hide();
+
+}
+
+function processing(w,h){
   var st = check(w,0);
   if(st.state != 'def') add(w);
 
 
 
 
-  var r = getInfo(w);
+  var r = getInfo(w,h);
   $('div#info').html("<center>" + r + "</center>");
   $('div#info').show();
 
@@ -378,7 +387,7 @@ function getSpanCheck(s, id){
   r += " id=\"w" + id + "\"";
   if(id == FocusedLink) r += " style=\"color: #00FFFF;\"";
   else r += " style=\"color: " + color + ";\"";
-  r += " onclick=\"processing('" + s.w + "');\"";
+  r += " onclick=\"processing('" + s.w + "',1);\"";
   r += ">";
   r += getUni(s.w);
   r += "</span>";
@@ -546,9 +555,12 @@ function T(){
 }
 
 function GetRand(){
- var ii = rn % WordsArray.length; T();
- www = WordsArray[ii];
- r = getInfo(www);
+ var y;
+ do{
+  var ii = rn % WordsArray.length; T();
+  var y = check(WordsArray[ii],0).verify;
+ }while(y != 0);
+ r = getInfo(WordsArray[ii],0);
  $('div#info').html("<center>" + r + "</center>");
  $('div#info').show();
 }
