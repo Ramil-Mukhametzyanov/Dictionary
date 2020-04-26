@@ -165,6 +165,8 @@ function isRegExp(s){
  if(s == "|") return 1;
  if(s == "\\") return 1;
  if(s == "/") return 1;
+ if(s == "^") return 1;
+ if(s == "*") return 1;
  return 0;
 }
 
