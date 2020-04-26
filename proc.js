@@ -1,4 +1,4 @@
-// 12:28 26.04.2020 (12:03-) 1h+15m+15m+15m
+// 15:10 26.04.2020
 
 function new_d(){
  var v = new Object();
@@ -92,7 +92,7 @@ function check(ind, value){
    addToDeletedWordsArray(ind);
    WordsArray[cur.pos] = "";
   } else if(WordsArray[cur.pos] == ""){
-   WordsArray[cur.pos] = ind;
+   WordsArray[cur.pos] = ind; // revert 
   }
  } else d.state="found";
  return d;
@@ -116,7 +116,7 @@ function D(Word){
  else {
   cur.count = Word.f; cur.verify = Word.e;
   if(Word.e >= 0) cur.pos = addToWordsArray(Word.c);
-  else addToDeletedWordsArray(Word.c)
+  else addToDeletedWordsArray(Word.c) // loaded nonverified to deleted 
   d.state="add";d.count=cur.count;d.verify=cur.verify;
  }
  return d;
@@ -158,11 +158,17 @@ function get_u(c){
 function getCode(f){
 v="";
 for(var i=0;i< f.length;i++){
- var pos = lString.search(f.substr(i,1));
+ var s = f.substr(i,1);
+ var pos;
+ if(s == "?") pos = -1;
+ else pos = lString.search(s);
  if(f.substr(i,1) == '.') v+="_";
  else if(pos != -1) v += cString.substr(pos,1);
  else{
-  var pos = uString.search(f.substr(i,1));
+  var pos;
+  if(s == "?") pos = -1;
+  else pos = uString.search(s);
+//  var pos = uString.search(f.substr(i,1));
   if(pos != -1) v += cString.substr(pos,1);
   else v += "_";
  }
@@ -311,6 +317,7 @@ function processing(w){
 
   var w = $("textarea")[0].value;
   f = getCode(w);
+
   $("div")[0].innerHTML = anaLyze(w);
 
 
