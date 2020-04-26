@@ -155,20 +155,32 @@ function get_u(c){
  alert(t);
 }
 
+function isRegExp(s){
+ if(s == "?") return 1;
+ if(s == "+") return 1;
+ if(s == "(") return 1;
+ if(s == ")") return 1;
+ if(s == "[") return 1;
+ if(s == "]") return 1;
+ if(s == "|") return 1;
+ if(s == "\\") return 1;
+ if(s == "/") return 1;
+ return 0;
+}
+
 function getCode(f){
 v="";
 for(var i=0;i< f.length;i++){
  var s = f.substr(i,1);
  var pos;
- if(s == "?") pos = -1;
+ if(isRegExp(s) == 1) pos = -1;
  else pos = lString.search(s);
  if(f.substr(i,1) == '.') v+="_";
  else if(pos != -1) v += cString.substr(pos,1);
  else{
   var pos;
-  if(s == "?") pos = -1;
+ if(isRegExp(s) == 1) pos = -1;
   else pos = uString.search(s);
-//  var pos = uString.search(f.substr(i,1));
   if(pos != -1) v += cString.substr(pos,1);
   else v += "_";
  }
