@@ -2,8 +2,8 @@
 <head>
 <script src="jquery.min.js"></script>
 <script src="proc.js"></script>
-<script src="TT.dict"></script>
 <script src="RU.dict"></script>
+<script src="TT.dict"></script>
 <style>
 .large {
  font-size: 20px;
@@ -11,15 +11,16 @@
 .box {
  font-size: 20px;
  width: 200px;
+ user-select: none;
  border: 1px solid #AAAA00;
 }
 .box#uni_tt {
- width: 400px;
+ width: 500px;
  height: 500px;
  background: #EEEEAA;
 }
 .box#uni_ru {
- width: 400px;
+ width: 500px;
  height: 500px;
  background: #AAEEEE;
 }
@@ -61,7 +62,8 @@
 }
 .box#info {
  height: 200px;
-// background: #FFFF00;
+ width: 250px;
+ background: #FFFF99;
  position: fixed;
  left: 450px;
  top: 145px;
@@ -87,7 +89,6 @@
  function Change(lang){
   console.log('Status:' + Status[lang] + "\n");
   var w = document.getElementById('txt_'+lang).value
-  console.log(w);
   $("#uni_"+lang)[0].innerHTML = anaLyze(w, lang);
 
   if(Status[lang]) setTimeout("Change('" + lang + "')",100);
@@ -101,7 +102,7 @@ $(document).ready(function(){
   $(this).css("background-color","#FFFF00");
   Status['TT'] = 1;
   Change('TT');
-  }).css("width","400px");
+  }).css("width","500px");
 
  $("#txt_TT").blur(function(){
   $(this).css("background-color","#AAAA00");
@@ -112,7 +113,7 @@ $(document).ready(function(){
   $(this).css("background-color","#00FFFF");
   Status['RU'] = 1;
   Change('RU');
-  }).css("width","400px");
+  }).css("width","500px");
 
  $("#txt_RU").blur(function(){
   $(this).css("background-color","#00AAAA");
