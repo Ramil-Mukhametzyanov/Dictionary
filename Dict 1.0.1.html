@@ -3,6 +3,7 @@
 <script src="jquery.min.js"></script>
 <script src="proc.js"></script>
 <script src="TT.dict"></script>
+<script src="RU.dict"></script>
 <style>
 .large {
  font-size: 20px;
@@ -12,10 +13,15 @@
  width: 200px;
  border: 1px solid #AAAA00;
 }
-.box#uni {
- width: 800px;
+.box#uni_tt {
+ width: 400px;
  height: 500px;
  background: #EEEEAA;
+}
+.box#uni_ru {
+ width: 400px;
+ height: 500px;
+ background: #AAEEEE;
 }
 
 .btn {
@@ -55,7 +61,7 @@
 }
 .box#info {
  height: 200px;
- background: #FFFF00;
+// background: #FFFF00;
  position: fixed;
  left: 450px;
  top: 145px;
@@ -77,30 +83,42 @@
 </head>
 <body>
 <script>
- var ch = 0;
- function tt(){
-  var w = $("textarea")[0].value;
-  if(w == 'new!'){ NewDict(); $("textarea")[0].value = ""; }
-  f = getCode(w);
-  $("div")[0].innerHTML = anaLyze(w);
+ var Status = {'TT': 0, 'RU': 0};
+ function Change(lang){
+  console.log('Status:' + Status[lang] + "\n");
+  var w = document.getElementById('txt_'+lang).value
+  console.log(w);
+  $("#uni_"+lang)[0].innerHTML = anaLyze(w, lang);
 
-  if(ch) setTimeout("tt()",100);
+  if(Status[lang]) setTimeout("Change('" + lang + "')",100);
  }
 
 $(document).ready(function(){
  
 
   
- $("textarea").focus(function(){
+ $("#txt_TT").focus(function(){
   $(this).css("background-color","#FFFF00");
-  ch=1; tt();
-  }).css("width","800px");
+  Status['TT'] = 1;
+  Change('TT');
+  }).css("width","400px");
 
- $("textarea").blur(function(){
+ $("#txt_TT").blur(function(){
   $(this).css("background-color","#AAAA00");
-  progress(10);
-  ch=0;
+  Status['TT'] = 0;
  });
+
+ $("#txt_RU").focus(function(){
+  $(this).css("background-color","#00FFFF");
+  Status['RU'] = 1;
+  Change('RU');
+  }).css("width","400px");
+
+ $("#txt_RU").blur(function(){
+  $(this).css("background-color","#00AAAA");
+  Status['RU'] = 0;
+ });
+
 
  $("#info").hide();
   
@@ -125,11 +143,15 @@ $(document).ready(function(){
 </script>
 
 <table style="position: absolute;left: 100px; top: 40px;"><tr><td>
-<div class = box id=uni></div>
+<div class = box id=uni_TT></div>
+</td><td>
+<div class = box id=uni_RU></div>
 </td></tr><tr><td>
-<textarea style="height: 300px;"></textarea>
+<textarea style="height: 300px;" id=txt_TT>TT</textarea>
+</td><td>
+<textarea style="height: 300px;" id=txt_RU>RU</textarea>
 </td></tr></table>
-<div class=box id=info ></div>
+<div class=box id=info></div>
 <div class=btn id=save onclick="save();"><br>Save</div>
 <div class=btn id=more onclick="Info();">More/Less Info</div>
 <div class=btn id=get onclick="GetRand();"><br>Get</div>

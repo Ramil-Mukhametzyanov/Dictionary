@@ -1,4 +1,4 @@
-// 18:54 26.04.2020 15m+15m
+// 9:19 02.05.2020 15+15+15+15+15+15+15
 
 function new_d(){
  var v = new Object();
@@ -7,10 +7,51 @@ function new_d(){
  return v
 }
 
+var Lang = "";
+var Langs = new Array();
 var Alphabet = new Array(); 
 var Dict = new Object();
 var WordsArray = new Array();
 var DeletedWordsArray = new Array();
+var InfoDesc = new Array();
+var uString="";
+var lString="";
+var cString="";
+
+function L(lang){
+ if(Lang != ''){
+   Langs[Lang] = new Object();
+   Langs[Lang].Alphabet = Alphabet;
+   Langs[Lang].Dict = Dict;
+   Langs[Lang].WordsArray = WordsArray;
+   Langs[Lang].DeletedWordsArray = DeletedWordsArray;
+   Langs[Lang].InfoDesc = InfoDesc;
+   Langs[Lang].uString = uString;
+   Langs[Lang].lString = lString;
+   Langs[Lang].cString = cString;
+ }
+ Lang = lang;
+ if(!Langs[Lang]){
+  Langs[Lang] = new Object();
+  Langs[Lang].Alphabet = new Array(); 
+  Langs[Lang].Dict = new Object();
+  Langs[Lang].WordsArray = new Array();
+  Langs[Lang].DeletedWordsArray = new Array();
+  Langs[Lang].InfoDesc = new Array();
+  Langs[Lang].uString = "";
+  Langs[Lang].lString = "";
+  Langs[Lang].cString = "";
+ }
+ Alphabet = Langs[Lang].Alphabet;
+ Dict = Langs[Lang].Dict;
+ WordsArray = Langs[Lang].WordsArray;
+ DeletedWordsArray = Langs[Lang].DeletedWordsArray;
+ InfoDesc = Langs[Lang].InfoDesc;
+ uString= Langs[Lang].uString;
+ lString= Langs[Lang].lString;
+ cString= Langs[Lang].cString;
+} 
+
 
 function addToWordsArray(c){
  var p = WordsArray.length;
@@ -28,6 +69,7 @@ function isInDeletedWordsArray(c){
  }
  return e;
 }
+
 function addToDeletedWordsArray(c){
  var p = isInDeletedWordsArray(c); 
  if(isInDeletedWordsArray(c) != -1) return p;
@@ -35,13 +77,6 @@ function addToDeletedWordsArray(c){
  DeletedWordsArray[p] = c;
  return p;
 }
-
-
-var Lang = "";
-function L(lang){
-
-Lang = lang;
-} 
 
 function show(ind){
  alert(JSON.stringify(check(ind,0)) + "\n\n" + JSON.stringify(cur));
@@ -122,9 +157,6 @@ function D(Word){
  return d;
 }
 
-var uString="";
-var lString="";
-var cString="";
 
 function genAlphabet(){
  uString=""; lString=""; cString="";
@@ -196,6 +228,7 @@ for(var i=0;i< f.length;i++){
  var pos = cString.search(z);
  if(pos != -1)
   v += lString.substr(pos,1);
+ else if (z == "_") v += " ";
  else v += z;
 }
 return v;
@@ -247,19 +280,30 @@ while(t.length > 0){
  return r;
 }
 
+function I(W,c){
+ InfoDesc[c] = getUni(W);
+}
+
+function SaveInterface(){
+ var t = "";
+ for(var i = 0; i < InfoDesc.length; i++){
+  t += "I(\"";
+  t += getCode(InfoDesc[i]);
+  t += "\",";
+  t += i;
+  t += ");"
+ }
+ return t;
+}
+
+
+
 var MoreInfo = 0;
 function Info(){
  MoreInfo=(MoreInfo == 1)?0:1;
 }
-var InfoDesc = new Array();
-function getInfo(w, h){
- InfoDesc[0] = getUni("c1k c6i4yf");
- InfoDesc[1] = getUni("c1k kacq6i6d4yf");
- InfoDesc[2] = getUni("5zi6j kl46d");
- InfoDesc[3] = getUni("kacq6i6dey4yf");
- InfoDesc[4] = getUni("5zi6j");
- InfoDesc[5] = getUni("5zi6j kl46d");
- InfoDesc[6] = getUni("c6ik6dey4yf");
+
+function getInfo(l,w, h){
  var st = check(w,0);
  var r = "";
  r += "<div style='position: relative; width: 190px; text-align: right;' onclick='removeInfo();'>X</div>";
@@ -273,14 +317,14 @@ function getInfo(w, h){
  r += "<span style=\"color: " + color + ";\">" + getUni(w) + "</span>";
  if(st.state =='def'){
   if(MoreInfo){
-   r += "<br>" + getUni("c6ik6d4yf");
+   r += "<br>" + InfoDesc[7];
    r += "<br>" + st.count + " " + InfoDesc[0];
   }
   if(st.verify != 0){
    if(MoreInfo){
      r += "<br>" + ((st.verify>0)?st.verify:(-st.verify)) + " " + InfoDesc[1];
    }
-   if(st.verify>0) r += "<br>" + getUni("5zi6j");
+   if(st.verify>0) r += "<br>" + InfoDesc[4];
    else r += "<br>" + InfoDesc[2];
   }else{
    r += "<br>" + " " + InfoDesc[3];
@@ -288,7 +332,7 @@ function getInfo(w, h){
     
   r += "<table><tr><td>";
   r += "<div class=btn id=r";
-  r += " onclick=\"check('" + w + "', '1'); processing('" + w + "'," + h + ");";
+  r += " onclick=\"check('" + w + "', '1'); processing('"+l+"','" + w + "'," + h + ");";
   if(h) r += "removeInfo();";
   else r += "GetRand();";
   r += "\">"
@@ -298,7 +342,7 @@ function getInfo(w, h){
   r += "</td><td>";
 
   r += "<div class=btn id=f";
-  r += " onclick=\"check('" + w + "', '-1'); processing('" + w + "'," + h + ");";
+  r += " onclick=\"check('" + w + "', '-1'); processing('"+l+"','" + w + "'," + h + ");";
   if(h) r += "removeInfo();";
   else r += "GetRand();";
   r += "\">"
@@ -318,30 +362,45 @@ function removeInfo(){
 
 }
 
-function processing(w,h){
+function processing(l,w,h){
+  L(l);
   var st = check(w,0);
   if(st.state != 'def') add(w);
 
 
 
 
-  var r = getInfo(w,h);
+  var r = getInfo(l,w,h);
   $('div#info').html("<center>" + r + "</center>");
   $('div#info').show();
 
+ if(Lang == 'TT'){
+  $("div.btn")
+  .mouseover(function(){
+   $(this).css("background", "#FFFF00");
+  })
+  .mouseout(function(){
+   $(this).css("background", "#EEEE00");
+  });  
+  $('div#info').css("background", "#FFFF00");
+ }
+ if(Lang == 'RR'){
+  $("div.btn")
+  .mouseover(function(){
+   $(this).css("background", "#FFFF00");
+  })
+  .mouseout(function(){
+   $(this).css("background", "#EEEE00");
+  });  
+  $('div#info').css("background", "#00FFFF");
+ }
 
- $("div.btn")
- .mouseover(function(){
-  $(this).css("background", "#FFFF00");
- })
- .mouseout(function(){
-  $(this).css("background", "#EEEE00");
- });  
-
-  var w = $("textarea")[0].value;
+//  var w = $("textarea")[0].value;
+//  var w = $("#txt_"+Lang)[0].value;
+  var w = document.getElementById("txt_"+Lang).value;
   f = getCode(w);
 
-  $("div")[0].innerHTML = anaLyze(w);
+  $("#uni_"+Lang)[0].innerHTML = anaLyze(w,Lang);
 
 
 
@@ -387,7 +446,7 @@ function getSpanCheck(s, id){
   r += " id=\"w" + id + "\"";
   if(id == FocusedLink) r += " style=\"color: #00FFFF;\"";
   else r += " style=\"color: " + color + ";\"";
-  r += " onclick=\"processing('" + s.w + "',1);\"";
+  r += " onclick=\"processing('"+Lang+"','" + s.w + "',1);\"";
   r += ">";
   r += getUni(s.w);
   r += "</span>";
@@ -424,26 +483,30 @@ function addToFounded(L){
  Founded.count++;
  return i;
 }
-
-function anaLyze(s){
+var busy = 0;
+function anaLyze(s,l){
+if( busy == 1){
+ setTimeout("anaLyze('"+s+"','"+l+"');",100);
+}
+busy = 1;
+L(l);
 Founded.count = 0
  var t= getCode(s);
  var pos = 0;
  var r = "";
-
 while(t.length > 0){
  var a = t.search("_");
  if(a == -1){
-  var L = new Object();
-  L.b = pos; L.e = pos + t.length; L.w = t;
-  var link = addToFounded(L);
-  r += getSpanCheck(L,link);
+  var aL = new Object();
+  aL.b = pos; aL.e = pos + t.length; aL.w = t;
+  var link = addToFounded(aL);
+  r += getSpanCheck(aL,link);
   break;
  }else if(a != 0){
-  var L = new Object();
-  L.b = pos; L.e = pos + a; L.w = t.substr(0,a);
-  var link = addToFounded(L);
-  r += getSpanCheck(L,link);
+  var aL = new Object();
+  aL.b = pos; aL.e = pos + a; aL.w = t.substr(0,a);
+  var link = addToFounded(aL);
+  r += getSpanCheck(aL,link);
   pos += a;
  }
  var l=s.substr(pos,1);
@@ -453,16 +516,20 @@ while(t.length > 0){
  a++; pos++;
  t = t.substr(a, t.length);
 }
+ busy = 0;
  return r;
 }
 
 
 function save(){
- var t = getDictionary('D');
- var obj = document.createElement('a');
- obj.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(t));
- obj.setAttribute('download', 'TT.dict');
- obj.click();
+ for(l in Langs){
+  Lang = l;
+  var t = getDictionary('D');
+  var obj = document.createElement('a');
+  obj.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(t));
+  obj.setAttribute('download', Lang + '.dict');
+  obj.click();
+ }
 }
 
 function removeDup(){
@@ -509,12 +576,14 @@ function AddArray(WA,m){
 
 function getDictionary(m){
  var t = "";
+ L(Lang);
  t += "L('" + Lang + "');";
  t += getAlphabet();
  removeDup();
  t += AddArray(WordsArray,m);
  checkDeleted()
  t += AddArray(DeletedWordsArray,m);
+ t += SaveInterface();
  return t;
 }
 
@@ -560,7 +629,7 @@ function GetRand(){
   var ii = rn % WordsArray.length; T();
   var y = check(WordsArray[ii],0).verify;
  }while(y != 0);
- r = getInfo(WordsArray[ii],0);
+ r = getInfo(Lang,WordsArray[ii],0);
  $('div#info').html("<center>" + r + "</center>");
  $('div#info').show();
 }
@@ -580,9 +649,9 @@ function GetPage(dr){
   indd ++;
  }
 
-  $("textarea")[0].value = t;
+  $("#txt_"+Lang)[0].value = t;
 
-  tt();
+  Change(Lang);
 
 }
 
