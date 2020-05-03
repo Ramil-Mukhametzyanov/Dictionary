@@ -23,6 +23,7 @@ function L(lang){
   Langs[Lang].Dict = new Object();
   Langs[Lang].WordsArray = new Array();
   Langs[Lang].DeletedWordsArray = new Array();
+  Langs[Lang].FoundedWordsArray = new Array();
   Langs[Lang].InfoDesc = new Array();
   Langs[Lang].uString = "";
   Langs[Lang].lString = "";
@@ -36,6 +37,12 @@ function L(lang){
 function addToWordsArray(c){
  var p = Langs[Lang].WordsArray.length;
  Langs[Lang].WordsArray[p] = c;
+ return p;
+}
+
+function addToFoundedArray(c){
+ var p = Langs[Lang].FoundedWordsArray.length;
+ Langs[Lang].FoundedWordsArray[p] = c;
  return p;
 }
 
@@ -473,6 +480,7 @@ var busy = 0;
 function anaLyze(s,l){
 if( busy == 1){
  setTimeout("anaLyze('"+s+"','"+l+"');",100);
+ return;
 }
 busy = 1;
 L(l);
@@ -484,13 +492,15 @@ while(t.length > 0){
  var a = t.search("_");
  if(a == -1){
   var aL = new Object();
-  aL.b = pos; aL.e = pos + t.length; aL.w = t;
+//  aL.b = pos; aL.e = pos + t.length;
+  aL.w = t;
   var link = addToFounded(aL);
   r += getSpanCheck(aL,link);
   break;
  }else if(a != 0){
   var aL = new Object();
-  aL.b = pos; aL.e = pos + a; aL.w = t.substr(0,a);
+//  aL.b = pos; aL.e = pos + a;
+  aL.w = t.substr(0,a);
   var link = addToFounded(aL);
   r += getSpanCheck(aL,link);
   pos += a;
@@ -506,6 +516,31 @@ while(t.length > 0){
  return r;
 }
 
+function addAll(){
+ var s = document.getElementById('txt_'+Lang).value;
+ var t= getCode(s);
+ var pos = 0;
+ var w;
+ while(t.length > 0){
+  var a = t.search("_");
+  if(a == -1){
+   w = t;
+   console.log("a == -1 -> " + w);
+   var st = check(w,0).state;
+   if(st != 'def') add(w);
+   break;
+  }else if(a != 0){
+   w = t.substr(0,a)
+   console.log("a != 0 -> " + w);
+   var st = check(w,0).state;
+   if(st != 'def') add(w);
+   pos += a;
+  }
+  var l=s.substr(pos,1);
+  a++; pos++;
+  t = t.substr(a, t.length);
+ }
+}
 
 function save(){
  for(l in Langs){

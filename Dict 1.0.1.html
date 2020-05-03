@@ -47,7 +47,6 @@
  background: #00FFFF;
  width: 70px;
  height: 70px;
- position: fixed;
  top: 165px;
 }
 .box#Pa {
@@ -57,8 +56,20 @@
 .box#list {
  border:1px solid #007700;
  width: 70px;
+}
+
+.btn#more {
+ width: 70px;
+ height: 70px;
+}
+.btn#add {
+ width: 70px;
+ height: 70px;
+}
+
+#menu{
  position: fixed;
- top: 245px;
+ top: 45px;
 }
 .box#info {
  height: 200px;
@@ -74,12 +85,8 @@
  width: 70px;
  height: 70px;
  text-align: center;
- position: fixed;
- top: 45px;
 }
 .btn#more{
- position: fixed;
- top: 125px;
 }
 </style>
 </head>
@@ -87,7 +94,7 @@
 <script>
  var Status = {'TT': 0, 'RU': 0};
  function Change(lang){
-  console.log('Status:' + Status[lang] + "\n");
+//  console.log('Status:' + Status[lang] + "\n");
   var w = document.getElementById('txt_'+lang).value
   $("#uni_"+lang)[0].innerHTML = anaLyze(w, lang);
 
@@ -152,9 +159,11 @@ $(document).ready(function(){
 </td><td>
 <textarea style="height: 300px;" id=txt_RU>RU</textarea>
 </td></tr></table>
+<div id=menu>
 <div class=box id=info></div>
 <div class=btn id=save onclick="save();"><br>Save</div>
-<div class=btn id=more onclick="Info();">More/Less Info</div>
+<div class=btn id=more onclick="Info();"><br>More/Less Info</div>
+<div class=btn id=add onclick="addAll();"><br>Add all</div>
 <div class=btn id=get onclick="GetRand();"><br>Get</div>
 <div class=box id=list>
  <div class=box id=Pa><br>List 50
@@ -175,6 +184,7 @@ $(document).ready(function(){
   <td><div style="font-size: 45px;" onclick="GetPage(100);">&gt;</div></td>
  </tr></table>
  </div>
+</div>
 </div>
 
 </body>
