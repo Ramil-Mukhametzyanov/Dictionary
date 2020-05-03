@@ -29,6 +29,7 @@ function L(lang){
   Langs[Lang].lString = "";
   Langs[Lang].cString = "";
   Langs[Lang].changed = 0;
+  Langs[Lang].cursor = 0;
  }
  console.log("Language: " + Lang);
 } 
@@ -769,18 +770,41 @@ function showSimilar(l,w,C,B){
  var n = eval(C)+eval(B);
  for(var i = 0; i < list.length; i++){
   if(list[i] == w) continue;
-  var st = check(list[i], 0).state;
-  if(st == "def"){
+  var checks = check(list[i], 0);
+  if(checks.state == "def"){
+   if(checks.verify < 0) continue;
    if(b){b--; continue;}
    if(c == 0){
 //    t += "<div onclick=\"showSimilar('"+l+"','"+w+"',"+C+","+n+");\">continue</div>";
     break;
    }
-   console.log(getUni(list[i]) + ":" + st);
+   console.log(getUni(list[i]) + ":" + checks.state + "(" + checks.verify + ")");
    t += getSpanCheck(list[i],0)+"<br>";
    c--;
   }
  }
  return t;
 }
-showAlphabet
+function showAlphabet(l){
+ var t = "";
+ var alphabet = Langs[l].lString + " ";
+ var c = 8;
+ t += "<table cellpadding=0 cellspacing=0>";
+ for(var i = 0; i < alphabet.length; i++){
+  if(i % c == 0) t += "<tr>"
+  t += "<td><div class=keybtn id=btn_" + l + " onclick=\"insertToPos('"+l+"','"+alphabet.substr(i,1)+"');Change('"+l+"');\">" + alphabet.substring(i,i+1) + "</div></td>";
+  if(i % c == c - 1) t += "</tr>";
+  else if (i == alphabet.length - 1) t += "</tr>";
+ }
+ t += "</table>";
+ document.getElementById("key_"+l).innerHTML=t;
+}
+
+function insertToPos(l, s){
+ var obj = document.getElementById('txt_'+l);
+ var str = obj.value;
+ console.log(Langs[l].cursor);
+ var t = str.substring(0,Langs[l].cursor) + s + str.substring(Langs[l].cursor, str.length);
+ Langs[l].cursor++;
+ obj.value=t;
+}
