@@ -338,6 +338,7 @@ function getInfo(l,w, h){
   r += Langs[l].InfoDesc[5];
   r += "</div>";
   r += "</td></tr></table>";
+  r += showSimilar(l,w,3,0)
     
  }else{
   r += "<br>" + Langs[l].InfoDesc[6];
@@ -425,7 +426,7 @@ function getSpanArray(s){
 var FocusedLink = -1;
 
 function getSpanCheck(s, id){
-  var st = check(s.w,0);
+  var st = check(s,0);
  var r = "";
    color = "#009900";
   if(st.state == "def"){
@@ -436,9 +437,9 @@ function getSpanCheck(s, id){
   r += " id=\"w" + id + "\"";
   if(id == FocusedLink) r += " style=\"color: #009999;\"";
   else r += " style=\"color: " + color + ";\"";
-  r += " onclick=\"processing('"+Lang+"','" + s.w + "',1);\"";
+  r += " onclick=\"processing('"+Lang+"','" + s + "',1);\"";
   r += ">";
-  r += getUni(s.w);
+  r += getUni(s);
   r += "</span>";
   return r;
 }
@@ -495,14 +496,14 @@ while(t.length > 0){
 //  aL.b = pos; aL.e = pos + t.length;
   aL.w = t;
   var link = addToFounded(aL);
-  r += getSpanCheck(aL,link);
+  r += getSpanCheck(aL.w,link);
   break;
  }else if(a != 0){
   var aL = new Object();
 //  aL.b = pos; aL.e = pos + a;
   aL.w = t.substr(0,a);
   var link = addToFounded(aL);
-  r += getSpanCheck(aL,link);
+  r += getSpanCheck(aL.w,link);
   pos += a;
  }
  var l=s.substr(pos,1);
@@ -556,11 +557,12 @@ function save(){
 }
 
 function removeDup(){
- for(var i = 0; i < Langs[Lang].WordsArray.length; i++){
-  var w = Langs[Lang].WordsArray[i];
+ var a = Langs[Lang].WordsArray;
+ for(var i = 0; i < a.length; i++){
+  var w = a[i];
   if(w == "") continue;
-  for(var j = i + 1; j < Langs[Lang].WordsArray.length; j++){
-   if(Langs[Lang].WordsArray[j] == w) Langs[Lang].WordsArray[j] = "";
+  for(var j = i + 1; j < a.length; j++){
+   if(a[j] == w) a[j] = "";
   }
  }
 }
@@ -687,3 +689,98 @@ function NewDict(){
  alert("new!");
 
 }
+
+function addToList(a1, a2){
+ var h = a1.length;
+ for(var i = 0; i < a2.length; i++){
+  a1[h + i] = a2[i];
+ }
+ return a1;
+}
+
+function removeDupA(a){
+ var A = a;
+ for(var i = 0; i < A.length; i++){
+  var w = A[i];
+  if(w == "") continue;
+  for(var j = i + 1; j < A.length; j++){
+   if(A[j] == w) A[j] = "";
+  }
+ }
+ return A;
+}
+
+
+function genSimilar(l, w, m=-1){
+ var list = new Array();
+ if(m == 0 || m == -1) addToList(list, genOmition(w));
+ if(m == 1 || m == -1) addToList(list, genInsertion(l,w));
+ if(m == 2 || m == -1) addToList(list, genMixes(w));
+ if(m == 3 || m == -1) addToList(list, genChanges(l,w));
+ return removeDupA(list);
+}
+
+function genOmition(w){
+ var list = new Array();
+ var le = w.length;
+ for(var i = 0; i < le && le > 1; i++){
+  list[i] = w.substring(0, i) + w.substring(i + 1, le);
+ }
+ return list;
+}
+function genInsertion(l,w){
+ var list = new Array();
+ var le = w.length;
+ var k =0;
+ for(var j = 0; j < l.length; j++){
+  for(var i = 0; i <= le; i++){
+   list[k] = w.substring(0, i) + l[j] + w.substring(i, le);
+   k++;
+  }
+ }
+ return list;
+}
+function genChanges(l,w){
+ var list = new Array();
+ var le = w.length;
+ var k = 0;
+ for(var j = 0; j < l.length; j ++){
+  for(var i = 0; i < le; i++){
+   list[k] = w.substring(0, i) + l[j] + w.substring(i + 1, le);
+   k++;
+  } 
+ }
+ return list;
+}
+function genMixes(w){
+ var list = new Array();
+ var le = w.length;
+ for(var i = 0; i < le - 1 && le > 1; i++){
+  list[i] = w.substring(0, i) + w.substring(i + 1, i + 2) + w.substring(i, i + 1) + w.substring(i + 2, le);
+ } 
+ return list;
+}
+
+function showSimilar(l,w,C,B){
+ var list = genSimilar(Langs[l].cString, w);
+ var t = "";
+ var c = C;
+ var b = B;
+ var n = eval(C)+eval(B);
+ for(var i = 0; i < list.length; i++){
+  if(list[i] == w) continue;
+  var st = check(list[i], 0).state;
+  if(st == "def"){
+   if(b){b--; continue;}
+   if(c == 0){
+//    t += "<div onclick=\"showSimilar('"+l+"','"+w+"',"+C+","+n+");\">continue</div>";
+    break;
+   }
+   console.log(getUni(list[i]) + ":" + st);
+   t += getSpanCheck(list[i],0)+"<br>";
+   c--;
+  }
+ }
+ return t;
+}
+showAlphabet

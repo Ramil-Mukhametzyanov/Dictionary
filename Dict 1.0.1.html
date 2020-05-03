@@ -88,6 +88,10 @@
 }
 .btn#more{
 }
+.label{
+ border: 1px solid green;
+ width: 40px;
+}
 </style>
 </head>
 <body>
@@ -150,14 +154,22 @@ $(document).ready(function(){
  }
 </script>
 
-<table style="position: absolute;left: 100px; top: 40px;"><tr><td>
+<table style="position: absolute;left: 100px; top: 40px;">
+<tr><td>
+<center><div class=label>TT</div></center>
+</td><td>
+<center><div class=label>RU</div></center>
+</center></td></tr>
+
+<tr><td>
 <div class = box id=uni_TT></div>
 </td><td>
 <div class = box id=uni_RU></div>
-</td></tr><tr><td>
-<textarea style="height: 300px;" id=txt_TT>TT</textarea>
+</td></tr>
+<tr><td>
+<textarea style="height: 300px;" id=txt_TT></textarea>
 </td><td>
-<textarea style="height: 300px;" id=txt_RU>RU</textarea>
+<textarea style="height: 300px;" id=txt_RU></textarea>
 </td></tr></table>
 <div id=menu>
 <div class=box id=info></div>
