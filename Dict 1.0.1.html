@@ -1,133 +1,10 @@
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="style.css"/>
 <script src="jquery.min.js"></script>
 <script src="proc.js"></script>
 <script src="RU.dict"></script>
 <script src="TT.dict"></script>
-<style>
-.large {
- font-size: 20px;
-}
-.box {
- font-size: 20px;
- width: 200px;
- user-select: none;
- border: 1px solid #AAAA00;
-}
-.container{
- position: absolute;
- width: 0px;
- height: 0px;
-}
-.key {
- width: 400px;
- height: 250px;
- user-select: none;
-}
-.key#key_tt {
- background: #EEEE00;
- z-index: 0;
- position: relative;
- top: -300px;
- right: -50px;
-}
-.key#key_ru {
- background: #00EEEE;
- z-index: 0;
- position: relative;
- top: -300px;
- right: -50px;
-}
-.box#uni_tt {
- width: 500px;
- height: 450px;
- background: #EEEEAA;
-}
-.box#uni_ru {
- width: 500px;
- height: 450px;
- background: #AAEEEE;
-}
-
-.btn {
- border: 1px solid #AAAA00;
- background: #EEEE00;
- width : 90px;
- font-size: 15px;
- text-align: center;
-}
-
-.btn#r {
- color : #FF00EE;
-}
-
-.btn#f {
- color : #FF0000;
-}
-
-.btn#get {
- border:1px solid #007700;
- background: #00FFFF;
- width: 70px;
- height: 70px;
- top: 165px;
-}
-.box#Pa {
- background: #0000FF;
- width: 70px;
-}
-.box#list {
- border:1px solid #007700;
- width: 70px;
-}
-
-.btn#more {
- width: 70px;
- height: 70px;
-}
-.btn#add {
- width: 70px;
- height: 70px;
-}
-
-#menu{
- position: fixed;
- top: 45px;
-}
-.box#info {
- height: 200px;
- width: 250px;
- background: #FFFF99;
- position: fixed;
- left: 480px;
- top: 145px;
- z-index: 1;
-}
-.btn#save{
- border:1px solid #007700;
- background: #00FF00;
- width: 70px;
- height: 70px;
- text-align: center;
-}
-.btn#more{
-}
-.label{
- border: 1px solid green;
- width: 40px;
-}
-.keybtn{
- border: 1px solid green;
- font-size: 40px;
- width: 48px;
- height: 48px;
- text-align: center;
-}
-.input{
- height: 300px;
- font-size: 18px;
-}
-</style>
 </head>
 <body>
 <script>
@@ -136,6 +13,7 @@
 //  console.log('Status:' + Status[lang] + "\n");
   var w = document.getElementById('txt_'+lang).value
   $("#uni_"+lang)[0].innerHTML = anaLyze(w, lang);
+  resize(lang);
   if(Status[lang]) setTimeout("Change('" + lang + "')",100);
  }
 
@@ -149,7 +27,7 @@ $(document).ready(function(){
   Change('TT');
   $("#key_RU").hide();
   $("#key_TT").show();
-  }).css("width","500px");
+  })
 
  $("#txt_TT").blur(function(){
   $(this).css("background-color","#AAAA00");
@@ -164,7 +42,7 @@ $(document).ready(function(){
   Change('RU');
   $("#key_TT").hide();
   $("#key_RU").show();
-  }).css("width","500px");
+  })
 
  $("#txt_RU").blur(function(){
   $(this).css("background-color","#00AAAA");
@@ -193,46 +71,66 @@ $(document).ready(function(){
 
  
 });
- Width = 500;
- Height = 50;
- var current_progress=0;
- function progress(step){
-  current_progress += step;
-  if(current_progress>= 100) current_progress = 0;
-  var w = Math.round(current_progress * Width / 100);
-  $("td#left").css("width",w + "px").css("background-color", "rgb(255,255,0)");
-  $("td#right").css("width",(Width-w) + "px").css("background-color", "#FFFFFF");
+ var Edit = {'TT': 0, 'RU': 1};
+ function toggle(l){
+  for(i in Edit){
+   if(i != l) $("#key_"+i).hide();
+  }
+  if(Edit[l] == 1){
+   Edit[l] = 0;
+   $("#txt_"+l).hide();
+   $("#key_"+l).hide();
+   Change(l);
+  }else if(Edit[l] == 0){ 
+   Edit[l] = 1;
+   resize(l);
+   $("#txt_"+l).show();
+   $("#key_"+l).show();
+   $("#info").hide();
+  }else Edit[l] = 0;
  }
- 
- function get_progress(){
-  progress(0.1);
-  setTimeout('get_progress()', 10);
+ var Size = {'TT': 0, 'RU': 0};
+ function resize(l){
+  document.getElementById('txt_'+l).style.height='auto';
+  var h = document.getElementById('txt_'+l).scrollHeight;
+  if(h == 0) h = Size[l];
+  Size[l] = h;
+  console.log('h: ' + h);
+  if(h < 450) h = 450;
+  document.getElementById('txt_'+l).style.height=h+"px";
  }
 </script>
 
 <table style="position: absolute;left: 100px; top: 40px;">
-<tr><td>
-<center><div class=label>TT</div></center>
-</td><td>
-<center><div class=label>RU</div></center>
-</center></td></tr>
 
 <tr><td>
-<div class = box id=uni_TT></div>
-<div class = container>
- <div class = key id=key_RU></div>
-</div>
+ <div class = container>
+  <div class=label id=label_TT onclick="toggle('TT');"><center>TT</center></div>
+ </div>
+ <div class = container>
+  <div class = box id=uni_TT></div>
+ </div>
+ <div class = container>
+  <textarea class=input id=txt_TT></textarea>
+ </div>
+ <div class = container>
+  <div class = key id=key_RU></div>
+ </div>
 </td><td>
-<div class = box id=uni_RU></div>
-<div class = container>
- <div class = key id=key_TT></div>
-</div>
+ <div class = container>
+  <div class=label id=label_RU onclick="toggle('RU');"><center>RU</center></div>
+ </div>
+ <div class = container>
+  <div class = box id=uni_RU></div>
+ </div>
+ <div class = container>
+  <textarea class=input id=txt_RU></textarea>
+ </div>
+ <div class = container>
+  <div class = key id=key_TT></div>
+ </div>
 </td></tr>
-<tr><td>
-<textarea class=input id=txt_TT></textarea>
-</td><td>
-<textarea class=input id=txt_RU></textarea>
-</td></tr></table>
+</table>
 <div id=menu>
 <div class=box id=info></div>
 <div class=btn id=save onclick="save();"><br>Save</div>

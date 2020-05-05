@@ -1,0 +1,173 @@
+.large {
+ font-size: 20px;
+}
+.box {
+ font-size: 20px;
+ width: 200px;
+ user-select: none;
+ border: 1px solid #AAAA00;
+}
+.container{
+ position: absolute;
+ width: 0px;
+ height: 0px;
+}
+.key {
+ width: 400px;
+ height: 250px;
+ user-select: none;
+}
+#label_TT{
+ position: relative;
+ right: -230px;
+}
+.box#uni_tt {
+ width: 500px;
+ min-height: 450px;
+ background: #EEEEAA;
+ position: relative;
+ top: 25px;
+ font-family: Georgia, 'Times New Roman', Times, serif;
+ font-size: 20px;
+}
+#txt_tt{
+ width: 500px;
+ height: 450px;
+ position: relative;
+ top: 25px;
+ font-family: Georgia, 'Times New Roman', Times, serif;
+ font-size: 20px;
+}
+.key#key_ru {
+ background: #00EEEE;
+ z-index: 0;
+ position: relative;
+ right: -50px;
+ top: 125px;
+}
+
+#label_RU{
+ top: 0px;
+ position: relative;
+ right: -730px;
+}
+.box#uni_ru {
+ width: 500px;
+ min-height: 450px;
+ background: #AAEEEE;
+ position: relative;
+ right: -500px;
+ top: 25px;
+ font-family: Georgia, 'Times New Roman', Times, serif;
+ font-size: 20px;
+}
+#txt_ru{
+ width: 500px;
+ height: 450px;
+ position: relative;
+ right: -500px;
+ top: 25px;
+ font-family: Georgia, 'Times New Roman', Times, serif;
+ font-size: 20px;
+}
+.key#key_tt {
+ background: #EEEE00;
+ z-index: 0;
+ position: relative;
+ top: 125px;
+ right: -550px;
+}
+
+
+.btn {
+ border: 1px solid #AAAA00;
+ background: #EEEE00;
+ width : 90px;
+ font-size: 15px;
+ text-align: center;
+}
+
+.btn#r {
+ color : #FF00EE;
+}
+
+.btn#f {
+ color : #FF0000;
+}
+
+span {
+ font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 20px;
+}
+textarea{
+  border: 1px solid #AAAA00;
+  resize: vertical;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 20px;
+  overflow:hidden;
+  display: flex;
+  align-items: flex-start;
+}
+.btn#get {
+ border:1px solid #007700;
+ background: #00FFFF;
+ width: 70px;
+ height: 70px;
+ top: 165px;
+}
+.box#Pa {
+ background: #0000FF;
+ width: 70px;
+}
+.box#list {
+ border:1px solid #007700;
+ width: 70px;
+}
+
+.btn#more {
+ width: 70px;
+ height: 70px;
+}
+.btn#add {
+ width: 70px;
+ height: 70px;
+}
+
+#menu{
+ position: fixed;
+ top: 45px;
+}
+.box#info {
+ height: 200px;
+ width: 250px;
+ background: #FFFF99;
+ position: fixed;
+ left: 480px;
+ top: 145px;
+ z-index: 1;
+}
+.btn#save{
+ border:1px solid #007700;
+ background: #00FF00;
+ width: 70px;
+ height: 70px;
+ text-align: center;
+}
+.btn#more{
+}
+.label{
+ border: 1px solid green;
+ width: 40px;
+ user-select: none;
+}
+.keybtn{
+ border: 1px solid green;
+ font-size: 40px;
+ width: 48px;
+ height: 48px;
+ text-align: center;
+}
+.input{
+ height: 300px;
+ font-size: 18px;
+}
