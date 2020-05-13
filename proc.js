@@ -30,6 +30,7 @@ function L(lang){
   Langs[Lang].cString = "";
   Langs[Lang].changed = 0;
   Langs[Lang].cursor = 0;
+  Langs[Lang].current = 0;
  }
  console.log("Language: " + Lang);
 } 
@@ -95,6 +96,7 @@ function add(ind){
  }
  return d;
 }
+
 
 function check(ind, value){
  var d =new Object();
@@ -324,7 +326,7 @@ function getInfo(l,w, h){
   r += "<div class=btn id=r";
   r += " onclick=\"check('" + w + "', '1'); processing('"+l+"','" + w + "'," + h + ");";
   if(h) r += "removeInfo();";
-  else r += "GetRand();";
+  else r += "GetWord();";
   r += "\">"
   r += Langs[l].InfoDesc[4];
   r += "</div>";
@@ -334,7 +336,7 @@ function getInfo(l,w, h){
   r += "<div class=btn id=f";
   r += " onclick=\"check('" + w + "', '-1'); processing('"+l+"','" + w + "'," + h + ");";
   if(h) r += "removeInfo();";
-  else r += "GetRand();";
+  else r += "GetWord();";
   r += "\">"
   r += Langs[l].InfoDesc[5];
   r += "</div>";
@@ -544,7 +546,7 @@ function addAll(){
  }
 }
 
-function save(){
+function saveLocally(){
  for(l in Langs){
   Lang = l;
   if(Langs[Lang].changed == 0) continue;
@@ -555,6 +557,21 @@ function save(){
   obj.click();
   Langs[Lang].changed = 0;
  }
+}
+
+function saveToServer(){
+ var s = false;
+ for(l in Langs){
+  Lang = l;
+  console.log("Save "+l); 
+  if(Langs[Lang].changed == 0) continue;
+  s = true;
+  var t = getDictionary('D');
+  mapInput = document.getElementById("content_"+Lang);
+  mapInput.value = t;
+  Langs[Lang].changed = 0;
+ }
+ return s;
 }
 
 function removeDup(){
@@ -658,6 +675,20 @@ function GetRand(){
   count --; if(count < 0) return;
  }while(y != 0);
  r = getInfo(Lang,Langs[Lang].WordsArray[ii],0);
+ $('div#info').html("<center>" + r + "</center>");
+ $('div#info').show();
+}
+
+function GetWord(){
+ var y;
+ var ii = Langs[Lang].current;
+ do{
+  ii = (eval(ii) + 1) % Langs[Lang].WordsArray.length;
+  var y = check(Langs[Lang].WordsArray[ii],0).verify;
+  console.log("check "+ii + ": " + y);
+ }while(y != 0 && ii != Langs[Lang].current);
+ Langs[Lang].current = ii;
+ var r = getInfo(Lang,Langs[Lang].WordsArray[ii],0);
  $('div#info').html("<center>" + r + "</center>");
  $('div#info').show();
 }
@@ -787,14 +818,23 @@ function showSimilar(l,w,C,B){
 }
 function showAlphabet(l){
  var t = "";
+ var special = 1/*new line*/+1/*backspace*/+1/*delete*/;//+1/*toggle language*/;
+ var sign = ["ENT", "BCSP", "DEL"];//, "TT"];
+ var func = ["insertToPos('"+l+"','\\n');","BackspacePos('" + l + "');","DeletePos('" + l + "');"];//,"toggle('TT');"];
  var alphabet = Langs[l].lString + " ";
  var c = 8;
  t += "<table cellpadding=0 cellspacing=0>";
- for(var i = 0; i < alphabet.length; i++){
+ var h = alphabet.length + special;
+ for(var i = 0; i < h; i++){
   if(i % c == 0) t += "<tr>"
-  t += "<td><div class=keybtn id=btn_" + l + " onclick=\"insertToPos('"+l+"','"+alphabet.substr(i,1)+"');Change('"+l+"');\">" + alphabet.substring(i,i+1) + "</div></td>";
+  if(i < alphabet.length){
+   t += "<td><div class=keybtn id=btn_" + l + " onclick=\"insertToPos('"+l+"','"+alphabet.substr(i,1)+"');Change('"+l+"');\">" + alphabet.substring(i,i+1) + "</div></td>";
+  }else{
+   t += "<td><div class=keybtnsp onclick=\"" + func[i-alphabet.length] + " Change('"+l+"');\">" + sign[i-alphabet.length] + "</div></td>";
+   
+  }
   if(i % c == c - 1) t += "</tr>";
-  else if (i == alphabet.length - 1) t += "</tr>";
+  else if (i == h - 1) t += "</tr>";
  }
  t += "</table>";
  document.getElementById("key_"+l).innerHTML=t;
@@ -806,5 +846,21 @@ function insertToPos(l, s){
  console.log(Langs[l].cursor);
  var t = str.substring(0,Langs[l].cursor) + s + str.substring(Langs[l].cursor, str.length);
  Langs[l].cursor++;
+ obj.value=t;
+}
+function BackspacePos(l){
+ var obj = document.getElementById('txt_'+l);
+ var str = obj.value;
+ console.log(Langs[l].cursor);
+ var t = str.substring(0,Langs[l].cursor-1) + str.substring(Langs[l].cursor, str.length);
+ Langs[l].cursor--;
+ if(Langs[l].cursor < 0) Langs[l].cursor = 0;
+ obj.value=t;
+}
+function DeletePos(l){
+ var obj = document.getElementById('txt_'+l);
+ var str = obj.value;
+ console.log(Langs[l].cursor);
+ var t = str.substring(0,Langs[l].cursor) + str.substring(Langs[l].cursor + 1, str.length);
  obj.value=t;
 }
