@@ -1,5 +1,11 @@
 // 9:19 02.05.2020 15+15+15+15+15+15+15
 
+
+/*
+1. Upper-lower case importance
+2. Genwords
+3. get near
+*/
 function new_d(){
  var v = new Object();
  v.define = function(){this.innerHTML = "<div style=\"width: " + this.w + "px; height: " + this.h + "px; background: " + this.c + "\"></div>";};
@@ -9,27 +15,7 @@ function new_d(){
 
 var Lang = "";
 var Langs = new Array();
-var Alphabet = new Array(); 
-var Dict = new Object();
-var WordsArray = new Array();
-var DeletedWordsArray = new Array();
-var InfoDesc = new Array();
-var uString="";
-var lString="";
-var cString="";
-
 function L(lang){
- if(Lang != ''){
-   Langs[Lang] = new Object();
-   Langs[Lang].Alphabet = Alphabet;
-   Langs[Lang].Dict = Dict;
-   Langs[Lang].WordsArray = WordsArray;
-   Langs[Lang].DeletedWordsArray = DeletedWordsArray;
-   Langs[Lang].InfoDesc = InfoDesc;
-   Langs[Lang].uString = uString;
-   Langs[Lang].lString = lString;
-   Langs[Lang].cString = cString;
- }
  Lang = lang;
  if(!Langs[Lang]){
   Langs[Lang] = new Object();
@@ -37,32 +23,35 @@ function L(lang){
   Langs[Lang].Dict = new Object();
   Langs[Lang].WordsArray = new Array();
   Langs[Lang].DeletedWordsArray = new Array();
+  Langs[Lang].FoundedWordsArray = new Array();
   Langs[Lang].InfoDesc = new Array();
   Langs[Lang].uString = "";
   Langs[Lang].lString = "";
   Langs[Lang].cString = "";
+  Langs[Lang].changed = 0;
+  Langs[Lang].cursor = 0;
+  Langs[Lang].current = 0;
  }
- Alphabet = Langs[Lang].Alphabet;
- Dict = Langs[Lang].Dict;
- WordsArray = Langs[Lang].WordsArray;
- DeletedWordsArray = Langs[Lang].DeletedWordsArray;
- InfoDesc = Langs[Lang].InfoDesc;
- uString= Langs[Lang].uString;
- lString= Langs[Lang].lString;
- cString= Langs[Lang].cString;
+ console.log("Language: " + Lang);
 } 
 
 
 function addToWordsArray(c){
- var p = WordsArray.length;
- WordsArray[p] = c;
+ var p = Langs[Lang].WordsArray.length;
+ Langs[Lang].WordsArray[p] = c;
+ return p;
+}
+
+function addToFoundedArray(c){
+ var p = Langs[Lang].FoundedWordsArray.length;
+ Langs[Lang].FoundedWordsArray[p] = c;
  return p;
 }
 
 function isInDeletedWordsArray(c){
  var e = -1;
- for(var i = 0; i < DeletedWordsArray.length; i++){
-  if(DeletedWordsArray[i] == c){
+ for(var i = 0; i < Langs[Lang].DeletedWordsArray.length; i++){
+  if(Langs[Lang].DeletedWordsArray[i] == c){
    e = c;
    break;
   }
@@ -73,8 +62,8 @@ function isInDeletedWordsArray(c){
 function addToDeletedWordsArray(c){
  var p = isInDeletedWordsArray(c); 
  if(isInDeletedWordsArray(c) != -1) return p;
- var p = DeletedWordsArray.length;
- DeletedWordsArray[p] = c;
+ var p = Langs[Lang].DeletedWordsArray.length;
+ Langs[Lang].DeletedWordsArray[p] = c;
  return p;
 }
 
@@ -85,7 +74,8 @@ function show(ind){
 function add(ind){
  var d =new Object();
  d.name= ind;
- cur = Dict;
+ Langs[Lang].changed=1;
+ cur = Langs[Lang].Dict;
  for(var i =0; i < ind.length; i++){
   var ic = ind.substr(i,1);
   if(cur[ic])cur=cur[ic];
@@ -103,15 +93,18 @@ function add(ind){
   d.count=cur.count;
   d.verify=cur.verify;
   cur.pos = addToWordsArray(ind);
-//  WordsArray[WordsArray.length] = ind;
  }
  return d;
 }
 
+
 function check(ind, value){
  var d =new Object();
  d.name= ind;
- cur = Dict;
+ if(value != 0){
+  Langs[Lang].changed = 1;
+ }
+ cur = Langs[Lang].Dict;
  for(var i =0; i < ind.length; i++){
   var ic = ind.substr(i,1);
   if(cur[ic])cur=cur[ic];
@@ -125,19 +118,19 @@ function check(ind, value){
   d.pos=cur.pos;
   if(d.verify < 0){
    addToDeletedWordsArray(ind);
-   WordsArray[cur.pos] = "";
-  } else if(WordsArray[cur.pos] == ""){
-   WordsArray[cur.pos] = ind; // revert 
+   Langs[Lang].WordsArray[cur.pos] = "";
+  } else if(Langs[Lang].WordsArray[cur.pos] == ""){
+   Langs[Lang].WordsArray[cur.pos] = ind; // revert 
   }
  } else d.state="found";
  return d;
 }
 
-function D(Word){
+function D(Word, Case=0){
  ind = Word.c;
  var d =new Object();
  d.name= ind;
- cur = Dict;
+ cur = Langs[Lang].Dict;
  for(var i =0; i < ind.length; i++){
   var ic = ind.substr(i,1);
   if(cur[ic])cur=cur[ic];
@@ -146,7 +139,6 @@ function D(Word){
  if(!cur) cur = new Object();
  if((cur.count != undefined) && (cur.verify != undefined)){
   cur.count = 0 + eval(cur.count) + eval(Word.f);
-//  cur.verify = eval(cur.verify) + eval(Word.e);
   d.state="def";d.count=cur.count;d.verify=cur.verify;}
  else {
   cur.count = Word.f; cur.verify = Word.e;
@@ -159,20 +151,20 @@ function D(Word){
 
 
 function genAlphabet(){
- uString=""; lString=""; cString="";
+ Langs[Lang].uString=""; Langs[Lang].lString=""; Langs[Lang].cString="";
  var f;
- for(var i = 0; i < Alphabet.length;i++){
-  v="f = \"\\u" + Alphabet[i].l+ "\";";
+ for(var i = 0; i < Langs[Lang].Alphabet.length;i++){
+  v="f = \"\\u" + Langs[Lang].Alphabet[i].l+ "\";";
   eval(v);
-  Alphabet[i].lLetter = f;
-  lString += f;
+  Langs[Lang].Alphabet[i].lLetter = f;
+  Langs[Lang].lString += f;
 
-  v="f = \"\\u" + Alphabet[i].u+ "\";";
+  v="f = \"\\u" + Langs[Lang].Alphabet[i].u+ "\";";
   eval(v);
-  Alphabet[i].uLetter = f;
-  uString += f;
+  Langs[Lang].Alphabet[i].uLetter = f;
+  Langs[Lang].uString += f;
 
-  cString += Alphabet[i].c;
+  Langs[Lang].cString += Langs[Lang].Alphabet[i].c;
  }
 }
 
@@ -180,8 +172,8 @@ function get_u(c){
  var t = "";
  for(var i = 0; i < c.length; i++){
   var n = c.substr(i,1);
-  for(var j = 0; j < Alphabet.length; j++){
-   if(n == Alphabet[j].c){ t+= Alphabet[j].Lletter; break;}
+  for(var j = 0; j < Langs[Lang].Alphabet.length; j++){
+   if(n == Langs[Lang].Alphabet[j].c){ t+= Langs[Lang].Alphabet[j].Lletter; break;}
   }
  }
  alert(t);
@@ -208,14 +200,14 @@ for(var i=0;i< f.length;i++){
  var s = f.substr(i,1);
  var pos;
  if(isRegExp(s) == 1) pos = -1;
- else pos = lString.search(s);
+ else pos = Langs[Lang].lString.search(s);
  if(f.substr(i,1) == '.') v+="_";
- else if(pos != -1) v += cString.substr(pos,1);
+ else if(pos != -1) v += Langs[Lang].cString.substr(pos,1);
  else{
   var pos;
  if(isRegExp(s) == 1) pos = -1;
-  else pos = uString.search(s);
-  if(pos != -1) v += cString.substr(pos,1);
+  else pos = Langs[Lang].uString.search(s);
+  if(pos != -1) v += Langs[Lang].cString.substr(pos,1);
   else v += "_";
  }
 }
@@ -225,9 +217,9 @@ function getUni(f){
 var v = "";
 for(var i=0;i< f.length;i++){
  var z = f.substr(i,1);
- var pos = cString.search(z);
+ var pos = Langs[Lang].cString.search(z);
  if(pos != -1)
-  v += lString.substr(pos,1);
+  v += Langs[Lang].lString.substr(pos,1);
  else if (z == "_") v += " ";
  else v += z;
 }
@@ -281,14 +273,14 @@ while(t.length > 0){
 }
 
 function I(W,c){
- InfoDesc[c] = getUni(W);
+ Langs[Lang].InfoDesc[c] = getUni(W);
 }
 
 function SaveInterface(){
  var t = "";
- for(var i = 0; i < InfoDesc.length; i++){
+ for(var i = 0; i < Langs[Lang].InfoDesc.length; i++){
   t += "I(\"";
-  t += getCode(InfoDesc[i]);
+  t += getCode(Langs[Lang].InfoDesc[i]);
   t += "\",";
   t += i;
   t += ");"
@@ -303,74 +295,86 @@ function Info(){
  MoreInfo=(MoreInfo == 1)?0:1;
 }
 
-function getInfo(l,w, h){
+function getInfo(l,w, h,p){
  var st = check(w,0);
  var r = "";
  r += "<div style='position: relative; width: 190px; text-align: right;' onclick='removeInfo();'>X</div>";
 // if(!MoreInfo) r += "<br>";
- r += "<div style=\"border: 1px solid green; width: 40px; \">" + Lang + "</div>";
- color = "#00FF00";
+ r += "<div style=\"border: 1px solid green; width: 40px; \">" + l + "</div>";
+ color = "#009900";
  if(st.state == "def"){
-  if(st.verify >0) color = "#EE00FF";
-  else if(st.verify < 0 ) color = "#FF0000";
+  if(st.verify >0) color = "#880099";
+  else if(st.verify < 0 ) color = "#990000";
  }
- r += "<span style=\"color: " + color + ";\">" + getUni(w) + "</span>";
+ r += "<span style=\"font-size: 28px; color: " + color + ";\">" + getUni(w) + "</span>";
  if(st.state =='def'){
   if(MoreInfo){
-   r += "<br>" + InfoDesc[7];
-   r += "<br>" + st.count + " " + InfoDesc[0];
+   r += "<br>" + Langs[l].InfoDesc[7];
+   r += "<br>" + st.count + " " + Langs[l].InfoDesc[0];
   }
   if(st.verify != 0){
    if(MoreInfo){
-     r += "<br>" + ((st.verify>0)?st.verify:(-st.verify)) + " " + InfoDesc[1];
+     r += "<br>" + ((st.verify>0)?st.verify:(-st.verify)) + " " + Langs[l].InfoDesc[1];
    }
-   if(st.verify>0) r += "<br>" + InfoDesc[4];
-   else r += "<br>" + InfoDesc[2];
+   if(st.verify>0) r += "<br>" + Langs[l].InfoDesc[4];
+   else r += "<br>" + Langs[l].InfoDesc[2];
   }else{
-   r += "<br>" + " " + InfoDesc[3];
+   r += "<br>" + " " + Langs[l].InfoDesc[3];
   }
     
   r += "<table><tr><td>";
   r += "<div class=btn id=r";
-  r += " onclick=\"check('" + w + "', '1'); processing('"+l+"','" + w + "'," + h + ");";
+  r += " onclick=\"check('" + w + "', '1'); processing('"+l+"','" + w + "'," + h + "," + p + ");";
+//  r += "analyzeText();"
   if(h) r += "removeInfo();";
-  else r += "GetRand();";
+  else r += "GetWord();";
   r += "\">"
-  r += InfoDesc[4];
+  r += Langs[l].InfoDesc[4];
   r += "</div>";
 
   r += "</td><td>";
 
   r += "<div class=btn id=f";
-  r += " onclick=\"check('" + w + "', '-1'); processing('"+l+"','" + w + "'," + h + ");";
+  r += " onclick=\"check('" + w + "', '-1'); processing('"+l+"','" + w + "'," + h + "," + p + ");";
+//  r += "analyzeText();"
   if(h) r += "removeInfo();";
-  else r += "GetRand();";
+  else r += "GetWord();";
   r += "\">"
-  r += InfoDesc[5];
+  r += Langs[l].InfoDesc[5];
   r += "</div>";
   r += "</td></tr></table>";
+  r += showSimilar(l,w,3,0)
     
  }else{
-  r += "<br>" + InfoDesc[6];
+  r += "<br>" + Langs[l].InfoDesc[6];
  }
 
  return r;
 }
+
 
 function removeInfo(){
  $('div#info').hide();
 
 }
 
-function processing(l,w,h){
+function analyzeText(){
+ console.log("analyzeText();")
+ var w = document.getElementById("txt_"+Lang).value;
+ var f = getCode(w);
+ $("#uni_"+Lang)[0].innerHTML = anaLyze(w,Lang);
+}
+
+
+function processing(l,w,h,p){
   L(l);
   var st = check(w,0);
   if(st.state != 'def') add(w);
 
 
+  $("span#w"+p).css({'color':getStatusColor(st.verify)})
 
-
-  var r = getInfo(l,w,h);
+  var r = getInfo(l,w,h,p);
   $('div#info').html("<center>" + r + "</center>");
   $('div#info').show();
 
@@ -381,32 +385,38 @@ function processing(l,w,h){
   })
   .mouseout(function(){
    $(this).css("background", "#EEEE00");
-  });  
+  }).css("background", "#EEEE00");  
   $('div#info').css("background", "#FFFF00");
  }
- if(Lang == 'RR'){
+ if(Lang == 'RU'){
   $("div.btn")
   .mouseover(function(){
-   $(this).css("background", "#FFFF00");
+   $(this).css("background", "#00FFFF");
   })
   .mouseout(function(){
-   $(this).css("background", "#EEEE00");
-  });  
+   $(this).css("background", "#00EEEE");
+  }).css("background", "#00EEEE");  
   $('div#info').css("background", "#00FFFF");
  }
 
 //  var w = $("textarea")[0].value;
 //  var w = $("#txt_"+Lang)[0].value;
-  var w = document.getElementById("txt_"+Lang).value;
-  f = getCode(w);
+//  var w = document.getElementById("txt_"+Lang).value;
+//  f = getCode(w);
 
-  $("#uni_"+Lang)[0].innerHTML = anaLyze(w,Lang);
-
-
+//  $("#uni_"+Lang)[0].innerHTML = anaLyze(w,Lang);
+//  analyzeText();
 
   return r;
 
 
+}
+
+function getStatusColor(verify){
+ var color = "#009900";
+ if(verify >0) color = "#880099";
+ else if(verify < 0 ) color = "#990000";
+ return color;
 }
 
 function getSpanArray(s){
@@ -414,8 +424,7 @@ function getSpanArray(s){
  var r = "";
    color = "#00FF00";
   if(st.state == "def"){
-   if(st.verify >0) color = "#EE00FF";
-   else if(st.verify < 0 ) color = "#FF0000";
+   color = getStatusColor(st.verify);
   }
   r += "<br><span style=\"color: " + color + ";\">" + getUni(s.w) + "</span>";
   if(st.state =='def'){
@@ -435,20 +444,19 @@ function getSpanArray(s){
 var FocusedLink = -1;
 
 function getSpanCheck(s, id){
-  var st = check(s.w,0);
+  var st = check(s,0);
  var r = "";
-   color = "#00FF00";
+   color = "#009900";
   if(st.state == "def"){
-   if(st.verify >0) color = "#EE00FF";
-   else if(st.verify < 0 ) color = "#FF0000";
+   color = getStatusColor(st.verify);
   }
   r += "<span";
   r += " id=\"w" + id + "\"";
-  if(id == FocusedLink) r += " style=\"color: #00FFFF;\"";
+  if(id == FocusedLink) r += " style=\"color: #009999;\"";
   else r += " style=\"color: " + color + ";\"";
-  r += " onclick=\"processing('"+Lang+"','" + s.w + "',1);\"";
+  r += " onclick=\"processing('"+Lang+"','" + s + "',1," + id + ");\"";
   r += ">";
-  r += getUni(s.w);
+  r += getUni(s);
   r += "</span>";
   return r;
 }
@@ -483,10 +491,14 @@ function addToFounded(L){
  Founded.count++;
  return i;
 }
+
+
 var busy = 0;
+
 function anaLyze(s,l){
 if( busy == 1){
  setTimeout("anaLyze('"+s+"','"+l+"');",100);
+ return;
 }
 busy = 1;
 L(l);
@@ -498,15 +510,17 @@ while(t.length > 0){
  var a = t.search("_");
  if(a == -1){
   var aL = new Object();
-  aL.b = pos; aL.e = pos + t.length; aL.w = t;
+//  aL.b = pos; aL.e = pos + t.length;
+  aL.w = t;
   var link = addToFounded(aL);
-  r += getSpanCheck(aL,link);
+  r += getSpanCheck(aL.w,link);
   break;
  }else if(a != 0){
   var aL = new Object();
-  aL.b = pos; aL.e = pos + a; aL.w = t.substr(0,a);
+//  aL.b = pos; aL.e = pos + a;
+  aL.w = t.substr(0,a);
   var link = addToFounded(aL);
-  r += getSpanCheck(aL,link);
+  r += getSpanCheck(aL.w,link);
   pos += a;
  }
  var l=s.substr(pos,1);
@@ -520,34 +534,77 @@ while(t.length > 0){
  return r;
 }
 
+function addAll(){
+ var s = document.getElementById('txt_'+Lang).value;
+ var t= getCode(s);
+ var pos = 0;
+ var w;
+ while(t.length > 0){
+  var a = t.search("_");
+  if(a == -1){
+   w = t;
+   console.log("a == -1 -> " + w);
+   var st = check(w,0).state;
+   if(st != 'def') add(w);
+   break;
+  }else if(a != 0){
+   w = t.substr(0,a)
+   console.log("a != 0 -> " + w);
+   var st = check(w,0).state;
+   if(st != 'def') add(w);
+   pos += a;
+  }
+  var l=s.substr(pos,1);
+  a++; pos++;
+  t = t.substr(a, t.length);
+ }
+}
 
-function save(){
+function saveLocally(){
  for(l in Langs){
   Lang = l;
+  if(Langs[Lang].changed == 0) continue;
   var t = getDictionary('D');
   var obj = document.createElement('a');
   obj.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(t));
   obj.setAttribute('download', Lang + '.dict');
   obj.click();
+  Langs[Lang].changed = 0;
  }
 }
 
+function saveToServer(){
+ var s = false;
+ for(l in Langs){
+  Lang = l;
+  console.log("Save "+l); 
+  if(Langs[Lang].changed == 0) continue;
+  s = true;
+  var t = getDictionary('D');
+  mapInput = document.getElementById("content_"+Lang);
+  mapInput.value = t;
+  Langs[Lang].changed = 0;
+ }
+ return s;
+}
+
 function removeDup(){
- for(var i = 0; i < WordsArray.length; i++){
-  var w = WordsArray[i];
+ var a = Langs[Lang].WordsArray;
+ for(var i = 0; i < a.length; i++){
+  var w = a[i];
   if(w == "") continue;
-  for(var j = i + 1; j < WordsArray.length; j++){
-   if(WordsArray[j] == w) WordsArray[j] = "";
+  for(var j = i + 1; j < a.length; j++){
+   if(a[j] == w) a[j] = "";
   }
  }
 }
 
 function checkDeleted(){
- for(var i = 0; i < DeletedWordsArray.length; i++){
-  var w = DeletedWordsArray[i];
+ for(var i = 0; i < Langs[Lang].DeletedWordsArray.length; i++){
+  var w = Langs[Lang].DeletedWordsArray[i];
   if(w == "") continue;
   var d = check(w, 0);
-  if(d.verify >= 0) DeletedWordsArray[i] = "";
+  if(d.verify >= 0) Langs[Lang].DeletedWordsArray[i] = "";
  }
 }
 
@@ -580,28 +637,28 @@ function getDictionary(m){
  t += "L('" + Lang + "');";
  t += getAlphabet();
  removeDup();
- t += AddArray(WordsArray,m);
+ t += AddArray(Langs[Lang].WordsArray,m);
  checkDeleted()
- t += AddArray(DeletedWordsArray,m);
+ t += AddArray(Langs[Lang].DeletedWordsArray,m);
  t += SaveInterface();
  return t;
 }
 
 function S(s){
- Alphabet[Alphabet.length] = s;
+ Langs[Lang].Alphabet[Langs[Lang].Alphabet.length] = s;
 }
 function getAlphabet(){
  var t = "";
- for(var i = 0; i < Alphabet.length; i++){
+ for(var i = 0; i < Langs[Lang].Alphabet.length; i++){
   if(i!=0) t+="\n";
   t += "S({'u':'";
-  t += Alphabet[i].u;
+  t += Langs[Lang].Alphabet[i].u;
   t += "','l':'";
-  t += Alphabet[i].l;
+  t += Langs[Lang].Alphabet[i].l;
   t += "','f':'";
-  t += Alphabet[i].f;
+  t += Langs[Lang].Alphabet[i].f;
   t += "','c':'";
-  t += Alphabet[i].c;
+  t += Langs[Lang].Alphabet[i].c;
   t += "'});";
  }
  t += "genAlphabet();";
@@ -625,11 +682,27 @@ function T(){
 
 function GetRand(){
  var y;
+ count = 10;
  do{
-  var ii = rn % WordsArray.length; T();
-  var y = check(WordsArray[ii],0).verify;
+  var ii = rn % Langs[Lang].WordsArray.length; T();
+  var y = check(Langs[Lang].WordsArray[ii],0).verify;
+  count --; if(count < 0) return;
  }while(y != 0);
- r = getInfo(Lang,WordsArray[ii],0);
+ r = getInfo(Lang,Langs[Lang].WordsArray[ii],0);
+ $('div#info').html("<center>" + r + "</center>");
+ $('div#info').show();
+}
+
+function GetWord(){
+ var y;
+ var ii = Langs[Lang].current;
+ do{
+  ii = (eval(ii) + 1) % Langs[Lang].WordsArray.length;
+  var y = check(Langs[Lang].WordsArray[ii],0).verify;
+  console.log("check "+ii + ": " + y);
+ }while(y != 0 && ii != Langs[Lang].current);
+ Langs[Lang].current = ii;
+ var r = getInfo(Lang,Langs[Lang].WordsArray[ii],0);
  $('div#info').html("<center>" + r + "</center>");
  $('div#info').show();
 }
@@ -640,12 +713,12 @@ var PageSize = 50;
 function GetPage(dr){
  var t = "";
  CurPage += dr;
- if( (CurPage * PageSize >= WordsArray.length) || (CurPage * PageSize < 0) ){
+ if( (CurPage * PageSize >= Langs[Lang].WordsArray.length) || (CurPage * PageSize < 0) ){
   CurPage -= dr; return;
  }
  var indd = CurPage * PageSize;
- for(var i = 0; i < PageSize && indd < WordsArray.length; i++){
-  t += getUni(WordsArray[indd]) + " ";
+ for(var i = 0; i < PageSize && indd < Langs[Lang].WordsArray.length; i++){
+  t += getUni(Langs[Lang].WordsArray[indd]) + " ";
   indd ++;
  }
 
@@ -657,8 +730,151 @@ function GetPage(dr){
 
 
 function NewDict(){
- Dict = new Object();
- WordsArray = new Array();
+ Langs[Lang].Dict = new Object();
+ Langs[Lang].WordsArray = new Array();
  alert("new!");
 
+}
+
+function addToList(a1, a2){
+ var h = a1.length;
+ for(var i = 0; i < a2.length; i++){
+  a1[h + i] = a2[i];
+ }
+ return a1;
+}
+
+function removeDupA(a){
+ var A = a;
+ for(var i = 0; i < A.length; i++){
+  var w = A[i];
+  if(w == "") continue;
+  for(var j = i + 1; j < A.length; j++){
+   if(A[j] == w) A[j] = "";
+  }
+ }
+ return A;
+}
+
+
+function genSimilar(l, w, m=-1){
+ var list = new Array();
+ if(m == 0 || m == -1) addToList(list, genOmition(w));
+ if(m == 1 || m == -1) addToList(list, genInsertion(l,w));
+ if(m == 2 || m == -1) addToList(list, genMixes(w));
+ if(m == 3 || m == -1) addToList(list, genChanges(l,w));
+ return removeDupA(list);
+}
+
+function genOmition(w){
+ var list = new Array();
+ var le = w.length;
+ for(var i = 0; i < le && le > 1; i++){
+  list[i] = w.substring(0, i) + w.substring(i + 1, le);
+ }
+ return list;
+}
+function genInsertion(l,w){
+ var list = new Array();
+ var le = w.length;
+ var k =0;
+ for(var j = 0; j < l.length; j++){
+  for(var i = 0; i <= le; i++){
+   list[k] = w.substring(0, i) + l[j] + w.substring(i, le);
+   k++;
+  }
+ }
+ return list;
+}
+function genChanges(l,w){
+ var list = new Array();
+ var le = w.length;
+ var k = 0;
+ for(var j = 0; j < l.length; j ++){
+  for(var i = 0; i < le; i++){
+   list[k] = w.substring(0, i) + l[j] + w.substring(i + 1, le);
+   k++;
+  } 
+ }
+ return list;
+}
+function genMixes(w){
+ var list = new Array();
+ var le = w.length;
+ for(var i = 0; i < le - 1 && le > 1; i++){
+  list[i] = w.substring(0, i) + w.substring(i + 1, i + 2) + w.substring(i, i + 1) + w.substring(i + 2, le);
+ } 
+ return list;
+}
+
+function showSimilar(l,w,C,B){
+ var list = genSimilar(Langs[l].cString, w);
+ var t = "";
+ var c = C;
+ var b = B;
+ var n = eval(C)+eval(B);
+ for(var i = 0; i < list.length; i++){
+  if(list[i] == w) continue;
+  var checks = check(list[i], 0);
+  if(checks.state == "def"){
+   if(checks.verify < 0) continue;
+   if(b){b--; continue;}
+   if(c == 0){
+//    t += "<div onclick=\"showSimilar('"+l+"','"+w+"',"+C+","+n+");\">continue</div>";
+    break;
+   }
+   console.log(getUni(list[i]) + ":" + checks.state + "(" + checks.verify + ")");
+   t += getSpanCheck(list[i],0)+"<br>";
+   c--;
+  }
+ }
+ return t;
+}
+function showAlphabet(l){
+ var t = "";
+ var special = 1/*new line*/+1/*backspace*/+1/*delete*/;//+1/*toggle language*/;
+ var sign = ["ENT", "BCSP", "DEL"];//, "TT"];
+ var func = ["insertToPos('"+l+"','\\n');","BackspacePos('" + l + "');","DeletePos('" + l + "');"];//,"toggle('TT');"];
+ var alphabet = Langs[l].lString + " ";
+ var c = 8;
+ t += "<table cellpadding=0 cellspacing=0>";
+ var h = alphabet.length + special;
+ for(var i = 0; i < h; i++){
+  if(i % c == 0) t += "<tr>"
+  if(i < alphabet.length){
+   t += "<td><div class=keybtn id=btn_" + l + " onclick=\"insertToPos('"+l+"','"+alphabet.substr(i,1)+"');Change('"+l+"');\">" + alphabet.substring(i,i+1) + "</div></td>";
+  }else{
+   t += "<td><div class=keybtnsp onclick=\"" + func[i-alphabet.length] + " Change('"+l+"');\">" + sign[i-alphabet.length] + "</div></td>";
+   
+  }
+  if(i % c == c - 1) t += "</tr>";
+  else if (i == h - 1) t += "</tr>";
+ }
+ t += "</table>";
+ document.getElementById("key_"+l).innerHTML=t;
+}
+
+function insertToPos(l, s){
+ var obj = document.getElementById('txt_'+l);
+ var str = obj.value;
+ console.log(Langs[l].cursor);
+ var t = str.substring(0,Langs[l].cursor) + s + str.substring(Langs[l].cursor, str.length);
+ Langs[l].cursor++;
+ obj.value=t;
+}
+function BackspacePos(l){
+ var obj = document.getElementById('txt_'+l);
+ var str = obj.value;
+ console.log(Langs[l].cursor);
+ var t = str.substring(0,Langs[l].cursor-1) + str.substring(Langs[l].cursor, str.length);
+ Langs[l].cursor--;
+ if(Langs[l].cursor < 0) Langs[l].cursor = 0;
+ obj.value=t;
+}
+function DeletePos(l){
+ var obj = document.getElementById('txt_'+l);
+ var str = obj.value;
+ console.log(Langs[l].cursor);
+ var t = str.substring(0,Langs[l].cursor) + str.substring(Langs[l].cursor + 1, str.length);
+ obj.value=t;
 }
