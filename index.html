@@ -103,6 +103,20 @@ $(document).ready(function(){
 <?php
   echo "YES!" . $_GET["name"];
 ?>
+<div
+  contenteditable="true"
+  oncut="return false"
+  onpaste="return false"
+  onkeydown="return false;"
+  style="user-drag: none;"
+  ondragenter="return false;" 
+  ondragleave="return false;" 
+  ondragover="return false;" 
+  ondrop="return false;">
+  Inner content
+</div>
+<div id="test2" onkeydown="return false;" contenteditable="true">012345678901234567890
+</div>
 <table style="position: absolute;left: 100px; top: 40px;">
 
 <tr><td>
@@ -123,7 +137,7 @@ $(document).ready(function(){
   <div class=label id=label_RU onclick="toggle('RU');"><center>RU</center></div>
  </div>
  <div class = container>
-  <div class = box id=uni_RU></div>
+  <div class = box id=uni_RU onkeydown="return false;" contenteditable="true"></div>
  </div>
  <div class = container>
   <textarea class=input id=txt_RU></textarea>
