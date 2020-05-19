@@ -295,7 +295,7 @@ function Info(){
  MoreInfo=(MoreInfo == 1)?0:1;
 }
 
-function getInfo(l,w, h){
+function getInfo(l,w, h,p){
  var st = check(w,0);
  var r = "";
  r += "<div style='position: relative; width: 190px; text-align: right;' onclick='removeInfo();'>X</div>";
@@ -324,7 +324,8 @@ function getInfo(l,w, h){
     
   r += "<table><tr><td>";
   r += "<div class=btn id=r";
-  r += " onclick=\"check('" + w + "', '1'); processing('"+l+"','" + w + "'," + h + ");";
+  r += " onclick=\"check('" + w + "', '1'); processing('"+l+"','" + w + "'," + h + "," + p + ");";
+//  r += "analyzeText();"
   if(h) r += "removeInfo();";
   else r += "GetWord();";
   r += "\">"
@@ -334,7 +335,8 @@ function getInfo(l,w, h){
   r += "</td><td>";
 
   r += "<div class=btn id=f";
-  r += " onclick=\"check('" + w + "', '-1'); processing('"+l+"','" + w + "'," + h + ");";
+  r += " onclick=\"check('" + w + "', '-1'); processing('"+l+"','" + w + "'," + h + "," + p + ");";
+//  r += "analyzeText();"
   if(h) r += "removeInfo();";
   else r += "GetWord();";
   r += "\">"
@@ -356,15 +358,23 @@ function removeInfo(){
 
 }
 
-function processing(l,w,h){
+function analyzeText(){
+ console.log("analyzeText();")
+ var w = document.getElementById("txt_"+Lang).value;
+ var f = getCode(w);
+ $("#uni_"+Lang)[0].innerHTML = anaLyze(w,Lang);
+}
+
+
+function processing(l,w,h,p){
   L(l);
   var st = check(w,0);
   if(st.state != 'def') add(w);
 
 
+  $("span#w"+p).css({'color':getStatusColor(st.verify)})
 
-
-  var r = getInfo(l,w,h);
+  var r = getInfo(l,w,h,p);
   $('div#info').html("<center>" + r + "</center>");
   $('div#info').show();
 
@@ -391,16 +401,22 @@ function processing(l,w,h){
 
 //  var w = $("textarea")[0].value;
 //  var w = $("#txt_"+Lang)[0].value;
-  var w = document.getElementById("txt_"+Lang).value;
-  f = getCode(w);
+//  var w = document.getElementById("txt_"+Lang).value;
+//  f = getCode(w);
 
-  $("#uni_"+Lang)[0].innerHTML = anaLyze(w,Lang);
-
-
+//  $("#uni_"+Lang)[0].innerHTML = anaLyze(w,Lang);
+//  analyzeText();
 
   return r;
 
 
+}
+
+function getStatusColor(verify){
+ var color = "#009900";
+ if(verify >0) color = "#880099";
+ else if(verify < 0 ) color = "#990000";
+ return color;
 }
 
 function getSpanArray(s){
@@ -408,8 +424,7 @@ function getSpanArray(s){
  var r = "";
    color = "#00FF00";
   if(st.state == "def"){
-   if(st.verify >0) color = "#EE00FF";
-   else if(st.verify < 0 ) color = "#FF0000";
+   color = getStatusColor(st.verify);
   }
   r += "<br><span style=\"color: " + color + ";\">" + getUni(s.w) + "</span>";
   if(st.state =='def'){
@@ -433,14 +448,13 @@ function getSpanCheck(s, id){
  var r = "";
    color = "#009900";
   if(st.state == "def"){
-   if(st.verify >0) color = "#880099";
-   else if(st.verify < 0 ) color = "#990000";
+   color = getStatusColor(st.verify);
   }
   r += "<span";
   r += " id=\"w" + id + "\"";
   if(id == FocusedLink) r += " style=\"color: #009999;\"";
   else r += " style=\"color: " + color + ";\"";
-  r += " onclick=\"processing('"+Lang+"','" + s + "',1);\"";
+  r += " onclick=\"processing('"+Lang+"','" + s + "',1," + id + ");\"";
   r += ">";
   r += getUni(s);
   r += "</span>";
