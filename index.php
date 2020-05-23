@@ -3,8 +3,34 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 <script src="jquery.min.js"></script>
 <script src="proc.js"></script>
-<script src="RU.js"></script>
-<script src="TT.js"></script>
+<?php
+
+function cfile($lang){
+ return "config_" . $lang;
+}
+
+function get_config($lang){
+ $cfile = cfile($lang);
+ $file_handle = fopen($cfile, "r") or die("Unable to open file!");
+ $c = fgets($file_handle);
+ fclose($file_handle);
+ return $c;
+}
+
+function jfile($lang, $c){
+ return  $file = $lang." (".$c.").js";
+}
+
+function load_jfile($lang){
+ echo "<script src='";
+ echo jfile($lang,get_config($lang));
+ echo "'></script>";
+}
+
+load_jfile("TT");
+load_jfile("RU");
+
+?>
 </head>
 <body>
 <script>
