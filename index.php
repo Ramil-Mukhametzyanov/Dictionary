@@ -93,8 +93,9 @@ $(document).ready(function(){
   $("#txt_RU").css("background-color","#00FFFF");
   $("#txt_TT").css("background-color","#AAAA00");
  });
-  
 
+ $("#c_RU").attr('title', Langs["RU"].WordsArray.length);  
+ $("#c_TT").attr('title', Langs["TT"].WordsArray.length);  
  
 });
  var Edit = {'TT': 0, 'RU': 1};
@@ -130,7 +131,7 @@ $(document).ready(function(){
 
 <tr><td>
  <div class = container>
-  <div class=label id=label_TT onclick="toggle('TT');"><center>TT</center></div>
+  <div class=label id=label_TT onclick="toggle('TT');"><a id=c_TT href=# title=""><center>TT</center></a></div>
  </div>
  <div class = container>
   <div class = box id=uni_TT></div>
@@ -143,7 +144,7 @@ $(document).ready(function(){
  </div>
 </td><td>
  <div class = container>
-  <div class=label id=label_RU onclick="toggle('RU');"><center>RU</center></div>
+  <div class=label id=label_RU onclick="toggle('RU');"><a id=c_RU href=# title=""><center>RU</center></a></div>
  </div>
  <div class = container>
   <div class = box id=uni_RU></div>

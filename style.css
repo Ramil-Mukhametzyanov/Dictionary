@@ -179,3 +179,13 @@ textarea{
  height: 300px;
  font-size: 18px;
 }
+a {
+    text-decoration: none;
+    color: black;
+}
+a:link, a:visited {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: none;
+}
