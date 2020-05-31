@@ -32,10 +32,6 @@ function auto_save(lang){
   setTimeout("auto_save('" + lang  + "');", 100);
 }
 
-
-load("TT");
 auto_save("TT");
-
-load("RU");
 auto_save("RU");
 

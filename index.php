@@ -165,6 +165,7 @@ $(document).ready(function(){
    <input class=btn id=save value=Save type=submit>
   </form>
 
+ <div class=btn id=more onclick="load('TT'); load('RU');"><br>Load</div>
  <div class=btn id=more onclick="Info();"><br>More/Less Info</div>
  <div class=btn id=add onclick="addAll();"><br>Add all</div>
  <div class=btn id=get onclick="GetWord();"><br>Get</div>
