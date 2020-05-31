@@ -13,7 +13,6 @@ function get_config($lang){
 }
 
 function new_config($c){
- return 0;
  if($c == 0) return 0;
  else return $c + 1;
 }

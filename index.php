@@ -104,8 +104,9 @@ $(document).ready(function(){
   $("#txt_TT").css("background-color","#AAAA00");
  });
 
- $("#c_RU").attr('title', Langs["RU"].WordsArray.length);  
- $("#c_TT").attr('title', Langs["TT"].WordsArray.length);  
+ $("#label_RU").attr('data-title', Langs["RU"].WordsArray.length);  
+// $("#label_TT").attr('data-title', Langs["TT"].WordsArray.length-Langs["TT"].DeletedWordsArray.length);  
+ $("#label_TT").attr('data-title', Langs["TT"].WordsArray.length);  
  
 });
  var Edit = {'TT': 0, 'RU': 1};
@@ -141,7 +142,7 @@ $(document).ready(function(){
 
 <tr><td>
  <div class = container>
-  <div class=label id=label_TT onclick="toggle('TT');"><a id=c_TT href=# title=""><center>TT</center></a></div>
+  <div class=label id=label_TT onclick="toggle('TT');"><center>TT</center></div>
  </div>
  <div class = container>
   <div class = box id=uni_TT></div>
@@ -154,7 +155,7 @@ $(document).ready(function(){
  </div>
 </td><td>
  <div class = container>
-  <div class=label id=label_RU onclick="toggle('RU');"><a id=c_RU href=# title=""><center>RU</center></a></div>
+  <div class=label id=label_RU onclick="toggle('RU');"><center>RU</center></div>
  </div>
  <div class = container>
   <div class = box id=uni_RU></div>
@@ -203,6 +204,10 @@ $(document).ready(function(){
 
 <script src="text.js"></script>
 <script src="dict.js"></script>
+<script>
+alert("\u0422\u0435\u043F\u0435\u0440\u044C, \u043C\u0430\u043C, \u043D\u0435 \u043D\u0443\u0436\u043D\u043E \u043D\u0430\u0436\u0438\u043C\u0430\u0442\u044C Save. \u041D\u043E\u0432\u044B\u0435 \u0441\u043B\u043E\u0432\u0430 \u0441\u043E\u0445\u0440\u0430\u043D\u044F\u044E\u0442\u0441\u044F \u0441\u0440\u0430\u0437\u0443 \u043F\u043E\u0441\u043B\u0435 \u043F\u0440\u043E\u0432\u0435\u0440\u043A\u0438.\n\u041D\u0430\u0436\u043C\u0438 \u043D\u0430 OK.");
+</script>
 
 </body>
+</html>
 </html>

@@ -189,3 +189,24 @@ a:link, a:visited {
 a:hover {
     text-decoration: none;
 }
+
+#label_TT:hover::after{ 
+ content: attr(data-title);
+ position: absolute;
+ left: 150%;
+ top: -50%;
+ z-index: 1;
+ font-size: 28px;
+ background: #CCCCCC;
+ border: 1px black dotted;
+}
+#label_RU:hover::after{ 
+ content: attr(data-title);
+ position: absolute;
+ left: 150%;
+ top: -50%;
+ z-index: 1;
+ font-size: 28px;
+ background: #CCCCCC;
+ border: 1px black dotted;
+}
