@@ -137,7 +137,7 @@ $(document).ready(function(){
   <div class = box id=uni_TT></div>
  </div>
  <div class = container>
-  <textarea type="text" spellcheck="false" class=input id=txt_TT></textarea>
+  <textarea type="text" onchange="save('TT');" spellcheck="false" class=input id=txt_TT></textarea>
  </div>
  <div class = container>
   <div class = key id=key_RU></div>
@@ -150,7 +150,7 @@ $(document).ready(function(){
   <div class = box id=uni_RU></div>
  </div>
  <div class = container>
-  <textarea type="text" spellcheck="false" class=input id=txt_RU></textarea>
+  <textarea type="text" onchange="save('RU');" spellcheck="false" class=input id=txt_RU></textarea>
  </div>
  <div class = container>
   <div class = key id=key_TT></div>
@@ -196,6 +196,7 @@ $(document).ready(function(){
 </script>
 -->
 
+<script src="text.js"></script>
 
 </body>
 </html>
