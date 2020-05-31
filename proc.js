@@ -365,6 +365,23 @@ function removeInfo(){
 
 }
 
+function replace(w,index,replacement){
+ return w.substr(0, index) + replacement + w.substr(index + replacement.length);
+}
+
+
+function replace_shy(id){
+ 
+var w = document.getElementById(id).value;
+ do{
+  var p = w.indexOf("\u00AD");
+  if(p>=0) w=replace(w,p,"-");
+ }while(p>=0);
+ 
+document.getElementById(id).value=w;
+ console.log("shy");
+}
+
 function analyzeText(){
  console.log("analyzeText();")
  var w = document.getElementById("txt_"+Lang).value;

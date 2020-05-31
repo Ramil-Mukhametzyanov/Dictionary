@@ -6,7 +6,6 @@ function load(lang) {
  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
  xhr.onreadystatechange = function(){
   if(xhr.readyState == XMLHttpRequest.DONE){
-   console.log("Load from server(" + lang + "):\n" + xhr.responseText);
    document.getElementById("txt_" + lang).value = xhr.responseText;
   }
  }
@@ -15,8 +14,6 @@ function load(lang) {
 
 function save(lang) {
  var text = document.getElementById("txt_" + lang).value;
-
- console.log("Save to server(" + lang + "):\n" + text);
  var xhr = new XMLHttpRequest();
  var body = 'm=' + encodeURIComponent("save");
  body += '&lang=' + encodeURIComponent(lang);
