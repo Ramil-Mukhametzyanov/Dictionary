@@ -2,7 +2,7 @@ function load(lang) {
  var xhr = new XMLHttpRequest();
  var body = 'm=' + encodeURIComponent("load");
  body += '&lang=' + encodeURIComponent(lang);
- xhr.open("POST", '/test/text.php', true);
+ xhr.open("POST", 'text.php', true);
  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
  xhr.onreadystatechange = function(){
   if(xhr.readyState == XMLHttpRequest.DONE){
@@ -22,7 +22,7 @@ function save(lang) {
  body += '&lang=' + encodeURIComponent(lang);
  body += '&text=' + encodeURIComponent(text);
  xhr.onreadystatechange = function(){};
- xhr.open("POST", '/test/text.php', true);
+ xhr.open("POST", 'text.php', true);
  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
  xhr.send(body);
 }
