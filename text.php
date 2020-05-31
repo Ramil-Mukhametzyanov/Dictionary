@@ -8,7 +8,7 @@ function get_text($lang){
  readfile(tfile($lang));
 }
 
-function save_test($lang, $text){
+function save_text($lang, $text){
  file_put_contents(tfile($lang), $text); 
 }
 
@@ -23,7 +23,7 @@ if($m == "load"){
 if($m == "save"){
  $text = $_POST["text"];
  if($text != ""){
-  save_test($lang, $text);
+  save_text($lang, $text);
  }
 }
 

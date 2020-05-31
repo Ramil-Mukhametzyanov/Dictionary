@@ -8,19 +8,27 @@ function get_config($lang){
  $cfile = cfile($lang);
  $file_handle = fopen($cfile, "r") or die("Unable to open file!");
  $c = fgets($file_handle);
- fclose($file_handle);
+ fclose($file_handle); 
  return $c;
 }
 
+function new_config($c){
+ return 0;
+ if($c == 0) return 0;
+ else return $c + 1;
+}
+
 function jfile($lang, $c){
- return  $file = $lang." (".$c.").js";
+ if($c == 0) $file = $lang.".js";
+ else $file = $lang." (".$c.").js";
+ return  $file;
 }
 
 function save($lang){
  $content = $_POST["content_".$lang];
  if ($content == "") return;
 
- $c = get_config($lang) + 1;
+ $c = new_config(get_config($lang));
  $file = jfile($lang, $c);
 
  echo "SAVE<BR>";

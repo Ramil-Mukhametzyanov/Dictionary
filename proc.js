@@ -138,13 +138,19 @@ function D(Word, Case=0){
  }
  if(!cur) cur = new Object();
  if((cur.count != undefined) && (cur.verify != undefined)){
+  d.state="def";
   cur.count = 0 + eval(cur.count) + eval(Word.f);
-  d.state="def";d.count=cur.count;d.verify=cur.verify;}
- else {
-  cur.count = Word.f; cur.verify = Word.e;
+  d.count=cur.count;
+  cur.verify = Word.e;
+  d.verify=cur.verify;
+ }else {
   if(Word.e >= 0) cur.pos = addToWordsArray(Word.c);
   else addToDeletedWordsArray(Word.c) // loaded nonverified to deleted 
-  d.state="add";d.count=cur.count;d.verify=cur.verify;
+  d.state="add";
+  cur.count = Word.f;
+  d.count=cur.count;
+  cur.verify = Word.e;
+  d.verify=cur.verify;
  }
  return d;
 }
@@ -279,6 +285,7 @@ function I(W,c){
 function SaveInterface(){
  var t = "";
  for(var i = 0; i < Langs[Lang].InfoDesc.length; i++){
+  if(i != 0) t += "\n";
   t += "I(\"";
   t += getCode(Langs[Lang].InfoDesc[i]);
   t += "\",";
@@ -369,10 +376,13 @@ function analyzeText(){
 function processing(l,w,h,p){
   L(l);
   var st = check(w,0);
-  if(st.state != 'def') add(w);
+  saveWord(l,st);
+  if(st.state != 'def'){
+   add(w);
+  }
+  
 
-
-  $("span#w"+p).css({'color':getStatusColor(st.verify)})
+  $("span#w"+l+p).css({'color':getStatusColor(st.verify)})
 
   var r = getInfo(l,w,h,p);
   $('div#info').html("<center>" + r + "</center>");
@@ -398,14 +408,6 @@ function processing(l,w,h,p){
   }).css("background", "#00EEEE");  
   $('div#info').css("background", "#00FFFF");
  }
-
-//  var w = $("textarea")[0].value;
-//  var w = $("#txt_"+Lang)[0].value;
-//  var w = document.getElementById("txt_"+Lang).value;
-//  f = getCode(w);
-
-//  $("#uni_"+Lang)[0].innerHTML = anaLyze(w,Lang);
-//  analyzeText();
 
   return r;
 
@@ -451,7 +453,7 @@ function getSpanCheck(s, id){
    color = getStatusColor(st.verify);
   }
   r += "<span";
-  r += " id=\"w" + id + "\"";
+  r += " id=\"w"+Lang + id + "\"";
   if(id == FocusedLink) r += " style=\"color: #009999;\"";
   else r += " style=\"color: " + color + ";\"";
   r += " onclick=\"processing('"+Lang+"','" + s + "',1," + id + ");\"";
@@ -544,14 +546,22 @@ function addAll(){
   if(a == -1){
    w = t;
    console.log("a == -1 -> " + w);
-   var st = check(w,0).state;
-   if(st != 'def') add(w);
+   var W = check(w,0);
+   var st = W.state;
+   if(st != 'def'){
+    saveWord(Lang,W);
+    add(w);
+   }    
    break;
   }else if(a != 0){
    w = t.substr(0,a)
    console.log("a != 0 -> " + w);
-   var st = check(w,0).state;
-   if(st != 'def') add(w);
+   var W = check(w,0);
+   var st = W.state;
+   if(st != 'def'){
+    saveWord(Lang,W);
+    add(w);
+   }    
    pos += a;
   }
   var l=s.substr(pos,1);
@@ -590,11 +600,13 @@ function saveToServer(){
 
 function removeDup(){
  var a = Langs[Lang].WordsArray;
- for(var i = 0; i < a.length; i++){
+ for(var i = a.length - 1; i >= 0; i--){
   var w = a[i];
   if(w == "") continue;
-  for(var j = i + 1; j < a.length; j++){
-   if(a[j] == w) a[j] = "";
+  for(var j = i - 1; j >= 0; j--){
+   if(a[j] == w){
+    a[j] = "";
+   }
   }
  }
 }
@@ -635,11 +647,15 @@ function getDictionary(m){
  var t = "";
  L(Lang);
  t += "L('" + Lang + "');";
+ t += "\n";
  t += getAlphabet();
+ t += "\n";
  removeDup();
  t += AddArray(Langs[Lang].WordsArray,m);
  checkDeleted()
+ t += "\n";
  t += AddArray(Langs[Lang].DeletedWordsArray,m);
+ t += "\n";
  t += SaveInterface();
  return t;
 }
@@ -661,8 +677,8 @@ function getAlphabet(){
   t += Langs[Lang].Alphabet[i].c;
   t += "'});";
  }
- t += "genAlphabet();";
  t += "\n";
+ t += "genAlphabet();";
  return t; 
 }
 

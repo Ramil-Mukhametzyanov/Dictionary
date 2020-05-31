@@ -18,14 +18,23 @@ function get_config($lang){
 }
 
 function jfile($lang, $c){
- return  $file = $lang." (".$c.").js";
+ if($c == 0) $file = $lang.".js";
+ else $file = $lang." (".$c.").js";
+ return  $file;
 }
 
-function load_jfile($lang){
+function load_jfile_old($lang){
  echo "<script src='";
  echo jfile($lang,get_config($lang));
  echo "'></script>";
 }
+
+function load_jfile($lang){
+ echo "<script>";
+ readfile(jfile($lang,get_config($lang)));
+ echo "</script>";
+}
+
 
 load_jfile("TT");
 load_jfile("RU");
@@ -159,12 +168,6 @@ $(document).ready(function(){
 </table>
 <div id=menu>
  <div class=box id=info></div>
-  <form id=form action="save.php" method="POST" onsubmit="return saveToServer();" target="_blank">
-   <input id=content_TT hidden name="content_TT" value="">
-   <input id=content_RU hidden name="content_RU" value="">
-   <input class=btn id=save value=Save type=submit>
-  </form>
-
  <div class=btn id=more onclick="load('TT'); load('RU');"><br>Load</div>
  <div class=btn id=more onclick="Info();"><br>More/Less Info</div>
  <div class=btn id=add onclick="addAll();"><br>Add all</div>
@@ -198,6 +201,7 @@ $(document).ready(function(){
 -->
 
 <script src="text.js"></script>
+<script src="dict.js"></script>
 
 </body>
 </html>
