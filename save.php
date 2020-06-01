@@ -44,6 +44,4 @@ function save($lang){
 save('TT');
 save('RU');
 
-echo "<script>window.close()</script>";
-
 ?>

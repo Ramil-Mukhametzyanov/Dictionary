@@ -179,38 +179,7 @@ textarea{
  height: 300px;
  font-size: 18px;
 }
-a {
-    text-decoration: none;
-    color: black;
-}
-a:link, a:visited {
-    text-decoration: none;
-}
-a:hover {
-    text-decoration: none;
-}
-/*
-#label_TT:hover::after{ 
- content: attr(data-title);
- position: absolute;
- left: 150%;
- top: -50%;
- z-index: 1;
- font-size: 28px;
- background: #CCCCCC;
- border: 1px black dotted;
-}
-#label_RU:hover::after{ 
- content: attr(data-title);
- position: absolute;
- left: 150%;
- top: -50%;
- z-index: 1;
- font-size: 28px;
- background: #CCCCCC;
- border: 1px black dotted;
-}
-*/
+
 #count_TT {
  position: absolute;
  left: 150%;

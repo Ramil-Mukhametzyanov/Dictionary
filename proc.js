@@ -1,5 +1,3 @@
-// 9:19 02.05.2020 15+15+15+15+15+15+15
-
 
 /*
 1. Upper-lower case importance
@@ -39,7 +37,6 @@ function L(lang){
 function addToWordsArray(c){
  var p = Langs[Lang].WordsArray.length;
  Langs[Lang].WordsArray[p] = c;
- document.getElementById("count_"+Lang).innerHTML = Langs[Lang].WordsArray.length;
  return p;
 }
 
@@ -307,7 +304,6 @@ function getInfo(l,w, h,p){
  var st = check(w,0);
  var r = "";
  r += "<div style='position: relative; width: 190px; text-align: right;' onclick='removeInfo();'>X</div>";
-// if(!MoreInfo) r += "<br>";
  r += "<div style=\"border: 1px solid green; width: 40px; \">" + l + "</div>";
  color = "#009900";
  if(st.state == "def"){
@@ -333,7 +329,6 @@ function getInfo(l,w, h,p){
   r += "<table><tr><td>";
   r += "<div class=btn id=r";
   r += " onclick=\"check('" + w + "', '1'); processing('"+l+"','" + w + "'," + h + "," + p + ");";
-//  r += "analyzeText();"
   if(h) r += "removeInfo();";
   else r += "GetWord();";
   r += "\">"
@@ -344,7 +339,6 @@ function getInfo(l,w, h,p){
 
   r += "<div class=btn id=f";
   r += " onclick=\"check('" + w + "', '-1'); processing('"+l+"','" + w + "'," + h + "," + p + ");";
-//  r += "analyzeText();"
   if(h) r += "removeInfo();";
   else r += "GetWord();";
   r += "\">"

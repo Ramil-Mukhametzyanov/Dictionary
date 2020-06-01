@@ -46,7 +46,6 @@ load_jfile("RU");
 <script>
  var Status = {'TT': 0, 'RU': 0};
  function Change(lang){
-//  console.log('Status:' + Status[lang] + "\n");
   replace_shy("txt_"+Lang);
   var w = document.getElementById('txt_'+lang).value
   $("#uni_"+lang)[0].innerHTML = anaLyze(w, lang);
@@ -106,13 +105,10 @@ $(document).ready(function(){
  });
 
  $("#label_RU").attr('data-title', Langs["RU"].WordsArray.length);  
-// $("#label_TT").attr('data-title', Langs["TT"].WordsArray.length-Langs["TT"].DeletedWordsArray.length);  
-// $("#label_TT").attr('data-title', Langs["TT"].WordsArray.length);
-// document.getElementById("label_TT").dataset.title=Langs["TT"].WordsArray.length;  
-// document.getElementById("label_RU").dataset.title=Langs["RU"].WordsArray.length;  
  document.getElementById("count_TT").innerHTML = Langs["TT"].WordsArray.length;
  $("#count_TT").hide();
  $("#label_TT").mouseover(function(){
+  document.getElementById("count_TT").innerHTML = Langs["TT"].WordsArray.length;
   $("#count_TT").show();
  });
  $("#label_TT").mouseout(function(){
@@ -121,6 +117,7 @@ $(document).ready(function(){
  document.getElementById("count_RU").innerHTML = Langs["RU"].WordsArray.length;
  $("#count_RU").hide();
  $("#label_RU").mouseover(function(){
+  document.getElementById("count_RU").innerHTML = Langs["RU"].WordsArray.length;
   $("#count_RU").show();
  });
  $("#label_RU").mouseout(function(){
@@ -223,19 +220,9 @@ $(document).ready(function(){
  </div>
 </div>
 
-<!--
-<script>
- L('RU');
- PrepareToSave();
- L('TT');
-</script>
--->
 
 <script src="text.js"></script>
 <script src="dict.js"></script>
-<script>
-//alert("\u0422\u0435\u043F\u0435\u0440\u044C, \u043C\u0430\u043C, \u043D\u0435 \u043D\u0443\u0436\u043D\u043E \u043D\u0430\u0436\u0438\u043C\u0430\u0442\u044C Save. \u041D\u043E\u0432\u044B\u0435 \u0441\u043B\u043E\u0432\u0430 \u0441\u043E\u0445\u0440\u0430\u043D\u044F\u044E\u0442\u0441\u044F \u0441\u0440\u0430\u0437\u0443 \u043F\u043E\u0441\u043B\u0435 \u043F\u0440\u043E\u0432\u0435\u0440\u043A\u0438.\n\u041D\u0430\u0436\u043C\u0438 \u043D\u0430 OK.");
-</script>
 
 </body>
 </html>

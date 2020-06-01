@@ -1,6 +1,5 @@
  var Status = {'TT': 0, 'RU': 0};
  function Change(lang){
-//  console.log('Status:' + Status[lang] + "\n");
   var w = document.getElementById('txt_'+lang).value
   $("#uni_"+lang)[0].innerHTML = anaLyze(w, lang);
   resize(lang);
