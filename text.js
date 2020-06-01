@@ -24,11 +24,13 @@ function save(lang) {
  xhr.send(body);
 }
 
+var DELAY = 20000;
+var HALF_PERIOD = 500;
 function auto_save(lang){
   save(lang);
-  setTimeout("auto_save('" + lang  + "');", 100);
+  setTimeout("auto_save('" + lang  + "');", 2*HALF_PERIOD);
 }
 
-auto_save("TT");
-auto_save("RU");
+setTimeout("auto_save('TT');", DELAY+HALF_PERIOD);
+setTimeout("auto_save('RU');", DELAY+2*HALF_PERIOD);
 

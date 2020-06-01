@@ -39,6 +39,7 @@ function L(lang){
 function addToWordsArray(c){
  var p = Langs[Lang].WordsArray.length;
  Langs[Lang].WordsArray[p] = c;
+ document.getElementById("count_"+Lang).innerHTML = Langs[Lang].WordsArray.length;
  return p;
 }
 

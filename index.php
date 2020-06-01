@@ -1,6 +1,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="style.css">
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <script src="jquery.min.js"></script>
 <script src="proc.js"></script>
 <?php
@@ -106,7 +107,26 @@ $(document).ready(function(){
 
  $("#label_RU").attr('data-title', Langs["RU"].WordsArray.length);  
 // $("#label_TT").attr('data-title', Langs["TT"].WordsArray.length-Langs["TT"].DeletedWordsArray.length);  
- $("#label_TT").attr('data-title', Langs["TT"].WordsArray.length);  
+// $("#label_TT").attr('data-title', Langs["TT"].WordsArray.length);
+// document.getElementById("label_TT").dataset.title=Langs["TT"].WordsArray.length;  
+// document.getElementById("label_RU").dataset.title=Langs["RU"].WordsArray.length;  
+ document.getElementById("count_TT").innerHTML = Langs["TT"].WordsArray.length;
+ $("#count_TT").hide();
+ $("#label_TT").mouseover(function(){
+  $("#count_TT").show();
+ });
+ $("#label_TT").mouseout(function(){
+  $("#count_TT").hide();
+ });
+ document.getElementById("count_RU").innerHTML = Langs["RU"].WordsArray.length;
+ $("#count_RU").hide();
+ $("#label_RU").mouseover(function(){
+  $("#count_RU").show();
+ });
+ $("#label_RU").mouseout(function(){
+  $("#count_RU").hide();
+ });
+
  
 });
  var Edit = {'TT': 0, 'RU': 1};
@@ -142,7 +162,9 @@ $(document).ready(function(){
 
 <tr><td>
  <div class = container>
-  <div class=label id=label_TT onclick="toggle('TT');"><center>TT</center></div>
+  <div class=label id=label_TT onclick="toggle('TT');"><center>TT</center>
+   <div id=count_TT></div>
+  </div>
  </div>
  <div class = container>
   <div class = box id=uni_TT></div>
@@ -155,7 +177,9 @@ $(document).ready(function(){
  </div>
 </td><td>
  <div class = container>
-  <div class=label id=label_RU onclick="toggle('RU');"><center>RU</center></div>
+  <div class=label id=label_RU onclick="toggle('RU');"><center>RU</center>
+   <div id=count_RU></div>
+  </div>
  </div>
  <div class = container>
   <div class = box id=uni_RU></div>
@@ -169,6 +193,11 @@ $(document).ready(function(){
 </td></tr>
 </table>
 <div id=menu>
+<?php
+  $folder = $_SERVER['PHP_SELF'];
+  if($folder == "/index.php") echo '<a href="/test">Test</a>';
+  if($folder == "/test/index.php") echo '<a href="/">Back</a>';
+?>
  <div class=box id=info></div>
  <div class=btn id=more onclick="load('TT'); load('RU');"><br>Load</div>
  <div class=btn id=more onclick="Info();"><br>More/Less Info</div>
@@ -205,7 +234,7 @@ $(document).ready(function(){
 <script src="text.js"></script>
 <script src="dict.js"></script>
 <script>
-alert("\u0422\u0435\u043F\u0435\u0440\u044C, \u043C\u0430\u043C, \u043D\u0435 \u043D\u0443\u0436\u043D\u043E \u043D\u0430\u0436\u0438\u043C\u0430\u0442\u044C Save. \u041D\u043E\u0432\u044B\u0435 \u0441\u043B\u043E\u0432\u0430 \u0441\u043E\u0445\u0440\u0430\u043D\u044F\u044E\u0442\u0441\u044F \u0441\u0440\u0430\u0437\u0443 \u043F\u043E\u0441\u043B\u0435 \u043F\u0440\u043E\u0432\u0435\u0440\u043A\u0438.\n\u041D\u0430\u0436\u043C\u0438 \u043D\u0430 OK.");
+//alert("\u0422\u0435\u043F\u0435\u0440\u044C, \u043C\u0430\u043C, \u043D\u0435 \u043D\u0443\u0436\u043D\u043E \u043D\u0430\u0436\u0438\u043C\u0430\u0442\u044C Save. \u041D\u043E\u0432\u044B\u0435 \u0441\u043B\u043E\u0432\u0430 \u0441\u043E\u0445\u0440\u0430\u043D\u044F\u044E\u0442\u0441\u044F \u0441\u0440\u0430\u0437\u0443 \u043F\u043E\u0441\u043B\u0435 \u043F\u0440\u043E\u0432\u0435\u0440\u043A\u0438.\n\u041D\u0430\u0436\u043C\u0438 \u043D\u0430 OK.");
 </script>
 
 </body>

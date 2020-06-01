@@ -189,7 +189,7 @@ a:link, a:visited {
 a:hover {
     text-decoration: none;
 }
-
+/*
 #label_TT:hover::after{ 
  content: attr(data-title);
  position: absolute;
@@ -209,4 +209,29 @@ a:hover {
  font-size: 28px;
  background: #CCCCCC;
  border: 1px black dotted;
+}
+*/
+#count_TT {
+ position: absolute;
+ left: 150%;
+ top: -50%;
+ z-index: 1;
+ font-size: 28px;
+ background: #CCCCCC;
+ border: 1px black dotted;
+ width: 100px;
+ height: 30px;
+ text-align: center;
+}
+#count_RU {
+ position: absolute;
+ left: 150%;
+ top: -50%;
+ z-index: 1;
+ font-size: 28px;
+ background: #CCCCCC;
+ border: 1px black dotted;
+ width: 100px;
+ height: 30px;
+ text-align: center;
 }
