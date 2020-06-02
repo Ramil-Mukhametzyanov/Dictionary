@@ -127,22 +127,22 @@ $(document).ready(function(){
  
 });
  var Edit = {'TT': 0, 'RU': 1};
- function toggle(l){
+ function toggle(cl){
   for(i in Edit){
-   if(i != l) $("#key_"+i).hide();
+   if(i != cl) $("#key_"+i).hide();
   }
-  if(Edit[l] == 1){
-   Edit[l] = 0;
-   $("#txt_"+l).hide();
-   $("#key_"+l).hide();
-   Change(l);
-  }else if(Edit[l] == 0){ 
-   Edit[l] = 1;
-   resize(l);
-   $("#txt_"+l).show();
-   $("#key_"+l).show();
+  if(Edit[cl] == 1){
+   Edit[cl] = 0;
+   $("#txt_"+cl).hide();
+   $("#key_"+cl).hide();
+   Change(cl);
+  }else if(Edit[cl] == 0){ 
+   Edit[cl] = 1;
+   resize(cl);
+   $("#txt_"+cl).show();
+   $("#key_"+cl).show();
    $("#info").hide();
-  }else Edit[l] = 0;
+  }else Edit[cl] = 0;
  }
  var Size = {'TT': 0, 'RU': 0};
  function resize(l){
@@ -154,15 +154,20 @@ $(document).ready(function(){
   if(h < 450) h = 450;
   document.getElementById('txt_'+l).style.height=h+"px";
  }
+ function Reload(l){
+  Status[l] = 1;
+  Change(l);
+  Status[l] = 0;
+ }
 </script>
 <table style="position: absolute;left: 100px; top: 40px;">
 
 <tr><td>
  <div class = container>
   <table><tr><td>
-   <div class=tbtn id=new_TT onclick="clearText('TT');">New</div>
+   <div class=tbtn id=new_TT onclick="clearText('TT'); Reload('TT');">New</div>
   </td><td>
-  <div class=tbtn id=load_TT onclick="loadText('TT');">Load</div>
+  <div class=tbtn id=load_TT onclick="loadText('TT'); Reload('TT');">Load</div>
   </td></tr></table>
  </div>
  <div class = container>
@@ -182,9 +187,9 @@ $(document).ready(function(){
 </td><td>
  <div style="position: absolute; top: 3px; left: 505px">
   <table><tr><td>
-   <div class=tbtn id=new_RU onclick="clearText('RU');">New</div>
+   <div class=tbtn id=new_RU onclick="clearText('RU'); Reload('RU');">New</div>
   </td><td>
-  <div class=tbtn id=load_RU onclick="loadText('RU');">Load</div>
+  <div class=tbtn id=load_RU onclick="loadText('RU'); Reload('RU');">Load</div>
   </td></tr></table>
  </div>
  <div class = container>
@@ -204,11 +209,6 @@ $(document).ready(function(){
 </td></tr>
 </table>
 <div id=menu>
-<?php
-  $folder = $_SERVER['PHP_SELF'];
-  if($folder == "/index.php") echo '<a href="/test">Test</a>';
-  if($folder == "/test/index.php") echo '<a href="/">Back</a>';
-?>
  <div class=box id=info></div>
  <div class=btn id=more onclick="Info();"><br>More/Less Info</div>
  <div class=btn id=add onclick="addAll();"><br>Add all</div>
@@ -232,6 +232,11 @@ $(document).ready(function(){
   </tr></table>
  </div>
 </div>
+<?php
+  $folder = $_SERVER['PHP_SELF'];
+  if($folder == "/index.php") echo '<a href="/test">Test</a>';
+  if($folder == "/test/index.php") echo '<a href="/">Back</a>';
+?>
 
 
 <script src="text.js"></script>
