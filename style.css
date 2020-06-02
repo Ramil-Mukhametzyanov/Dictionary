@@ -78,6 +78,13 @@
  left: 655px;
 }
 
+.tbtn {
+ border: 1px solid #AAAA00;
+ background: #00EE00;
+ font-size: 15px;
+ text-align: center;
+}
+
 
 .btn {
  border: 1px solid #AAAA00;
@@ -153,6 +160,23 @@ textarea{
  height: 70px;
  text-align: center;
 }
+.tbtn#load_TT{
+ width: 40px;
+ height: 20px;
+}
+.tbtn#new_TT{
+ width: 40px;
+ height: 20px;
+}
+.tbtn#load_RU{
+ width: 40px;
+ height: 20px;
+}
+.tbtn#new_RU{
+ width: 40px;
+ height: 20px;
+}
+
 .btn#load{
  width: 70px;
  height: 35px;

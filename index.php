@@ -159,6 +159,13 @@ $(document).ready(function(){
 
 <tr><td>
  <div class = container>
+  <table><tr><td>
+   <div class=tbtn id=new_TT onclick="clearText('TT');">New</div>
+  </td><td>
+  <div class=tbtn id=load_TT onclick="loadText('TT');">Load</div>
+  </td></tr></table>
+ </div>
+ <div class = container>
   <div class=label id=label_TT onclick="toggle('TT');"><center>TT</center>
    <div id=count_TT></div>
   </div>
@@ -173,6 +180,13 @@ $(document).ready(function(){
   <div class = key id=key_RU></div>
  </div>
 </td><td>
+ <div style="position: absolute; top: 3px; left: 505px">
+  <table><tr><td>
+   <div class=tbtn id=new_RU onclick="clearText('RU');">New</div>
+  </td><td>
+  <div class=tbtn id=load_RU onclick="loadText('RU');">Load</div>
+  </td></tr></table>
+ </div>
  <div class = container>
   <div class=label id=label_RU onclick="toggle('RU');"><center>RU</center>
    <div id=count_RU></div>
@@ -196,8 +210,6 @@ $(document).ready(function(){
   if($folder == "/test/index.php") echo '<a href="/">Back</a>';
 ?>
  <div class=box id=info></div>
- <div class=btn id=new onclick="clearText('TT'); clearText('RU');"><br>New</div>
- <div class=btn id=load onclick="loadText('TT'); loadText('RU');"><br>Load</div>
  <div class=btn id=more onclick="Info();"><br>More/Less Info</div>
  <div class=btn id=add onclick="addAll();"><br>Add all</div>
  <div class=btn id=get onclick="GetWord();"><br>Get</div>
