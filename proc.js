@@ -293,7 +293,25 @@ function SaveInterface(){
  return t;
 }
 
+function showInText(l,w){
+ for(var i = 0; i < Founded.count; i++){
+  if(Founded.Array[i].w == w) break;
+ }
+ if(i == Founded.count) return;
+ var e = Edit[l];
+ if(e == 0){
+  toggle(l); 
+  $("#info").show();
+ }
+ var obj = document.getElementById('txt_'+l);
+ obj.select();
 
+ var cur = Founded.Array[i].cur;
+ obj.selectionStart = Founded.Array[i].links[cur].b; 
+ obj.selectionEnd = Founded.Array[i].links[cur].e; 
+ Founded.Array[i].cur++;
+ Founded.Array[i].cur = Founded.Array[i].cur % Founded.Array[i].links.length; 
+}
 
 var MoreInfo = 0;
 function Info(){
@@ -311,6 +329,7 @@ function getInfo(l,w, h,p){
   else if(st.verify < 0 ) color = "#990000";
  }
  r += "<span style=\"font-size: 28px; color: " + color + ";\">" + getUni(w) + "</span>";
+ r += " <span onclick=\"showInText('" + l + "','" + w + "')\"><img style=\"width: 20px; height: 20px;\" src=revizor.png></span>";
  if(st.state =='def'){
   if(MoreInfo){
    r += "<br>" + Langs[l].InfoDesc[7];
@@ -360,22 +379,6 @@ function removeInfo(){
 
 }
 
-function replace(w,index,replacement){
- return w.substr(0, index) + replacement + w.substr(index + replacement.length);
-}
-
-
-function replace_shy(id){
- 
-var w = document.getElementById(id).value;
- do{
-  var p = w.indexOf("\u00AD");
-  if(p>=0) w=replace(w,p,"-");
- }while(p>=0);
- 
-document.getElementById(id).value=w;
- console.log("shy");
-}
 
 function analyzeText(){
  console.log("analyzeText();")
@@ -501,6 +504,7 @@ function addToFounded(L){
  Founded.Array[i].links[0] = new Object();
  Founded.Array[i].links[0].b = L.b;
  Founded.Array[i].links[0].e = L.e;
+ Founded.Array[i].cur = 0;
  Founded.Array[i].lc = 1;
  Founded.count++;
  return i;
@@ -510,40 +514,41 @@ function addToFounded(L){
 var busy = 0;
 
 function anaLyze(s,l){
-if( busy == 1){
- setTimeout("anaLyze('"+s+"','"+l+"');",100);
- return;
-}
-busy = 1;
-L(l);
-Founded.count = 0
- var t= getCode(s);
+ if( busy == 1){
+  setTimeout("anaLyze('"+s+"','"+l+"');",100);
+  return;
+ }
+ busy = 1;
+ L(l);
+ Founded.count = 0
+ var t = getCode(s);
  var pos = 0;
  var r = "";
-while(t.length > 0){
- var a = t.search("_");
- if(a == -1){
-  var aL = new Object();
-//  aL.b = pos; aL.e = pos + t.length;
-  aL.w = t;
-  var link = addToFounded(aL);
-  r += getSpanCheck(aL.w,link);
-  break;
- }else if(a != 0){
-  var aL = new Object();
-//  aL.b = pos; aL.e = pos + a;
-  aL.w = t.substr(0,a);
-  var link = addToFounded(aL);
-  r += getSpanCheck(aL.w,link);
-  pos += a;
+ while(t.length > 0){
+  var a = t.search("_");
+  if(a == -1){
+   var aL = new Object();
+   aL.b = pos; aL.e = pos + t.length;
+   aL.w = t;
+   var link = addToFounded(aL);
+   r += getSpanCheck(aL.w,link);
+   break;
+  }else if(a != 0){
+   var aL = new Object();
+   aL.b = pos; aL.e = pos + a;
+   aL.w = t.substr(0,a);
+   var link = addToFounded(aL);
+   r += getSpanCheck(aL.w,link);
+   pos += a;
+  }
+  var l=s.substr(pos,1);
+//  if(l == " ") r += " ";
+  if(l == " ") r += " ";
+  else if(l == '\n') r += "<br>";
+  else r+= l;
+  a++; pos++;
+  t = t.substr(a, t.length);
  }
- var l=s.substr(pos,1);
- if(l == " ") r += " ";
- else if(l == '\n') r += "<br>";
- else r+= l;
- a++; pos++;
- t = t.substr(a, t.length);
-}
  busy = 0;
  return r;
 }

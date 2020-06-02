@@ -4,6 +4,7 @@
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <script src="jquery.min.js"></script>
 <script src="proc.js"></script>
+<script src="move.js"></script>
 <?php
 
 function cfile($lang){
@@ -60,7 +61,6 @@ $(document).ready(function(){
  $("#txt_TT").focus(function(){
   $(this).css("background-color","#FFFF00");
   Status['TT'] = 1;
-  Change('TT');
   $("#key_RU").hide();
   $("#key_TT").show();
   })
@@ -75,7 +75,6 @@ $(document).ready(function(){
  $("#txt_RU").focus(function(){
   $(this).css("background-color","#00FFFF");
   Status['RU'] = 1;
-  Change('RU');
   $("#key_TT").hide();
   $("#key_RU").show();
   })
@@ -150,7 +149,6 @@ $(document).ready(function(){
   var h = document.getElementById('txt_'+l).scrollHeight;
   if(h == 0) h = Size[l];
   Size[l] = h;
-  console.log('h: ' + h);
   if(h < 450) h = 450;
   document.getElementById('txt_'+l).style.height=h+"px";
  }
@@ -221,7 +219,7 @@ $(document).ready(function(){
 </td></tr>
 </table>
 <div id=menu>
- <div class=box id=info></div>
+ <div class=box onmousedown="ondown();" id=info></div>
  <div class=btn id=more onclick="Info();"><br>More/Less Info</div>
  <div class=btn id=add onclick="addAll();"><br>Add all</div>
  <div class=btn id=get onclick="GetWord();"><br>Get</div>

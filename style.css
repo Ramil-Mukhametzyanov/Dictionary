@@ -6,6 +6,7 @@
  width: 200px;
  user-select: none;
  border: 1px solid #AAAA00;
+ white-space: pre-wrap;
 }
 .container{
  position: absolute;

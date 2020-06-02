@@ -1,3 +1,20 @@
+function replace(w,index,replacement){
+ return w.substr(0, index) + replacement + w.substr(index+1,w.length);
+}
+
+
+
+function replace_shy(id){
+ 
+var w = document.getElementById(id).value;
+ do{
+  var p = w.indexOf("\u00AD");
+  if(p>=0) w=replace(w,p,"");
+ }while(p>=0);
+ 
+document.getElementById(id).value=w;
+}
+
 function copyText(lang) {
  var obj =  document.getElementById("txt_" + lang);
  var e = Edit[lang];
