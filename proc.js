@@ -293,10 +293,22 @@ function SaveInterface(){
  return t;
 }
 
-function showInText(l,w){
+function findInFounded(l,w){
  for(var i = 0; i < Founded.count; i++){
   if(Founded.Array[i].w == w) break;
  }
+ if(i == Founded.count) return -1;
+ return i;
+}
+
+function getWordNumber(l,w){
+ var i = findInFounded(l,w)
+ if(i == -1) return 0;
+ return Founded.Array[i].links.length;
+}
+
+function showInText(l,w){
+ var i = findInFounded(l,w);
  if(i == Founded.count) return;
  var e = Edit[l];
  if(e == 0){
@@ -309,6 +321,7 @@ function showInText(l,w){
  var cur = Founded.Array[i].cur;
  obj.selectionStart = Founded.Array[i].links[cur].b; 
  obj.selectionEnd = Founded.Array[i].links[cur].e; 
+ document.getElementById("cc").innerHTML = Founded.Array[i].cur + 1;
  Founded.Array[i].cur++;
  Founded.Array[i].cur = Founded.Array[i].cur % Founded.Array[i].links.length; 
 }
@@ -330,6 +343,7 @@ function getInfo(l,w, h,p){
  }
  r += "<span style=\"font-size: 28px; color: " + color + ";\">" + getUni(w) + "</span>";
  r += " <span onclick=\"showInText('" + l + "','" + w + "')\"><img style=\"width: 20px; height: 20px;\" src=revizor.png></span>";
+ r += " <span id=cc>1</span> / " + getWordNumber(l,w);
  if(st.state =='def'){
   if(MoreInfo){
    r += "<br>" + Langs[l].InfoDesc[7];

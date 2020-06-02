@@ -140,6 +140,7 @@ $(document).ready(function(){
    resize(cl);
    $("#txt_"+cl).show();
    $("#key_"+cl).show();
+   resize(cl);
    $("#info").hide();
   }else Edit[cl] = 0;
  }

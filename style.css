@@ -6,7 +6,6 @@
  width: 200px;
  user-select: none;
  border: 1px solid #AAAA00;
- white-space: pre-wrap;
 }
 .container{
  position: absolute;
@@ -30,6 +29,7 @@
  top: 25px;
  font-family: 'Times New Roman', Times, serif, Georgia;
  font-size: 20px;
+ white-space: pre-wrap;
 }
 #txt_tt{
  width: 500px;
@@ -61,6 +61,7 @@
  top: 25px;
  font-family: 'Times New Roman', Times, serif, Georgia;
  font-size: 20px;
+ white-space: pre-wrap;
 }
 #txt_ru{
  width: 500px;
