@@ -1,3 +1,17 @@
+function copyText(lang) {
+ var obj =  document.getElementById("txt_" + lang);
+ var e = Edit[lang];
+ if(e == 0) toggle(lang);
+ obj.focus();
+ obj.select();
+
+ document.execCommand('copy');
+ obj.selectionStart = 0;
+ obj.selectionEnd = 0;
+ if(e == 0) toggle(lang);
+ console.log("copied: " + lang);
+}
+
 function clearText(lang) {
  document.getElementById("txt_" + lang).value = "";
 }

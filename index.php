@@ -126,7 +126,7 @@ $(document).ready(function(){
 
  
 });
- var Edit = {'TT': 0, 'RU': 1};
+ var Edit = {'TT': 1, 'RU': 1};
  function toggle(cl){
   for(i in Edit){
    if(i != cl) $("#key_"+i).hide();
@@ -159,6 +159,14 @@ $(document).ready(function(){
   Change(l);
   Status[l] = 0;
  }
+
+ function SE(){
+  console.log("Status:");
+  console.log(Status);
+  console.log("Edit:");
+  console.log(Edit);
+  setTimeout("SE();", 1000)
+ }
 </script>
 <table style="position: absolute;left: 100px; top: 40px;">
 
@@ -168,6 +176,8 @@ $(document).ready(function(){
    <div class=tbtn id=new_TT onclick="clearText('TT'); Reload('TT');">New</div>
   </td><td>
   <div class=tbtn id=load_TT onclick="loadText('TT'); Reload('TT');">Load</div>
+  </td><td>
+  <div class=tbtn id=copy_TT onclick="copyText('TT');">Copy</div>
   </td></tr></table>
  </div>
  <div class = container>
@@ -190,6 +200,8 @@ $(document).ready(function(){
    <div class=tbtn id=new_RU onclick="clearText('RU'); Reload('RU');">New</div>
   </td><td>
   <div class=tbtn id=load_RU onclick="loadText('RU'); Reload('RU');">Load</div>
+  </td><td>
+  <div class=tbtn id=copy_RU onclick="copyText('RU');">Copy</div>
   </td></tr></table>
  </div>
  <div class = container>
