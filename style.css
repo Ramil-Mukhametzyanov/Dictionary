@@ -153,7 +153,13 @@ textarea{
  height: 70px;
  text-align: center;
 }
-.btn#more{
+.btn#load{
+ width: 70px;
+ height: 35px;
+}
+.btn#new{
+ width: 70px;
+ height: 35px;
 }
 .label{
  border: 1px solid green;

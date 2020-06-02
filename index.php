@@ -196,7 +196,8 @@ $(document).ready(function(){
   if($folder == "/test/index.php") echo '<a href="/">Back</a>';
 ?>
  <div class=box id=info></div>
- <div class=btn id=more onclick="load('TT'); load('RU');"><br>Load</div>
+ <div class=btn id=new onclick="clearText('TT'); clearText('RU');"><br>New</div>
+ <div class=btn id=load onclick="loadText('TT'); loadText('RU');"><br>Load</div>
  <div class=btn id=more onclick="Info();"><br>More/Less Info</div>
  <div class=btn id=add onclick="addAll();"><br>Add all</div>
  <div class=btn id=get onclick="GetWord();"><br>Get</div>

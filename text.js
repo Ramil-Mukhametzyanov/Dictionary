@@ -1,4 +1,8 @@
-function load(lang) {
+function clearText(lang) {
+ document.getElementById("txt_" + lang).value = "";
+}
+
+function loadText(lang) {
  var xhr = new XMLHttpRequest();
  var body = 'm=' + encodeURIComponent("load");
  body += '&lang=' + encodeURIComponent(lang);
