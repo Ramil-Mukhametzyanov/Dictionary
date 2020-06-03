@@ -309,7 +309,7 @@ function getWordNumber(l,w){
 
 function showInText(l,w){
  var i = findInFounded(l,w);
- if(i == Founded.count) return;
+ if(i == -1) return;
  var e = Edit[l];
  if(e == 0){
   toggle(l); 
