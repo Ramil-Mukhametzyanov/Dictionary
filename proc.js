@@ -29,6 +29,8 @@ function L(lang){
   Langs[Lang].changed = 0;
   Langs[Lang].cursor = 0;
   Langs[Lang].current = 0;
+  Langs[Lang].CurPage = -1;
+
  }
  console.log("Language: " + Lang);
 } 
@@ -437,6 +439,16 @@ function processing(l,w,h,p){
   }).css("background", "#00EEEE");  
   $('div#info').css("background", "#00FFFF");
  }
+ if(Lang == 'BA'){
+  $("div.btn")
+  .mouseover(function(){
+   $(this).css("background", "#00FF00");
+  })
+  .mouseout(function(){
+   $(this).css("background", "#00EE00");
+  }).css("background", "#00EE00");  
+  $('div#info').css("background", "#00FF00");
+ }
 
   return r;
 
@@ -755,15 +767,14 @@ function GetWord(){
 }
 
 
-var CurPage = -1;
 var PageSize = 50;
 function GetPage(dr){
  var t = "";
- CurPage += dr;
- if( (CurPage * PageSize >= Langs[Lang].WordsArray.length) || (CurPage * PageSize < 0) ){
-  CurPage -= dr; return;
+ Langs[Lang].CurPage += dr;
+ if( (Langs[Lang].CurPage * PageSize >= Langs[Lang].WordsArray.length) || (Langs[Lang].CurPage * PageSize < 0) ){
+  Langs[Lang].CurPage -= dr; return;
  }
- var indd = CurPage * PageSize;
+ var indd = Langs[Lang].CurPage * PageSize;
  for(var i = 0; i < PageSize && indd < Langs[Lang].WordsArray.length; i++){
   t += getUni(Langs[Lang].WordsArray[indd]) + " ";
   indd ++;
@@ -879,26 +890,30 @@ function showSimilar(l,w,C,B){
 }
 function showAlphabet(l){
  var t = "";
- var special = 1/*new line*/+1/*backspace*/+1/*delete*/;//+1/*toggle language*/;
- var sign = ["ENT", "BCSP", "DEL"];//, "TT"];
- var func = ["insertToPos('"+l+"','\\n');","BackspacePos('" + l + "');","DeletePos('" + l + "');"];//,"toggle('TT');"];
+ var punct = ['.',',',':',';','-','?','!','(',')'];
+ var sign = ["ENT", "BCSP", "DEL","\""];
+ var func = ["insertToPos('"+l+"','\\n');","BackspacePos('" + l + "');","DeletePos('"+ l + "');"];//,"insertToPos('"+l+"','\\\"');"];
+// var special = 1/*new line*/+1/*backspace*/+1/*delete*/;//+1/*toggle language*/;
+ var special = func.length;
  var alphabet = Langs[l].lString + " ";
  var c = 8;
  t += "<table cellpadding=0 cellspacing=0>";
- var h = alphabet.length + special;
+ var h = alphabet.length + special+punct.length;
  for(var i = 0; i < h; i++){
   if(i % c == 0) t += "<tr>"
   if(i < alphabet.length){
    t += "<td><div class=keybtn id=btn_" + l + " onclick=\"insertToPos('"+l+"','"+alphabet.substr(i,1)+"');Change('"+l+"');\">" + alphabet.substring(i,i+1) + "</div></td>";
-  }else{
+  }else if(i < alphabet.length + special){
    t += "<td><div class=keybtnsp onclick=\"" + func[i-alphabet.length] + " Change('"+l+"');\">" + sign[i-alphabet.length] + "</div></td>";
-   
+  }else{ 
+   var j = i-alphabet.length-special;
+   t += "<td><div class=keybtn id=btn_" + l + " onclick=\"insertToPos('"+l+"','"+punct[j]+"');Change('"+l+"');\">" + punct[j]+ "</div></td>";
   }
   if(i % c == c - 1) t += "</tr>";
   else if (i == h - 1) t += "</tr>";
  }
  t += "</table>";
- document.getElementById("key_"+l).innerHTML=t;
+  document.getElementById("key_"+l).innerHTML=t;
 }
 
 function insertToPos(l, s){

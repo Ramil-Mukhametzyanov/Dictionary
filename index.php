@@ -63,6 +63,7 @@ $(document).ready(function(){
   $(this).css("background-color","#FFFF00");
   Status['TT'] = 1;
   $("#key_RU").hide();
+  $("#key_BA").hide();
   $("#key_TT").show();
   })
 
@@ -78,6 +79,7 @@ $(document).ready(function(){
   $(this).css("background-color","#00FF00");
   Status['BA'] = 1;
   $("#key_RU").hide();
+  $("#key_TT").hide();
   $("#key_BA").show();
   })
 
@@ -197,6 +199,7 @@ $(document).ready(function(){
   document.getElementById('txt_'+l).style.height=h+"px";
  }
  function Reload(l){
+  if(l == '') l = Llang;
   Status[l] = 1;
   Change(l);
   Status[l] = 0;
@@ -213,18 +216,18 @@ $(document).ready(function(){
 <table cellpadding=0 cellspacing=0 style="position: absolute;left: 100px; top: 40px;">
 
 <tr><td>
-<div id=interface_BA style="display: none">
  <div class = container>
   <table><tr><td>
-   <div class=tbtn id=new_BA onclick="clearText('BA'); Reload('BA');">New</div>
+   <div class=tbtn id=new_left onclick="clearText(''); Reload('');">New</div>
   </td><td>
-  <div class=tbtn id=load_BA onclick="loadText('BA'); Reload('BA');">Load</div>
+   <div class=tbtn id=load_left onclick="loadText(''); Reload('');">Load</div>
   </td><td>
-  <div class=tbtn id=copy_BA onclick="copyText('BA');">Copy</div>
+   <div class=tbtn id=copy_left onclick="copyText('');">Copy</div>
   </td><td>
-  <div class=tbtn id=switch_BA onclick="Switch('TT');">Lang</div>
+   <div class=tbtn id=switch_left onclick="Switch();">Lang</div>
   </td></tr></table>
  </div>
+<div id=interface_BA style="display: none">
  <div class = container>
   <div class=label id=label_BA onclick="toggle('BA');"><center>BA</center>
    <div id=count_BA></div>
@@ -237,19 +240,7 @@ $(document).ready(function(){
   <textarea type="text" onchange="save('BA');" spellcheck="false" class=input id=txt_BA></textarea>
  </div>
 </div>
-</td><td>
 <div id=interface_TT>
- <div class = container>
-  <table><tr><td>
-   <div class=tbtn id=new_TT onclick="clearText('TT'); Reload('TT');">New</div>
-  </td><td>
-  <div class=tbtn id=load_TT onclick="loadText('TT'); Reload('TT');">Load</div>
-  </td><td>
-  <div class=tbtn id=copy_TT onclick="copyText('TT');">Copy</div>
-  </td><td>
-  <div class=tbtn id=switch_TT onclick="Switch('BA');">Lang</div>
-  </td></tr></table>
- </div>
  <div class = container>
   <div class=label id=label_TT onclick="toggle('TT');"><center>TT</center>
    <div id=count_TT></div>

@@ -16,6 +16,7 @@ document.getElementById(id).value=w;
 }
 
 function copyText(lang) {
+ if(lang == '') lang = Llang;
  var obj =  document.getElementById("txt_" + lang);
  var e = Edit[lang];
  if(e == 0) toggle(lang);
@@ -30,10 +31,12 @@ function copyText(lang) {
 }
 
 function clearText(lang) {
+ if(lang == '') lang = Llang;
  document.getElementById("txt_" + lang).value = "";
 }
 
 function loadText(lang) {
+ if(lang == '') lang = Llang;
  var xhr = new XMLHttpRequest();
  var body = 'm=' + encodeURIComponent("load");
  body += '&lang=' + encodeURIComponent(lang);
@@ -63,9 +66,10 @@ var DELAY = 20000;
 var HALF_PERIOD = 500;
 function auto_save(lang){
   save(lang);
-  setTimeout("auto_save('" + lang  + "');", 2*HALF_PERIOD);
+  setTimeout("auto_save('" + lang  + "');", 3*HALF_PERIOD);
 }
 
-setTimeout("auto_save('TT');", DELAY+HALF_PERIOD);
+setTimeout("auto_save('TT');", DELAY+1*HALF_PERIOD);
 setTimeout("auto_save('RU');", DELAY+2*HALF_PERIOD);
+setTimeout("auto_save('BA');", DELAY+3*HALF_PERIOD);
 

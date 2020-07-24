@@ -1,7 +1,7 @@
 <?php
 
 function tfile($lang){
- return "text_" . $lang . ".txt";
+ return $lang."/"."text_" . $lang . ".txt";
 }
 
 function get_text($lang){
