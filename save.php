@@ -1,7 +1,7 @@
 <?php
 
 function cfile($lang){
- return "config_" . $lang;
+ return $lang."/"."config_" . $lang;
 }
 
 function get_config($lang){
@@ -20,7 +20,7 @@ function new_config($c){
 function jfile($lang, $c){
  if($c == 0) $file = $lang.".js";
  else $file = $lang." (".$c.").js";
- return  $file;
+ return  $lang."/".$file;
 }
 
 function save($lang){
@@ -41,6 +41,7 @@ function save($lang){
  file_put_contents($file, $content);
 }
 
+save('BA');
 save('TT');
 save('RU');
 

@@ -10,6 +10,9 @@ function saveWord(lang, word) {
  body += '&frequency=' + encodeURIComponent(word.count);
 
  xhr.onreadystatechange = function(){};
+ xhr.onerror = function(){
+  alert(`Ошибка соединения`);
+ };
  xhr.open("POST", 'dict.php', true);
  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
  xhr.send(body);
@@ -26,6 +29,9 @@ function saveDictToServer(){
   body += "content_" + Lang + "=" + getDictionary('D');
  }
  var xhr = new XMLHttpRequest();
+ xhr.onerror = function(){
+  alert(`Ошибка соединения`);
+ };
  xhr.open("POST", 'save.php', true);
  xhr.setRequestHeader('content-Type', 'application/x-www-form-urlencoded');
  xhr.send(body);

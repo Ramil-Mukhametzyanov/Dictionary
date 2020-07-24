@@ -1,3 +1,6 @@
+a {
+font-size: 30px;
+}
 .large {
  font-size: 20px;
 }
@@ -15,6 +18,7 @@
 .key {
  width: 400px;
  height: 300px;
+ height: 350px;
  user-select: none;
 }
 #label_TT{
@@ -41,7 +45,7 @@
 }
 .key#key_ru {
  background: #00EEEE;
- z-index: 0;
+ z-index: 1	;
  position: fixed;
  left: 155px;
  top: 170px;
@@ -174,6 +178,10 @@ textarea{
  width: 40px;
  height: 20px;
 }
+.tbtn#switch_TT{
+ width: 40px;
+ height: 20px;
+}
 .tbtn#load_RU{
  width: 40px;
  height: 20px;
@@ -233,6 +241,66 @@ textarea{
  text-align: center;
 }
 #count_RU {
+ position: absolute;
+ left: 150%;
+ top: -50%;
+ z-index: 1;
+ font-size: 28px;
+ background: #CCCCCC;
+ border: 1px black dotted;
+ width: 100px;
+ height: 30px;
+ text-align: center;
+}
+
+#label_BA{
+ position: relative;
+ right: -230px;
+}
+.box#uni_BA {
+ width: 498px;
+ min-height: 448px;
+ background: #DDEEDD;
+ position: relative;
+ top: 25px;
+ font-family: 'Times New Roman', Times, serif, Georgia;
+ font-size: 20px;
+ white-space: pre-wrap;
+}
+#txt_BA{
+ width: 500px;
+ height: 450px;
+ position: relative;
+ top: 25px;
+ font-family: 'Times New Roman', Times, serif, Georgia;
+ font-size: 20px;
+}
+.key#key_BA {
+ background: #00EE00;
+ z-index: 0;
+ position: fixed;
+ top: 168px;
+ left: 655px;
+}
+.tbtn#load_BA{
+ width: 40px;
+ height: 20px;
+}
+.tbtn#new_BA{
+ width: 40px;
+ height: 20px;
+}
+.tbtn#copy_BA{
+ width: 40px;
+ height: 20px;
+}
+.tbtn#switch_BA{
+ width: 40px;
+ height: 20px;
+}
+
+
+#count_BA {
  position: absolute;
  left: 150%;
  top: -50%;
