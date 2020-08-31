@@ -6,24 +6,26 @@
 <script src="proc.js"></script>
 <script src="move.js"></script>
 <script src="switch.js"></script>
+<script src="users.js"></script>
 <?php
 
-function cfile($lang){
- return $lang."/"."config_" . $lang;
+$user = $_GET['username'];
+function cfile($user,$lang){
+ return $user."/".$lang."/"."config_" . $lang;
 }
 
-function get_config($lang){
- $cfile = cfile($lang);
+function get_config($user,$lang){
+ $cfile = cfile($user,$lang);
  $file_handle = fopen($cfile, "r") or die("Unable to open file!");
  $c = fgets($file_handle);
  fclose($file_handle);
  return $c;
 }
 
-function jfile($lang, $c){
+function jfile($user,$lang, $c){
  if($c == 0) $file = $lang.".js";
  else $file = $lang." (".$c.").js";
- return  $lang."/".$file;
+ return  $user."/".$lang."/".$file;
 }
 
 function load_jfile_old($lang){
@@ -32,21 +34,34 @@ function load_jfile_old($lang){
  echo "'></script>";
 }
 
-function load_jfile($lang){
+function load_jfile($user,$lang){
  echo "<script>";
- readfile(jfile($lang,get_config($lang)));
+ readfile(jfile($user,$lang,get_config($user,$lang)));
  echo "</script>";
 }
+$profile = $_GET['profile'];
+echo "<script>";
+echo "var profile = [];";
+echo "var Status = {};";
+for($i=0; $i<count($profile); $i++){
+ echo "profile[" . $i. "] = '" . $profile[$i] . "';";
+ echo "Status." . $profile[$i] . "=0;";
+}
+echo "</script>";
 
-
-load_jfile("BA");
-load_jfile("TT");
-load_jfile("RU");
+for($i=0; $i<count($profile); $i++){
+ load_jfile($user,$profile[$i]);
+}
 ?>
+
+
 </head>
 <body>
 <script>
- var Status = {'BA': 0, 'TT': 0, 'RU': 0};
+ Llang = profile[0];
+ Llang_index=0;
+ console.log(Status);
+// var Status = {'BA': 0, 'TT': 0, 'RU': 0};
  function Change(lang){
   replace_shy("txt_"+Lang);
   var w = document.getElementById('txt_'+lang).value
@@ -56,116 +71,112 @@ load_jfile("RU");
  }
 
 $(document).ready(function(){
+/*
  
+ for(x in Status){
+  $("#txt_" + x).blur = "$(this).css(\"background-color\",\"#AAAA00\");   Status[" + x + "] = 0;   Langs[" + x + "].cursor = $(\"#txt_\" + " + x + ").prop(\"selectionStart\");   console.log(\"cursor: \" + Langs[" + x + "].cursor);"; 
 
+  $("#txt_" + x).focus="   $(this).css(\"background-color\",\"#FFFF00\");   Status[" + x + "] = 1;   for(y in Status){    if(y == " + x + ")    $(\"#key_\" + " + x + ").show();    else     $(\"#key_\" + y).hide();   }";
+
+}
+
+*/
+/*
   
- $("#txt_TT").focus(function(){
-  $(this).css("background-color","#FFFF00");
-  Status['TT'] = 1;
-  $("#key_RU").hide();
-  $("#key_BA").hide();
-  $("#key_TT").show();
-  })
+function find_param1(l){
+ if(l == "TT") return colors1.TT;
+ if(l == "RU") return colors1.RU;
+}
 
- $("#txt_TT").blur(function(){
-  $(this).css("background-color","#AAAA00");
-  Status['TT'] = 0;
-  Langs['TT'].cursor = $("#txt_TT").prop("selectionStart");
-  console.log("cursor: " + Langs['TT'].cursor);
- });
+var colors2 = {"TT": "#AAAA00" ,"RU": "#00AAAA" }
+function find_param2(l){
+ if(l == "TT") return colors2.TT;
+ if(l == "RU") return colors2.RU;
+}
+
+function show_key(l){
+  $(this).css("background-color",find_param1(l));
+  Status[l] = 1;
+  for(var i = 0; i < profile.length; i++){
+   if(profile[i] == l)  $("#key_"+l).show();
+   else $("#key_"+profile[i]).hide();
+  }
+}
+
+function blur_key(l){
+  $(this).css("background-color",find_param2(l));
+  Status[l] = 0;
+  Langs[l].cursor = $("#txt_"+l).prop("selectionStart");
+  console.log("cursor: " + Langs[l].cursor);
+}
+
+function init_lang_form(l){
+
+ $("#txt_"+l).focus = "function (){show_key('" + l + "')";
+ $("#txt_"+l).blur = "function (){blur_key('" + l + "')";
+}
+
+init_lang_form("TT");
+
+*/
+
+var colors1 = {"TT": "#FFFF00","RU": "#00FFFF", "EN": "#7777FF" }
+var colors2 = {"TT": "#AAAA00" ,"RU": "#00AAAA", "EN": "#7777AA" }
 
 
- $("#txt_BA").focus(function(){
-  $(this).css("background-color","#00FF00");
-  Status['BA'] = 1;
-  $("#key_RU").hide();
-  $("#key_TT").hide();
-  $("#key_BA").show();
-  })
+ function Focus(l){
+  document.getElementById("txt_"+l).style.background=colors1[l];
+  Status[l] = 1;
+  for(var i = 0; i < profile.length; i++){
+   if(profile[i] == l) document.getElementById("txt_"+l).style.display = "block";
+   else document.getElementById("txt_"+profile[i]).style.display = "none";
+  }
+ }
 
- $("#txt_BA").blur(function(){
-  $(this).css("background-color","#00AA00");
-  Status['BA'] = 0;
-  Langs['BA'].cursor = $("#txt_BA").prop("selectionStart");
-  console.log("cursor: " + Langs['BA'].cursor);
- });
+ function Blur(l){
+  var el = document.getElementById("txt_" + l);
+  el.style.background=colors2[l];
+  Status[l] = 0;
+  Langs[l].cursor = el.selectionStart;
+  console.log("cursor: " + Langs[l].cursor);
+ }
 
-
- $("#txt_RU").focus(function(){
-  $(this).css("background-color","#00FFFF");
-  Status['RU'] = 1;
-  $("#key_TT").hide();
-  $("#key_BA").hide();
-  $("#key_RU").show();
-  })
-
- $("#txt_RU").blur(function(){
-  $(this).css("background-color","#00AAAA");
-  Status['RU'] = 0;
-  Langs['RU'].cursor = $("#txt_RU").prop("selectionStart");
-  console.log("cursor: " + Langs['RU'].cursor);
- });
-
+ function Key(l){
+  var el = document.getElementById('key_'+l);
+  el.style.display="none"; 
+  showAlphabet(l);
+ 
+ }
+ function CountToggle(l, mode){
+  var el = document.getElementById('count_' + l);
+  if(mode == "hide") el.style.display = "none";
+  if(mode == "show"){
+   el.innerHTML = Langs[l].WordsArray.length;
+   el.style.display = "block";
+  }
+ }
+ 
 
  $("#info").hide();
 
- $("#key_TT").hide()
- showAlphabet("TT");
- $("#key_TT").mouseover(function(){
-  $("#txt_TT").css("background-color","#FFFF00");
-  $("#txt_RU").css("background-color","#00AAAA");
-  $("#txt_BA").css("background-color","#00AA00");
- });
 
- $("#key_BA").hide()
- showAlphabet("BA");
- $("#key_BA").mouseover(function(){
-  $("#txt_BA").css("background-color","#00FF00");
-  $("#txt_RU").css("background-color","#00AAAA");
-  $("#txt_TT").css("background-color","#AAAA00");
- });
+<?php
+for($i=0; $i<count($profile); $i++){
+ $lang = $profile[$i];
+ echo "  Key('" . $lang . "');\n";
+ echo "  var el = document.getElementById('txt_" . $lang . "');
+\n";
+ echo "  el.onfocus = function(){ Focus('" . $lang . "');};\n";
+ echo "  el.onblur = function(){ Blur('" . $lang . "');}\n";
+ echo " CountToggle('" . $lang . "','hide');\n";
+ echo " var el = document.getElementById('label_" . $lang . "');\n";
+ echo " el.onmouseover = function(){ CountToggle('" . $lang . "','show');}\n";
+ echo " el.onmouseout = function(){ CountToggle('" . $lang . "','hide');}\n";
+}
+?>
 
- $("#key_RU").hide();
- showAlphabet("RU");
- $("#key_RU").mouseover(function(){
-  $("#txt_RU").css("background-color","#00FFFF");
-  $("#txt_TT").css("background-color","#AAAA00");
-  $("#txt_BA").css("background-color","#00AA00");
- });
 
- $("#label_RU").attr('data-title', Langs["RU"].WordsArray.length);  
 
- document.getElementById("count_TT").innerHTML = Langs["TT"].WordsArray.length;
- $("#count_TT").hide();
- $("#label_TT").mouseover(function(){
-  document.getElementById("count_TT").innerHTML = Langs["TT"].WordsArray.length;
-  $("#count_TT").show();
- });
- $("#label_TT").mouseout(function(){
-  $("#count_TT").hide();
- });
-
- document.getElementById("count_BA").innerHTML = Langs["BA"].WordsArray.length;
- $("#count_BA").hide();
- $("#label_BA").mouseover(function(){
-  document.getElementById("count_BA").innerHTML = Langs["BA"].WordsArray.length;
-  $("#count_BA").show();
- });
- $("#label_BA").mouseout(function(){
-  $("#count_BA").hide();
- });
-
- document.getElementById("count_RU").innerHTML = Langs["RU"].WordsArray.length;
- $("#count_RU").hide();
- $("#label_RU").mouseover(function(){
-  document.getElementById("count_RU").innerHTML = Langs["RU"].WordsArray.length;
-  $("#count_RU").show();
- });
- $("#label_RU").mouseout(function(){
-  $("#count_RU").hide();
- });
-
- 
 });
  var Edit = {'BA': 1, 'TT': 1, 'RU': 1};
  function toggle(cl){
@@ -230,7 +241,7 @@ $(document).ready(function(){
 <div id=interface_BA style="display: none">
  <div class = container>
   <div class=label id=label_BA onclick="toggle('BA');"><center>BA</center>
-   <div id=count_BA></div>
+   <div class=count id=count_BA></div>
   </div>
  </div>
  <div class = container>
@@ -240,10 +251,10 @@ $(document).ready(function(){
   <textarea type="text" onchange="save('BA');" spellcheck="false" class=input id=txt_BA></textarea>
  </div>
 </div>
-<div id=interface_TT>
+<div id=interface_TT  style="display: none">
  <div class = container>
   <div class=label id=label_TT onclick="toggle('TT');"><center>TT</center>
-   <div id=count_TT></div>
+   <div class=count id=count_TT></div>
   </div>
  </div>
  <div class = container>
@@ -253,23 +264,24 @@ $(document).ready(function(){
   <textarea type="text" onchange="save('TT');" spellcheck="false" class=input id=txt_TT></textarea>
  </div>
 </div>
-</td><td>
+<div id=interface_EN  style="display: none">
  <div class = container>
-  <div class = key id=key_RU></div>
+  <div class=label id=label_EN onclick="toggle('EN');"><center>EN</center>
+   <div class=count id=count_EN></div>
+  </div>
  </div>
-</td><td>
- <div style="position: absolute; top: 3px; left: 505px">
-  <table><tr><td>
-   <div class=tbtn id=new_RU onclick="clearText('RU'); Reload('RU');">New</div>
-  </td><td>
-  <div class=tbtn id=load_RU onclick="loadText('RU'); Reload('RU');">Load</div>
-  </td><td>
-  <div class=tbtn id=copy_RU onclick="copyText('RU');">Copy</div>
-  </td></tr></table>
+ <div class = container>
+  <div class = box id=uni_EN></div>
  </div>
+ <div class = container>
+  <textarea type="text" onchange="save('EN');" spellcheck="false" class=input id=txt_EN></textarea>
+ </div>
+</div>
+
+<div id=interface_RU>
  <div class = container>
   <div class=label id=label_RU onclick="toggle('RU');"><center>RU</center>
-   <div id=count_RU></div>
+   <div class=count id=count_RU></div>
   </div>
  </div>
  <div class = container>
@@ -278,11 +290,20 @@ $(document).ready(function(){
  <div class = container>
   <textarea type="text" onchange="save('RU');" spellcheck="false" class=input id=txt_RU></textarea>
  </div>
+</div>
+
+</td><td>
  <div class = container>
   <div class = key id=key_TT></div>
  </div>
  <div class = container>
   <div class = key id=key_BA></div>
+ </div>
+ <div class = container>
+  <div class = key id=key_RU></div>
+ </div>
+ <div class = container>
+  <div class = key id=key_EN></div>
  </div>
 </td></tr>
 </table>
@@ -310,34 +331,33 @@ $(document).ready(function(){
   </tr></table>
  </div>
 </div>
-<?php
-  $folder = $_SERVER['PHP_SELF'];
-  if($folder == "/index.php") echo '<a href="/test">Test</a>';
-  if($folder == "/test/index.php") echo '<a href="/">Back</a>';
-?>
-
-
 <script src="text.js"></script>
 <script src="dict.js"></script>
  <br>
 <table cellpadding=10px><tr><td>
+<!--
 <?php 
  $a = jfile("RU",get_config("RU"));
  echo '<a target=_blank download="RU.dict" href="'.$a.'">RU</a>';
 ?>
-</td><td>
+</td></tr><tr><td>
 <?php 
  $a = jfile("TT",get_config("TT"));
  echo '<a target=_blank download="TT.dict" href="'.$a.'">TT</a>';
 ?>
-</td><td>
+</td></tr><tr><td>
 <?php 
  $a = jfile("BA",get_config("BA"));
  echo '<a target=_blank download="BA.dict" href="'.$a.'">BA</a>';
 ?>
 </td></tr></table>
  <br>
-
+<?php
+  $folder = $_SERVER['PHP_SELF'];
+  if($folder == "/index.php") echo '<a href="/test">Test</a>';
+  if($folder == "/test/index.php") echo '<a href="/">Back</a>';
+?>
+-->
 </body>
 </html>
 </html>

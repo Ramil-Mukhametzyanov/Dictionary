@@ -19,11 +19,11 @@ function getCookie(cname) {
   }
   return "";
 }
-
+var profile = [];
 function checkCookie() {
   var user = getCookie("username");
   if (user != "") {
-    alert("Hello, " + user + "!");
+    alert("Hello " + user + "!");
     loadProfile(user);
   } else {
     user = prompt("What is your name?", "");
@@ -32,9 +32,10 @@ function checkCookie() {
     }
   }
 }
-
-profile = [];
+username = "";
 function loadProfile(user) {
+ username = user;
+ var profile = [];
  var xhr = new XMLHttpRequest();
  var body = 'm=' + encodeURIComponent("load");
  body += '&user=' + encodeURIComponent(user);
@@ -43,9 +44,15 @@ function loadProfile(user) {
  xhr.onreadystatechange = function(){
   if(xhr.readyState == XMLHttpRequest.DONE){
    alert("loaded " + user + "'s profile" + "\n" + xhr.responseText);
-    profile= xhr.responseText.split(',');
-
+   profile= xhr.responseText.split(',');
+   var link = "index.php?username="+username;
+   for(var i = 0; i < profile.length; i++){
+    link += "&";
+    link+= "profile[]="+profile[i];
+   }
+   window.location.replace(link);
   }
  }
  xhr.send(body);
+ return profile;
 }

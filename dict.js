@@ -3,7 +3,9 @@ function saveWord(lang, word) {
 
  console.log("Save to server(" + lang + "): " + word.name);
  var xhr = new XMLHttpRequest();
- var body = 'lang=' + encodeURIComponent(lang);
+ var body ="";
+ body += 'user=' + encodeURIComponent(username);
+ body += '&lang=' + encodeURIComponent(lang);
  body += '&word=' + encodeURIComponent(word.name);
  body += '&state=' + encodeURIComponent(word.state);
  body += '&verify=' + encodeURIComponent(word.verify);
@@ -21,12 +23,13 @@ function saveWord(lang, word) {
 function saveDictToServer(){
  var f = 0;
  var body = "";
+ body += 'user=' + encodeURIComponent(username);
  for(l in Langs){
   Lang = l;
   console.log("Save "+l); 
   if(f == 0) f = 1;
-  else body += "&";
-  body += "content_" + Lang + "=" + getDictionary('D');
+//  else body += "&";
+  body += "&content_" + Lang + "=" + getDictionary('D');
  }
  var xhr = new XMLHttpRequest();
  xhr.onerror = function(){
