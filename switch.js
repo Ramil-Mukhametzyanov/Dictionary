@@ -6,8 +6,10 @@ function Switch(){
  for(var i = 0 ; i < profile.length; i++){
   if(profile[i] == Llang){
    $("#interface_"+Llang).show();
+   $("#key_"+Llang).show();
   }else{
    $("#interface_"+profile[i]).hide();
+   $("#key_"+profile[i]).hide();
   }
  }
  console.log(Llang);

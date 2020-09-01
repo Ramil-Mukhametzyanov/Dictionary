@@ -71,54 +71,6 @@ for($i=0; $i<count($profile); $i++){
  }
 
 $(document).ready(function(){
-/*
- 
- for(x in Status){
-  $("#txt_" + x).blur = "$(this).css(\"background-color\",\"#AAAA00\");   Status[" + x + "] = 0;   Langs[" + x + "].cursor = $(\"#txt_\" + " + x + ").prop(\"selectionStart\");   console.log(\"cursor: \" + Langs[" + x + "].cursor);"; 
-
-  $("#txt_" + x).focus="   $(this).css(\"background-color\",\"#FFFF00\");   Status[" + x + "] = 1;   for(y in Status){    if(y == " + x + ")    $(\"#key_\" + " + x + ").show();    else     $(\"#key_\" + y).hide();   }";
-
-}
-
-*/
-/*
-  
-function find_param1(l){
- if(l == "TT") return colors1.TT;
- if(l == "RU") return colors1.RU;
-}
-
-var colors2 = {"TT": "#AAAA00" ,"RU": "#00AAAA" }
-function find_param2(l){
- if(l == "TT") return colors2.TT;
- if(l == "RU") return colors2.RU;
-}
-
-function show_key(l){
-  $(this).css("background-color",find_param1(l));
-  Status[l] = 1;
-  for(var i = 0; i < profile.length; i++){
-   if(profile[i] == l)  $("#key_"+l).show();
-   else $("#key_"+profile[i]).hide();
-  }
-}
-
-function blur_key(l){
-  $(this).css("background-color",find_param2(l));
-  Status[l] = 0;
-  Langs[l].cursor = $("#txt_"+l).prop("selectionStart");
-  console.log("cursor: " + Langs[l].cursor);
-}
-
-function init_lang_form(l){
-
- $("#txt_"+l).focus = "function (){show_key('" + l + "')";
- $("#txt_"+l).blur = "function (){blur_key('" + l + "')";
-}
-
-init_lang_form("TT");
-
-*/
 
 var colors1 = {"TT": "#FFFF00","RU": "#00FFFF", "EN": "#7777FF" }
 var colors2 = {"TT": "#AAAA00" ,"RU": "#00AAAA", "EN": "#7777AA" }
@@ -178,7 +130,16 @@ for($i=0; $i<count($profile); $i++){
 
 
 });
- var Edit = {'BA': 1, 'TT': 1, 'RU': 1};
+
+
+var Edit = {};
+<?php
+for($i=0; $i<count($profile); $i++){
+ $lang = $profile[$i];
+ echo "  Edit['" . $lang . "']=1;\n";
+}
+?>
+
  function toggle(cl){
   for(i in Edit){
    if(i != cl){
@@ -200,7 +161,15 @@ for($i=0; $i<count($profile); $i++){
    $("#info").hide();
   }else Edit[cl] = 0;
  }
- var Size = {'BA': 0, 'TT': 0, 'RU': 0};
+
+var Size = {};
+<?php
+for($i=0; $i<count($profile); $i++){
+ $lang = $profile[$i];
+ echo "  Size['" . $lang . "']=0;\n";
+}
+?>
+
  function resize(l){
   document.getElementById('txt_'+l).style.height='auto';
   var h = document.getElementById('txt_'+l).scrollHeight;
@@ -238,73 +207,37 @@ for($i=0; $i<count($profile); $i++){
    <div class=tbtn id=switch_left onclick="Switch();">Lang</div>
   </td></tr></table>
  </div>
-<div id=interface_BA style="display: none">
- <div class = container>
-  <div class=label id=label_BA onclick="toggle('BA');"><center>BA</center>
-   <div class=count id=count_BA></div>
-  </div>
- </div>
- <div class = container>
-  <div class = box id=uni_BA></div>
- </div>
- <div class = container>
-  <textarea type="text" onchange="save('BA');" spellcheck="false" class=input id=txt_BA></textarea>
- </div>
-</div>
-<div id=interface_TT  style="display: none">
- <div class = container>
-  <div class=label id=label_TT onclick="toggle('TT');"><center>TT</center>
-   <div class=count id=count_TT></div>
-  </div>
- </div>
- <div class = container>
-  <div class = box id=uni_TT></div>
- </div>
- <div class = container>
-  <textarea type="text" onchange="save('TT');" spellcheck="false" class=input id=txt_TT></textarea>
- </div>
-</div>
-<div id=interface_EN  style="display: none">
- <div class = container>
-  <div class=label id=label_EN onclick="toggle('EN');"><center>EN</center>
-   <div class=count id=count_EN></div>
-  </div>
- </div>
- <div class = container>
-  <div class = box id=uni_EN></div>
- </div>
- <div class = container>
-  <textarea type="text" onchange="save('EN');" spellcheck="false" class=input id=txt_EN></textarea>
- </div>
-</div>
 
-<div id=interface_RU>
- <div class = container>
-  <div class=label id=label_RU onclick="toggle('RU');"><center>RU</center>
-   <div class=count id=count_RU></div>
-  </div>
- </div>
- <div class = container>
-  <div class = box id=uni_RU></div>
- </div>
- <div class = container>
-  <textarea type="text" onchange="save('RU');" spellcheck="false" class=input id=txt_RU></textarea>
- </div>
-</div>
+<?php
+for($i=0; $i<count($profile); $i++){
+ $lang = $profile[$i];
+ if($i == 0) echo '<div id=interface_' . $lang . ' style="display: block">';
+ else echo '<div id=interface_' . $lang . ' style="display: none">';
+ echo ' <div class = container>';
+ echo '  <div class=label id=label_' . $lang . ' onclick="toggle(\'' . $lang . '\');"><center>' . $lang . '</center>';
+ echo '   <div class=count id=count_' . $lang . '></div>';
+ echo '  </div>';
+ echo ' </div>';
+ echo ' <div class = container>';
+ echo '  <div class = box id=uni_' . $lang . '></div>';
+ echo ' </div>';
+ echo ' <div class = container>';
+ echo '  <textarea type="text" onchange="save(\'' . $lang . '\');" spellcheck="false" class=input id=txt_' . $lang . '></textarea>';
+ echo ' </div>';
+ echo ' </div>';
+}
+?>
 
 </td><td>
- <div class = container>
-  <div class = key id=key_TT></div>
- </div>
- <div class = container>
-  <div class = key id=key_BA></div>
- </div>
- <div class = container>
-  <div class = key id=key_RU></div>
- </div>
- <div class = container>
-  <div class = key id=key_EN></div>
- </div>
+
+<?php
+for($i=0; $i<count($profile); $i++){
+ $lang = $profile[$i];
+ echo ' <div class = container>';
+ echo '  <div class = key id=key_' . $lang . '></div>';
+ echo ' </div>';
+}
+?>
 </td></tr>
 </table>
 <div id=menu>
