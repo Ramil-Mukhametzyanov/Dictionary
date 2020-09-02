@@ -63,13 +63,13 @@ function save(lang) {
 }
 
 var DELAY = 20000;
-var HALF_PERIOD = 500;
+var PERIOD = 500;
 function auto_save(lang){
   save(lang);
-  setTimeout("auto_save('" + lang  + "');", 3*HALF_PERIOD);
+  setTimeout("auto_save('" + lang  + "');", profile.length*PERIOD);
 }
 
-setTimeout("auto_save('TT');", DELAY+1*HALF_PERIOD);
-setTimeout("auto_save('RU');", DELAY+2*HALF_PERIOD);
-setTimeout("auto_save('BA');", DELAY+3*HALF_PERIOD);
+for(var i=0; i < profile.length; i++){
+ setTimeout("auto_save('" + profile[i] + "');", DELAY+i*PERIOD);
+}
 

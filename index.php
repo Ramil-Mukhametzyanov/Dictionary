@@ -43,9 +43,12 @@ $profile = $_GET['profile'];
 echo "<script>";
 echo "var profile = [];";
 echo "var Status = {};";
+echo "var Edit = {};";
+
 for($i=0; $i<count($profile); $i++){
  echo "profile[" . $i. "] = '" . $profile[$i] . "';";
  echo "Status." . $profile[$i] . "=0;";
+ echo "Edit." . $profile[$i] . "=1;";
 }
 echo "</script>";
 
@@ -60,8 +63,8 @@ for($i=0; $i<count($profile); $i++){
 <script>
  Llang = profile[0];
  Llang_index=0;
+ console.log("Status: ");
  console.log(Status);
-// var Status = {'BA': 0, 'TT': 0, 'RU': 0};
  function Change(lang){
   replace_shy("txt_"+Lang);
   var w = document.getElementById('txt_'+lang).value
@@ -79,10 +82,7 @@ var colors2 = {"TT": "#AAAA00" ,"RU": "#00AAAA", "EN": "#7777AA" }
  function Focus(l){
   document.getElementById("txt_"+l).style.background=colors1[l];
   Status[l] = 1;
-  for(var i = 0; i < profile.length; i++){
-   if(profile[i] == l) document.getElementById("txt_"+l).style.display = "block";
-   else document.getElementById("txt_"+profile[i]).style.display = "none";
-  }
+  document.getElementById("txt_"+l).style.display = "block";
  }
 
  function Blur(l){
@@ -95,7 +95,7 @@ var colors2 = {"TT": "#AAAA00" ,"RU": "#00AAAA", "EN": "#7777AA" }
 
  function Key(l){
   var el = document.getElementById('key_'+l);
-  el.style.display="none"; 
+//  el.style.display="none"; 
   showAlphabet(l);
  
  }
@@ -132,13 +132,6 @@ for($i=0; $i<count($profile); $i++){
 });
 
 
-var Edit = {};
-<?php
-for($i=0; $i<count($profile); $i++){
- $lang = $profile[$i];
- echo "  Edit['" . $lang . "']=1;\n";
-}
-?>
 
  function toggle(cl){
   for(i in Edit){
@@ -148,11 +141,15 @@ for($i=0; $i<count($profile); $i++){
   }
   if(Edit[cl] == 1){
    Edit[cl] = 0;
+   console.log("Edit: ");
+   console.log(Edit);
    $("#txt_"+cl).hide();
    $("#key_"+cl).hide();
    Change(cl);
   }else if(Edit[cl] == 0){ 
    Edit[cl] = 1;
+   console.log("Edit: ");
+   console.log(Edit);
    resize(cl);
    $("#txt_"+cl).show();
    $("#key_"+cl).show();
@@ -234,7 +231,8 @@ for($i=0; $i<count($profile); $i++){
 for($i=0; $i<count($profile); $i++){
  $lang = $profile[$i];
  echo ' <div class = container>';
- echo '  <div class = key id=key_' . $lang . '></div>';
+ if($i == 0) echo '  <div class = key id=key_' . $lang . '></div>';
+ else echo '  <div class = key id=key_' . $lang . ' style="display: none;"></div>';
  echo ' </div>';
 }
 ?>
