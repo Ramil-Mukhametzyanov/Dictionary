@@ -1,3 +1,5 @@
+1.0.0.1.3 03.09.2020
+make saving words to the user folder
 1.0.0.1.2 02.09.2020
  corrected displaying uni_ and txt_ and key_ elements depending on the Edit parameter 
 1.0.0.1.1 01.09.2020

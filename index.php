@@ -55,6 +55,9 @@ echo "</script>";
 for($i=0; $i<count($profile); $i++){
  load_jfile($user,$profile[$i]);
 }
+echo "<script>";
+echo "var username = '" . $user . "';";
+echo "</script>";
 ?>
 
 

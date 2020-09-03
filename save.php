@@ -1,11 +1,11 @@
 <?php
 
-function cfile($lang){
- return $lang."/"."config_" . $lang;
+function cfile($user, $lang){
+ return $user . "/" . $lang ."/" . "config_" . $lang;
 }
 
-function get_config($lang){
- $cfile = cfile($lang);
+function get_config($user, $lang){
+ $cfile = cfile($user, $lang);
  $file_handle = fopen($cfile, "r") or die("Unable to open file!");
  $c = fgets($file_handle);
  fclose($file_handle); 
@@ -17,18 +17,20 @@ function new_config($c){
  else return $c + 1;
 }
 
-function jfile($lang, $c){
+function jfile($user, $lang, $c){
  if($c == 0) $file = $lang.".js";
- else $file = $lang." (".$c.").js";
- return  $lang."/".$file;
+ else $file = $lang . " (".$c.").js";
+ return  $user . "/" . $lang . "/" . $file;
 }
 
-function save($lang){
+$user = $_POST["user"];
+
+function save($user, $lang){
  $content = $_POST["content_".$lang];
  if ($content == "") return;
 
- $c = new_config(get_config($lang));
- $file = jfile($lang, $c);
+ $c = new_config(get_config($user, $lang));
+ $file = jfile($user, $lang, $c);
 
  echo "SAVE<BR>";
  print "config = '". $c . "'<BR>";
@@ -37,7 +39,7 @@ function save($lang){
  echo '<br>';
  echo '<br>';
 
- file_put_contents(cfile($lang), $c); 
+ file_put_contents(cfile($user, $lang), $c); 
  file_put_contents($file, $content);
 }
 
