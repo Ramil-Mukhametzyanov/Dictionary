@@ -25,6 +25,8 @@ function jfile($user, $lang, $c){
 
 $user = $_POST["user"];
 
+
+
 function save($user, $lang){
  $content = $_POST["content_".$lang];
  if ($content == "") return;
@@ -43,8 +45,15 @@ function save($user, $lang){
  file_put_contents($file, $content);
 }
 
-save('BA');
-save('TT');
-save('RU');
+
+$file = fopen("languages/list.txt","r");
+$string = fgets($file);
+$langs = explode (",", $string);
+print_r($langs);
+fclose($file);
+
+for($i = 0; $i < count($langs); $i++){
+ save($user, $langs[$i]);
+}
 
 ?>
