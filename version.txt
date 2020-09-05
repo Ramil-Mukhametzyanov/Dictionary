@@ -1,6 +1,9 @@
+1.0.0.1.5 05.09.2020
+
+
 1.0.0.1.4 04.09.2020
  saving dictionaries from browser to server using language list
-1. issue:
+issue:
  select work
  select a similar word
  click wrong or correct

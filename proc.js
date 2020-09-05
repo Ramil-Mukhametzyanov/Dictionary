@@ -380,7 +380,7 @@ function getInfo(l,w, h,p){
   r += Langs[l].InfoDesc[5];
   r += "</div>";
   r += "</td></tr></table>";
-  r += showSimilar(l,w,3,0)
+  r += showSimilar(l,w,10,0)
     
  }else{
   r += "<br>" + Langs[l].InfoDesc[6];
@@ -412,8 +412,7 @@ function processing(l,w,h,p){
    add(w);
   }
   
-
-  $("span#w"+l+p).css({'color':getStatusColor(st.verify)})
+  if(p != -1) $("span#w"+l+p).css({'color':getStatusColor(st.verify)})
 
   var r = getInfo(l,w,h,p);
   $('div#info').html("<center>" + r + "</center>");
@@ -494,10 +493,16 @@ function getSpanCheck(s, id){
    color = getStatusColor(st.verify);
   }
   r += "<span";
-  r += " id=\"w"+Lang + id + "\"";
+  if(id == -1)
+   r += " id=\"w"+Lang + "\"";
+  else
+   r += " id=\"w"+Lang + id + "\"";
   if(id == FocusedLink) r += " style=\"color: #009999;\"";
   else r += " style=\"color: " + color + ";\"";
-  r += " onclick=\"processing('"+Lang+"','" + s + "',1," + id + ");\"";
+  if(id == -1)
+   r += " onclick=\"processing('"+Lang+"','" + s + "',1,-1);\"";
+  else
+   r += " onclick=\"processing('"+Lang+"','" + s + "',1," + id + ");\"";
   r += ">";
   r += getUni(s);
   r += "</span>";
@@ -882,7 +887,7 @@ function showSimilar(l,w,C,B){
     break;
    }
    console.log(getUni(list[i]) + ":" + checks.state + "(" + checks.verify + ")");
-   t += getSpanCheck(list[i],0)+"<br>";
+   t += getSpanCheck(list[i],-1)+"<br>";
    c--;
   }
  }
