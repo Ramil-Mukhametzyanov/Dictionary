@@ -243,9 +243,18 @@ for($i=0; $i<count($profile); $i++){
 </table>
 <div id=menu>
  <div class=box onmousedown="ondown();" id=info></div>
- <div class=btn id=more onclick="Info();"><br>More/Less Info</div>
- <div class=btn id=add onclick="addAll();"><br>Add all</div>
- <div class=btn id=get onclick="GetWord();"><br>Get</div>
+<?php
+ function btn($func, $name, $id){
+  echo '<div class=btn id=' . $id . ' onclick="' . $func . '"><br>' . $name . '</div>';
+ }
+ 
+ btn('Info();','More/Less Info', 'more');
+ btn('addAll();', 'Add all' , 'add');
+ btn('GetWord();', '<br>Get' , 'get');
+
+
+?>
+
  <div class=box id=list>
  <div class=box id=Pa><br>List 50</div>
  <div>

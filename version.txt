@@ -1,9 +1,10 @@
+1.0.0.1.6 06.09.2020
+ add btn by php
 1.0.0.1.5 05.09.2020
-
-
+ fix issue #1
 1.0.0.1.4 04.09.2020
  saving dictionaries from browser to server using language list
-issue:
+issue #1:
  select work
  select a similar word
  click wrong or correct
